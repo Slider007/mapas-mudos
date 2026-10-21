@@ -13,8 +13,8 @@ G=json.load(open(DATA/'geo2.json'))
 html=open(TEMPLATE,encoding='utf-8').read();j=html.index('const O2=');O2=json.loads(html[j+9:html.index(';\nO.push',j)])
 RIV=[o for o in O2 if o['kind']=='line']
 W,H=G['W'],G['H'];IX,IY,IW,IH=G['inset']
-PW,PH=landscape(A4);M=22
-MH0=PH-2*M-26;K_=.93;MH=MH0*K_;S=MH/H;MW=W*S;X0,Y0=M,M+MH0-MH     # map box (чуть меньше, чтобы справа поместились нумерованные списки)
+PW,PH=landscape(A4);M=14;BOT=28            # поля; снизу место под строку источников
+MH=PH-M-22-BOT;S=MH/H;MW=W*S;X0,Y0=M,BOT     # карта занимает всю высоту листа, остальное отдано спискам
 def tr(x,y):return X0+x*S,Y0+(H-y)*S
 def svgpath(c,d):
   p=c.beginPath()
@@ -70,7 +70,7 @@ def build_lists():
   return L
 LISTS=build_lists()
 NOTE={'costa':'','rios':'(D) / (I) = margen derecha / izquierda · afl. = afluente de','rel':'= cumbre'}
-IND=4
+IND=0
 def tri(c,x,y,r):
   c.setFillColor(LINE);p=c.beginPath();p.moveTo(x-r*.6,y-.3);p.lineTo(x+r*.6,y-.3);p.lineTo(x,y+r);p.close();c.drawPath(p,fill=1,stroke=0)
 def draw_list(c,items,x,ybot,w,h,key_=''):
@@ -79,16 +79,25 @@ def draw_list(c,items,x,ybot,w,h,key_=''):
   for fs in (9,8.5,8,7.5,7,6.6,6.2):
     for ncol in (1,2,3):
       cw=(w-(ncol-1)*8)/ncol
-      lead=fs*1.22;gap=fs*.5;nw=c.stringWidth('88.','Helvetica',fs)+3
+      lead=fs*1.22;gap=fs*.5;nw=c.stringWidth('88.','Helvetica',fs)+3;gut=fs*1.15 if any(i_[0]=='i' and i_[3] for i_ in items) else 0
       def need(it):return lead+(gap if it[0]=='h' else 0)
-      ok=all(c.stringWidth(it[1],('Helvetica-Bold' if it[0]=='h' else 'Helvetica'),fs*(.88 if it[0]=='h' else 1))+((nw+it[2]*IND+(fs*.85 if it[3] else 0)+(c.stringWidth('(D)' if len(it[4])==1 else it[4],'Helvetica',fs*.85)+4 if it[4] else 0)) if it[0]=='i' else 0)<=cw for it in items)
+      ok=all(c.stringWidth(it[1],('Helvetica-Bold' if it[0]=='h' else 'Helvetica'),fs*(.88 if it[0]=='h' else 1))+((nw+gut+(c.stringWidth('(D)' if len(it[4])==1 else it[4],'Helvetica',fs*.85)+4 if it[4] else 0)) if it[0]=='i' else 0)<=cw for it in items)
       if not ok:continue
-      cols=[[]];hh=0
-      for k,it in enumerate(items):
-        nxt=items[k+1] if k+1<len(items) else None
-        extra=need(it)+(need(nxt) if it[0]=='h' and nxt else 0)
-        if hh+extra>h and cols[-1]:cols.append([]);hh=0
-        cols[-1].append(it);hh+=need(it)
+      tot=sum(need(i_) for i_ in items);lim=min(h,tot/ncol+lead*3)
+      cols=None
+      if ncol==2:   # делим по границе групп, чтобы группа не разрывалась между столбцами
+        hs=[k for k,i_ in enumerate(items) if i_[0]=='h' and k>0];best=None
+        for k in hs:
+          a_=sum(need(i_) for i_ in items[:k]);b_=tot-a_
+          if max(a_,b_)<=h and (best is None or max(a_,b_)<best[0]):best=(max(a_,b_),k)
+        if best:cols=[items[:best[1]],items[best[1]:]]
+      if cols is None:
+        cols=[[]];hh=0
+        for k,it in enumerate(items):
+          nxt=items[k+1] if k+1<len(items) else None
+          extra=need(it)+(need(nxt) if it[0]=='h' and nxt else 0)
+          if hh+extra>lim and cols[-1]:cols.append([]);hh=0
+          cols[-1].append(it);hh+=need(it)
       if len(cols)<=ncol:done=True;break
     if done:break
   n=0
@@ -100,8 +109,8 @@ def draw_list(c,items,x,ybot,w,h,key_=''):
       else:
         n+=1;c.setFillColor(HexColor('#1f2a33'));c.setFont('Helvetica-Bold',fs)
         c.drawRightString(cx+nw-3+it[2]*IND,y,'%d.'%n)
-        tx=cx+nw+it[2]*IND
-        if it[3]:tri(c,tx+fs*.3,y,fs*.62);tx+=fs*.85
+        tx=cx+nw+gut
+        if it[3]:tri(c,cx+nw+fs*.4,y,fs*.66)
         c.setFont('Helvetica',fs);c.drawString(tx,y,it[1])
         if it[4]:c.setFont('Helvetica',fs*.85);c.setFillColor(HexColor('#6c7e88'));c.drawString(tx+c.stringWidth(it[1],'Helvetica',fs)+3,y,('(%s)'%it[4]) if len(it[4])==1 else it[4])
         y-=lead
@@ -162,12 +171,12 @@ def page(c,key,relief,rivers):
   c.restoreState()
   c.setStrokeColor(LINE);c.setLineWidth(.8);c.rect(X0,Y0,MW,MH,fill=0,stroke=1)
   # header
-  c.setFillColor(LINE);c.setFont('Helvetica-Bold',15);c.drawString(M,PH-M-12,'MAPA MUDO DE ESPAÑA')
-  tw=c.stringWidth('MAPA MUDO DE ESPAÑA','Helvetica-Bold',15);c.setFont('Helvetica',10.5);c.drawString(M+tw+10,PH-M-12,'España física: '+title)
+  c.setFillColor(LINE);c.setFont('Helvetica-Bold',15);c.drawString(M,PH-M-11,'MAPA MUDO DE ESPAÑA')
+  tw=c.stringWidth('MAPA MUDO DE ESPAÑA','Helvetica-Bold',15);c.setFont('Helvetica',10.5);c.drawString(M+tw+10,PH-M-11,'España física: '+title)
   # right column
-  RX=X0+MW+14;RW=PW-RX-M
+  RX=X0+MW+12;RW=PW-RX-M
   c.setFont('Helvetica',9);c.setFillColor(HexColor('#333333'))
-  yy=PH-M-14
+  yy=PH-M-11
   for lab in ('Nombre:','Curso:','Fecha:'):
     c.drawString(RX,yy,lab);c.setStrokeColor(HexColor('#999999'));c.setLineWidth(.4);c.line(RX+40,yy-2,RX+RW,yy-2);yy-=17
   c.setFont('Helvetica-Oblique',7);c.setFillColor(HexColor('#555555'))
@@ -176,11 +185,11 @@ def page(c,key,relief,rivers):
   if nt:
     c.drawString(RX+(9 if key=='rel' else 0),yy-13,nt)
     if key=='rel':tri(c,RX+3.5,yy-13,6)
-  draw_list(c,items,RX,M+44,RW,yy-(22 if nt else 13)-(M+44),key)
-  c.setStrokeColor(LINE);c.setLineWidth(.6);c.rect(RX,M,RW,36,fill=0,stroke=1)
-  c.setFont('Helvetica-Bold',8);c.setFillColor(LINE);c.drawString(RX+5,M+26,'LEYENDA')
+  draw_list(c,items,RX,BOT+36,RW,yy-(22 if nt else 13)-(BOT+36),key)
+  c.setStrokeColor(LINE);c.setLineWidth(.6);c.rect(RX,BOT-4,RW,30,fill=0,stroke=1)
+  c.setFont('Helvetica-Bold',8);c.setFillColor(LINE);c.drawString(RX+5,BOT+16,'LEYENDA')
   c.setFont('Helvetica',6);c.setFillColor(HexColor('#6c7e88'))
-  c.drawString(M,M-12,'Contorno: IGN (Líneas Límite); ríos: OpenStreetMap; relieve: Copernicus DEM (ESA); países vecinos y mares: Natural Earth. Proyección equirrectangular; Canarias en recuadro.')
+  c.drawString(M,BOT-18,'Contorno: IGN (Líneas Límite); ríos: OpenStreetMap; relieve: Copernicus DEM (ESA); países vecinos y mares: Natural Earth. Proyección equirrectangular; Canarias en recuadro.')
   c.showPage()
 c=canvas.Canvas(str(OUT),pagesize=landscape(A4))
 c.setTitle('Mapa mudo de España — España física');c.setAuthor('Slider007');c.setSubject('Mapas mudos — https://slider007.github.io/mapas-mudos/')
