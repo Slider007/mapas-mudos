@@ -1,0 +1,1 @@
+[out:json][timeout:120];(nwr["natural"="mountain_range"]["name"](35.9,-9.6,43.9,4.4);way["natural"="ridge"]["name"](35.9,-9.6,43.9,4.4);nwr["natural"="massif"]["name"](35.9,-9.6,43.9,4.4);nwr["natural"="plateau"]["name"](35.9,-9.6,43.9,4.4););out tags center;

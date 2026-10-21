@@ -1,0 +1,431 @@
+{
+"machi": {
+"pts": [
+[
+-2.7534,
+43.4557
+]
+],
+"src": "маяк, 43.4542, -2.7527 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.14
+},
+"ajo": {
+"pts": [
+[
+-3.5953,
+43.5116
+]
+],
+"src": "маяк, 43.5115, -3.5953 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.01
+},
+"penas": {
+"pts": [
+[
+-5.8467,
+43.654
+]
+],
+"src": "маяк, 43.6556, -5.8486 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.2
+},
+"orte": {
+"pts": [
+[
+-7.8682,
+43.7717
+]
+],
+"src": "маяк, 43.7711, -7.8702 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.17
+},
+"prior": {
+"pts": [
+[
+-8.3149,
+43.5644
+]
+],
+"src": "маяк, 43.5676, -8.3145 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.26
+},
+"touri": {
+"pts": [
+[
+-9.2982,
+43.0494
+]
+],
+"src": "маяк, 43.0534, -9.2981 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.32
+},
+"finis": {
+"pts": [
+[
+-9.2726,
+42.8825
+]
+],
+"src": "маяк, 42.8824, -9.2720 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.05
+},
+"gata": {
+"pts": [
+[
+-2.1937,
+36.722
+]
+],
+"src": "маяк, 36.7216, -2.1929 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.08
+},
+"palos": {
+"pts": [
+[
+-0.6907,
+37.6337
+]
+],
+"src": "маяк, 37.6347, -0.6903 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.09
+},
+"nao": {
+"pts": [
+[
+0.2292,
+38.7354
+]
+],
+"src": "маяк, 38.7328, 0.2300 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.24
+},
+"creus": {
+"pts": [
+[
+3.3168,
+42.317
+]
+],
+"src": "маяк, 42.3189, 3.3159 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.17
+},
+"bares": {
+"pts": [
+[
+-7.683,
+43.7847
+]
+],
+"src": "маяк, 43.7862, -7.6843 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.16
+},
+"tarifa": {
+"pts": [
+[
+-5.6095,
+36.0008
+]
+],
+"src": "маяк, 36.0012, -5.6096 — Wikipedia «List of lighthouses in Spain» (Rowlett, Lighthouse Directory)",
+"snap_km": 0.04
+},
+"cadiz": {
+"pts": [
+[
+-7.502,
+36.61
+]
+],
+"src": "середина линии м. Сан-Висенти — м. Трафальгар (границы залива: es.wikipedia, Britannica)",
+"sea": true
+},
+"alme": {
+"pts": [
+[
+-2.447,
+36.704
+]
+],
+"src": "середина линии Пунта-Сабинар — м. Гата (en.wikipedia «Gulf of Almería»)",
+"sea": true
+},
+"alic": {
+"pts": [
+[
+-0.459,
+38.281
+]
+],
+"src": "середина линии м. Санта-Пола — м. Уэрта (es.wikipedia «Bahía de Alicante»)",
+"sea": true
+},
+"valen": {
+"pts": [
+[
+0.139,
+39.587
+]
+],
+"src": "между портом Валенсии и серединой линии м. Нао — м. Тортоса (es.wikipedia «Golfo de Valencia»)",
+"sea": true
+},
+"jorge": {
+"pts": [
+[
+1.05,
+40.886
+]
+],
+"src": "середина линии м. Тортоса — м. Салоу (лоция sea-seek)",
+"sea": true
+},
+"mazar": {
+"pts": [
+[
+-1.203,
+37.552
+]
+],
+"src": "у маяка Масаррона, внутри залива м. Тиньосо — м. Копе (es.wikipedia «Puerto de Mazarrón»)",
+"sea": true
+},
+"roses": {
+"pts": [
+[
+3.183,
+42.183
+]
+],
+"src": "координаты залива из en.wikipedia «Gulf of Roses»",
+"sea": true
+},
+"atl": {
+"pts": [
+[
+-8.4,
+36.45
+],
+[
+-10.2,
+40.3
+],
+[
+-10.3,
+42.5
+]
+],
+"src": "внутри полигона «océano Atlántico» Natural Earth",
+"inside": [
+true,
+true,
+true
+]
+},
+"med": {
+"pts": [
+[
+1.4,
+37.5
+],
+[
+4.2,
+41.1
+],
+[
+-1.2,
+36.6
+]
+],
+"src": "внутри полигонов Средиземного / Балеарского / Альборанского морей Natural Earth",
+"inside": [
+true,
+true,
+true
+]
+},
+"vizc": {
+"pts": [
+[
+-2.2,
+44.2
+]
+],
+"src": "внутри полигона «Golfo de Vizcaya» Natural Earth",
+"inside": [
+true
+]
+},
+"leon": {
+"pts": [
+[
+4.1,
+42.95
+]
+],
+"src": "внутри полигона «Golfo de León» Natural Earth",
+"inside": [
+true
+]
+},
+"gibr": {
+"pts": [
+[
+-5.652,
+35.974
+]
+],
+"src": "центр полигона «Estrecho de Gibraltar» Natural Earth",
+"inside": [
+false
+]
+},
+"cant": {
+"pts": [
+[
+-5.4,
+44.05
+],
+[
+-7.0,
+44.05
+]
+],
+"src": "южная, испанская часть полигона «Golfo de Vizcaya» Natural Earth",
+"inside": [
+true,
+true
+]
+},
+"mallorca": {
+"pts": [
+[
+2.888,
+39.617
+]
+],
+"src": "полигон острова IGN, опознан по маяку Formentor (39.9614, 3.2127)",
+"dist_km": 0.43,
+"area": 0.3818
+},
+"menorca": {
+"pts": [
+[
+4.051,
+39.944
+]
+],
+"src": "полигон острова IGN, опознан по маяку Cavalleria (40.0891, 4.0923)",
+"dist_km": 0.11,
+"area": 0.0721
+},
+"ibiza": {
+"pts": [
+[
+1.417,
+38.973
+]
+],
+"src": "полигон острова IGN, опознан по маяку Botafoc (38.9042, 1.4539)",
+"dist_km": 0.25,
+"area": 0.0602
+},
+"formentera": {
+"pts": [
+[
+1.434,
+38.701
+]
+],
+"src": "полигон острова IGN, опознан по маяку La Mola (38.6634, 1.5843)",
+"dist_km": 0.0,
+"area": 0.0091
+},
+"cabrera": {
+"pts": [
+[
+2.944,
+39.146
+]
+],
+"src": "полигон острова IGN, опознан по маяку N'Ensiola (39.1292, 2.9215)",
+"dist_km": 0.0,
+"area": 0.0012
+},
+"gran_canaria": {
+"pts": [
+[
+-15.603,
+27.949
+]
+],
+"src": "полигон острова IGN, опознан по маяку La Isleta (28.1741, -15.4190)",
+"dist_km": 0.0,
+"area": 0.1448
+},
+"fuerteventura": {
+"pts": [
+[
+-14.008,
+28.385
+]
+],
+"src": "полигон острова IGN, опознан по маяку Morro Jable (28.0461, -14.3330)",
+"dist_km": 0.0,
+"area": 0.1535
+},
+"lanzarote": {
+"pts": [
+[
+-13.636,
+29.041
+]
+],
+"src": "полигон острова IGN, опознан по маяку Punta Pechiguera (28.8558, -13.8726)",
+"dist_km": 0.32,
+"area": 0.0747
+},
+"tenerife": {
+"pts": [
+[
+-16.616,
+28.284
+]
+],
+"src": "полигон острова IGN, опознан по маяку Punta de Anaga (28.5813, -16.1400)",
+"dist_km": 0.3,
+"area": 0.1873
+},
+"la_gomera": {
+"pts": [
+[
+-17.223,
+28.113
+]
+],
+"src": "полигон острова IGN, опознан по маяку San Cristóbal (28.0961, -17.1001)",
+"dist_km": 0.0,
+"area": 0.0335
+},
+"la_palma": {
+"pts": [
+[
+-17.855,
+28.647
+]
+],
+"src": "полигон острова IGN, опознан по маяку Fuencaliente (28.4553, -17.8431)",
+"dist_km": 0.0,
+"area": 0.0675
+},
+"el_hierro": {
+"pts": [
+[
+-18.038,
+27.743
+]
+],
+"src": "полигон острова IGN, опознан по маяку Punta Orchilla (27.7067, -18.1476)",
+"dist_km": 0.63,
+"area": 0.0249
+}
+}

@@ -1,0 +1,1 @@
+[out:json][timeout:120];node["natural"="peak"]["name"](35.9,-9.6,43.9,-3.0);out tags;

@@ -1,0 +1,1 @@
+[out:json][timeout:120];(node["natural"="peak"]["name"](35.9,-3.0,43.9,4.4);node["natural"="peak"]["name"](27.6,-18.2,29.5,-13.3););out tags;

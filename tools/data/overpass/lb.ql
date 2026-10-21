@@ -1,0 +1,1 @@
+[out:json][timeout:90];way["waterway"="river"]["name"~"Llobregat"](41.2,1.6,42.4,2.3);out tags geom;
