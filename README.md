@@ -33,6 +33,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Fondo «Mapa físico de España 1:3 000 000», PDF: © Instituto Geográfico Nacional / CNIG
 - Costas, lagos y ríos de los entrenadores de historia: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Fronteras históricas de `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), licencia GPL-3.0 (fronteras aproximadas)
+- Mapa de Bizancio (527 y conquistas de Justiniano): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, licencia CC BY 4.0; 1025, 1204 y 1453: según el mapa 18 del libro de texto
 
 ### Licencia
 - Código (`tools/`, HTML/JS): **MIT**, véase [`LICENSE`](LICENSE).
@@ -67,6 +68,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Подложка «Mapa físico de España 1:3 000 000», PDF: © Instituto Geográfico Nacional / CNIG
 - Берега, озёра и реки в тренажёрах по истории: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Исторические границы в `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), лицензия GPL-3.0 (границы приблизительные)
+- Карта Византии (527 г. и завоевания Юстиниана): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, лицензия CC BY 4.0; 1025, 1204 и 1453 гг. — по карте 18 учебника
 
 ### Лицензия
 - Код (`tools/`, HTML/JS): **MIT**, см. [`LICENSE`](LICENSE).
@@ -101,6 +103,7 @@ Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank ma
 - Base map "Mapa físico de España 1:3 000 000", PDF: © Instituto Geográfico Nacional / CNIG
 - Coasts, lakes and rivers in the history trainers: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Historical borders in `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), GPL-3.0 licence (borders are approximate)
+- Byzantium map (527 and Justinian's conquests): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, CC BY 4.0 licence; 1025, 1204 and 1453 follow map 18 of the textbook
 
 ### License
 - Code (`tools/`, HTML/JS): **MIT**, see [`LICENSE`](LICENSE).

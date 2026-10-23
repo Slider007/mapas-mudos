@@ -234,7 +234,7 @@ function map(){
  <div class="leg" id="leg">${m.layers.map(l=>`<label style="cursor:pointer"><input type="checkbox" data-l="${l[0]}" ${mapOn(l[0])?'checked':''}> ${swatch(l)}${l[1]}</label>`).join('')}${m.legnote?`<span style="color:#777">${m.legnote}</span>`:''}</div>
  <div id="mapinfo" style="margin-top:8px"></div>
  <div class="row"><button class="btn" id="mqc">📍 Ciudades</button><button class="btn" id="mqt">🟧 Territorios</button><button class="btn ghost" id="mv">Ver el mapa</button><span class="score" id="msc"></span></div>
- <div class="ru">${m.ru}</div></div>`+nextBtn('pyr','Siguiente: pirámide');
+ <div class="ru">${m.ru}</div>${m.how?`<details class="sec how"><summary>ℹ️ ¿Cómo se ha hecho este mapa?</summary><div class="body">${m.how}${m.how_ru?`<div class="ru">${m.how_ru}</div>`:''}</div></details>`:''}</div>`+nextBtn('pyr','Siguiente: pirámide');
  const ch=$('#main').querySelector('[data-mi]');if(ch)ch.parentNode.onclick=e=>{const i=e.target.dataset.mi;if(i!=null){setMap(+i);map()}};
  $('#leg').onchange=e=>{const l=e.target.dataset.l;if(l){(mapOnAll[m.id]=mapOnAll[m.id]||{})[l]=e.target.checked?1:0;LS.set('maplayers',mapOnAll);const v=MV;drawMap(mapMode!=='city');MV=v;applyView()}};
  $('#mv').onclick=()=>{mapMode='ver';mapQ=null;drawMap(true);infoVer()};
