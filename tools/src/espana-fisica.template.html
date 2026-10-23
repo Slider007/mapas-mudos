@@ -260,7 +260,7 @@ const T={
   learned:'aprendido',weak:'Repasar:',reset:'Borrar progreso',confirm:'¿Borrar todo el progreso?',dlm:'Descargar PDF',dl:'Mapas mudos para imprimir (3 hojas)',dl2:'Mapa oficial IGN 2025 (PDF)',dlok:'Archivo guardado',dlno:'Descarga cancelada',ans:'Respuesta',noerr:'¡Sin errores!',srcl:'Posición'}};
 
 const LS={get(k,d){try{const v=localStorage.getItem('mme_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('mme_'+k,JSON.stringify(v))}catch(e){}}};
-let S={bgs:LS.get('bgs',{costa:'gray',rios:'gray',rel:'color'}),bg:'gray',physEx:LS.get('physEx',true),phys:LS.get('phys',{rel:true,rios:false}),sec:LS.get('sec','costa'),lang:LS.get('lang','ru'),mode:'study',cats:(()=>{const c=LS.get('cats3',null);return c||CATS.map(c=>c.id)})(),labels:true,typing:LS.get('typing',false)};
+let S={bgs:LS.get('bgs',{costa:'gray',rios:'gray',rel:'color'}),bg:'gray',physEx:LS.get('physEx',true),phys:LS.get('phys',{rel:true,rios:false}),sec:LS.get('sec','costa'),lang:LS.get('lang','es'),mode:'study',cats:(()=>{const c=LS.get('cats3',null);return c||CATS.map(c=>c.id)})(),labels:true,typing:LS.get('typing',false)};
 let box=LS.get('box',{}); // leitner 0..5
 const t=k=>T[S.lang][k];
 const $=s=>document.querySelector(s);

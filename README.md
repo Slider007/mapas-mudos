@@ -17,7 +17,11 @@ Mapas mudos interactivos para las clases de geografía: localizar, nombrar, repe
 | 3 | `europa-politica/` | Europa política | en preparación |
 | 4 | `europa-fisica/` | Europa física | en preparación |
 | Historia T1 | `historia-tema1/` | Fin de la Edad Antigua e inicio de la Edad Media: germanos y visigodos, bizantinos, carolingios (3 pruebas) | listo |
-| Historia T1 · Bizancio | `historia-bizancio/` | Entrenador para la prueba del Imperio bizantino (teoría, fechas, mapa, pirámide, tarjetas, test, examen) y chuleta en PDF | listo |
+| Historia T1 · parte 1 | `historia-visigodos/` | Entrenador: pueblos germanos y visigodos (teoría, fechas, 3 mapas del libro, pirámide, tarjetas, test, examen) | listo |
+| Historia T1 · parte 2 | `historia-bizancio/` | Entrenador: el Imperio bizantino (teoría, fechas, mapa del libro, pirámide, tarjetas, test, examen) | listo |
+| Historia T1 · parte 3 | — | Entrenador: los carolingios | en preparación |
+| Historia T1 · recursos | `historia-recursos/` | PDF para imprimir: mapas mudos, línea del tiempo, plantillas del cuaderno y de trabajos | listo |
+| Historia T2 | — | El islam y al-Ándalus | en preparación |
 
 Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para imprimir y mapa físico del IGN). La página `index.html` de la raíz enumera las lecciones. La carpeta `tools/` contiene los scripts, datos y la plantilla con que se construyó la lección 2 (véase `tools/README.md`).
 
@@ -27,6 +31,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Países vecinos, batimetría, nombres de mares: Natural Earth (dominio público)
 - Relieve: Copernicus DEM GLO-90 (ESA)
 - Fondo «Mapa físico de España 1:3 000 000», PDF: © Instituto Geográfico Nacional / CNIG
+- Costas, lagos y ríos de los entrenadores de historia: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Fronteras históricas de `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), licencia GPL-3.0 (fronteras aproximadas)
 
 ### Licencia
@@ -46,7 +51,11 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 | 3 | `europa-politica/` | Политическая карта Европы | в работе |
 | 4 | `europa-fisica/` | Физическая карта Европы | в работе |
 | История, тема 1 | `historia-tema1/` | Конец Античности и начало Средневековья: германцы и вестготы, Византия, Каролинги (3 проверочные) | готово |
-| История, тема 1 · Византия | `historia-bizancio/` | Тренажёр к проверочной по Византии (материал, даты, карта, пирамида, карточки, тест, экзамен) и шпаргалка PDF | готово |
+| История, тема 1 · часть 1 | `historia-visigodos/` | Тренажёр: германцы и вестготы (материал, даты, 3 карты из учебника, пирамида, карточки, тест, экзамен) | готово |
+| История, тема 1 · часть 2 | `historia-bizancio/` | Тренажёр: Византия (материал, даты, карта из учебника, пирамида, карточки, тест, экзамен) | готово |
+| История, тема 1 · часть 3 | — | Тренажёр: Каролинги | в работе |
+| История, тема 1 · материалы | `historia-recursos/` | PDF для печати: контурные карты, линия времени, шаблоны тетради и работы | готово |
+| История, тема 2 | — | Ислам и Аль-Андалус | в работе |
 
 Каждый урок это папка с `index.html`, `img/` и `pdf/` (контурная карта для печати и физическая карта IGN). Корневой `index.html` содержит список уроков. В `tools/` лежат скрипты, данные и шаблон, из которых собран урок 2 (см. `tools/README.md`).
 
@@ -56,6 +65,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Соседние страны, глубины моря, названия акваторий: Natural Earth (public domain)
 - Рельеф: Copernicus DEM GLO-90 (ESA)
 - Подложка «Mapa físico de España 1:3 000 000», PDF: © Instituto Geográfico Nacional / CNIG
+- Берега, озёра и реки в тренажёрах по истории: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Исторические границы в `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), лицензия GPL-3.0 (границы приблизительные)
 
 ### Лицензия
@@ -75,7 +85,11 @@ Interactive blank (outline) maps for school geography lessons: locate, name, rev
 | 3 | `europa-politica/` | Political map of Europe | in progress |
 | 4 | `europa-fisica/` | Physical map of Europe | in progress |
 | History, topic 1 | `historia-tema1/` | End of Antiquity and start of the Middle Ages: Germanic peoples and Visigoths, Byzantium, Carolingians (3 quizzes) | ready |
-| History T1 · Byzantium | `historia-bizancio/` | Trainer for the Byzantine Empire quiz (theory, dates, map, pyramid, flashcards, test, exam) and a PDF cheat sheet | ready |
+| History T1 · part 1 | `historia-visigodos/` | Trainer: Germanic peoples and Visigoths (theory, dates, 3 textbook maps, pyramid, flashcards, test, exam) | ready |
+| History T1 · part 2 | `historia-bizancio/` | Trainer: the Byzantine Empire (theory, dates, textbook map, pyramid, flashcards, test, exam) | ready |
+| History T1 · part 3 | — | Trainer: the Carolingians | in progress |
+| History T1 · resources | `historia-recursos/` | Printable PDFs: blank maps, timeline, notebook and project templates | ready |
+| History T2 | — | Islam and al-Andalus | in progress |
 
 Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank map and the IGN physical map). The root `index.html` lists the lessons. `tools/` holds the scripts, data and template used to build lesson 2 (see `tools/README.md`).
 
@@ -85,6 +99,7 @@ Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank ma
 - Neighbouring countries, sea depths, sea names: Natural Earth (public domain)
 - Relief: Copernicus DEM GLO-90 (ESA)
 - Base map "Mapa físico de España 1:3 000 000", PDF: © Instituto Geográfico Nacional / CNIG
+- Coasts, lakes and rivers in the history trainers: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Historical borders in `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), GPL-3.0 licence (borders are approximate)
 
 ### License

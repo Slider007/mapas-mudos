@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mapas mudos — контурные карты для обучения</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🗺️%3C/text%3E%3C/svg%3E">
 <style>
@@ -32,19 +32,26 @@ footer{margin-top:28px;font-size:.78rem;color:#5b7282}
 <div class="card soon"><div class="n">3</div><div><b>🇪🇺 Europa política</b><span data-t="s3">Политическая карта Европы · prueba 4 nov · скоро</span></div></div>
 <div class="card soon"><div class="n">4</div><div><b>🇪🇺 Europa física</b><span data-t="s4">Физическая карта Европы · prueba 25 nov · скоро</span></div></div>
 </div>
-<h2 class="sec">🏰 Historia</h2>
+<h2 class="sec">🏰 Historia · Tema 1: Fin de la Edad Antigua e inicio de la Edad Media</h2>
 <div class="cards">
-<a class="card" href="historia-tema1/"><div class="n">T1</div><div><b>Tema 1: de la Edad Antigua a la Edad Media</b><span data-t="h1">Карта, линия времени, походы, карточки и тесты · 3 pruebas: germanos y visigodos (16 oct), bizantinos (23 oct), carolingios (30 oct)</span></div></a>
-<a class="card" href="historia-bizancio/"><div class="n">⛪</div><div><b>Bizancio: preparar la prueba</b><span data-t="h2">Тренажёр к проверочной по Византии: материал, даты, карта, пирамида, карточки, тест, экзамен · шпаргалка PDF</span></div></a>
+<a class="card" href="historia-visigodos/"><div class="n">⚔️</div><div><b>1 · Germanos y visigodos</b><span data-t="hv">Тренажёр: материал, даты, 3 карты, пирамида, карточки, тест и экзамен · prueba 16 oct</span></div></a>
+<a class="card" href="historia-bizancio/"><div class="n">⛪</div><div><b>2 · El Imperio bizantino</b><span data-t="h2">Тренажёр: материал, даты, карта, пирамида, карточки, тест и экзамен · prueba 23 oct</span></div></a>
+<div class="card soon"><div class="n">👑</div><div><b>3 · Los carolingios</b><span data-t="hc">Тренажёр · prueba 30 oct · скоро</span></div></div>
+<a class="card" href="historia-tema1/"><div class="n">🗺️</div><div><b>Mapa y línea del tiempo de todo el tema</b><span data-t="h1">Интерактивная карта и линия времени: походы, личности, понятия и тесты по всей теме</span></div></a>
+<a class="card" href="historia-recursos/"><div class="n">🖨️</div><div><b>Recursos para imprimir</b><span data-t="hr">Контурные карты, пустая линия времени, шаблоны тетради и работы (PDF)</span></div></a>
+</div>
+<h2 class="sec">🕌 Historia · Tema 2: El islam y al-Ándalus</h2>
+<div class="cards">
+<div class="card soon"><div class="n">T2</div><div><b>El islam y al-Ándalus</b><span data-t="t2">В разработке</span></div></div>
 </div>
 <footer><span data-t="src">Данные</span>: © OpenStreetMap contributors · Natural Earth · Copernicus DEM · © IGN / CNIG · historical-basemaps (GPL-3.0)</footer>
 </main>
 <script>
 const T={ru:{},es:{sub:'Mapas y entrenadores interactivos por lecciones: localizar, nombrar, repasar y hacer el «examen».',
 s1:'División administrativa de España: próximamente',s2:'Mapa físico de España: costas, ríos, relieve · prueba 21 oct',
-s3:'Mapa político de Europa · prueba 4 nov · próximamente',s4:'Mapa físico de Europa · prueba 25 nov · próximamente',h1:'Mapa, línea del tiempo, campañas, tarjetas y tests · 3 pruebas: germanos y visigodos (16 oct), bizantinos (23 oct), carolingios (30 oct)',h2:'Entrenador para la prueba del Imperio bizantino: teoría, fechas, mapa, pirámide, tarjetas, test, examen · chuleta en PDF',src:'Datos'}};
+s3:'Mapa político de Europa · prueba 4 nov · próximamente',s4:'Mapa físico de Europa · prueba 25 nov · próximamente',h1:'Mapa y línea del tiempo interactivos: campañas, personajes, conceptos y tests de todo el tema',hv:'Entrenador: teoría, fechas, 3 mapas, pirámide, tarjetas, test y examen · prueba 16 oct',h2:'Entrenador: teoría, fechas, mapa, pirámide, tarjetas, test y examen · prueba 23 oct',hc:'Entrenador · prueba 30 oct · próximamente',hr:'Mapas mudos, línea del tiempo en blanco, plantillas del cuaderno y de trabajos (PDF)',t2:'En preparación',src:'Datos'}};
 document.querySelectorAll('[data-t]').forEach(e=>T.ru[e.dataset.t]=e.textContent);
-let lang='ru';try{const v=JSON.parse(localStorage.getItem('mme_lang'));if(v==='es'||v==='ru')lang=v}catch(e){}
+let lang='es';try{const v=JSON.parse(localStorage.getItem('mme_lang'));if(v==='es'||v==='ru')lang=v}catch(e){}
 function setLang(l){lang=l;document.documentElement.lang=l;
 document.querySelectorAll('[data-t]').forEach(e=>e.textContent=T[l][e.dataset.t]);
 document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));

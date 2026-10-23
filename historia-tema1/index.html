@@ -108,7 +108,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:34px;border:0;border-radius
 </head>
 <body>
 <div class="app">
- <header><h1>Tema 1: de la Edad Antigua a la Edad Media<small>Германцы, Византия, Каролинги: карта, время, люди</small></h1>
+ <header><h1>Tema 1: de la Edad Antigua a la Edad Media<small>Germanos, bizantinos y carolingios: mapa, tiempo y personajes</small></h1>
   <label class="sw"><input type="checkbox" id="rusub" checked> RU</label></header>
  <nav class="modes" id="modes"></nav>
  <div class="parts" id="parts"></div>
@@ -296,7 +296,7 @@ const REALMQ=[[400,'roma'],[400,'bizancio'],[400,'hunos'],[500,'visigodos'],[500
 const PARTS=[['all','Todo','',370,1460],['p1','1 · Inicio y germanos','16 oct',370,725],['p2','2 · Bizantinos','23 oct',390,1460],['p3','3 · Carolingios','30 oct',475,975]];
 const inPart=x=>S.part==='all'||(x.p||[]).includes(S.part);
 const partRange=()=>{const p=PARTS.find(x=>x[0]===S.part);return[p[3],p[4]]};
-let S={mode:'explore',Y:395,part:LS.get('part','all'),rmin:370,rmax:1460,sel:null,ru:LS.get('ru',true),playing:false,figSel:null,reveal:null};
+let S={mode:'explore',Y:395,part:LS.get('part','all'),rmin:370,rmax:1460,sel:null,ru:LS.get('ru',false),playing:false,figSel:null,reveal:null};
 let box=LS.get('box',{});
 const ev=id=>EV.find(e=>e.id===id);
 
@@ -355,7 +355,7 @@ function snapOpacity(){const Y=S.Y;const quiz=(S.mode==='where'||S.mode==='exam'
  for(const y of YS){let v=o[y];if(quiz)v=(y===S.q.y)?1:0;SN[y].g.setAttribute('opacity',v.toFixed(2));SN[y].g.style.display=v<0.02?'none':'';SN[y].lg.style.display=(S.mode==='where'||S.mode==='exam')?'none':v<0.55?'none':''}
  S.snapA=cur}
 const o2=(a,b,t)=>t<.5?a:b;
-function eraName(Y){return Y<476?'Edad Antigua · Древний мир':Y<1000?'Alta Edad Media · Раннее Средневековье':Y<1300?'Plena Edad Media · Высокое Средневековье':Y<=1453?'Baja Edad Media · Позднее Средневековье':'Edad Moderna'}
+function eraName(Y){return Y<476?'Edad Antigua':Y<1000?'Alta Edad Media':Y<1300?'Plena Edad Media':Y<=1453?'Baja Edad Media':'Edad Moderna'}
 function setYear(y,from){y=Math.round(Math.max(S.rmin,Math.min(S.rmax,y)));S.Y=y;$('#slider').value=y;$('#yr').textContent=y;$('#yrbig').innerHTML=`${y}<small>${eraName(y).split(' · ')[0]}</small>`;snapOpacity();renderEvents();if(S.mode==='explore')markNow()}
 function markNow(){document.querySelectorAll('.evr[data-id]').forEach(r=>{const e=ev(r.dataset.id);if(!e)return;r.classList.toggle('now',S.Y>=e.y0&&S.Y<=e.y1+12)});const ticks=document.querySelectorAll('.tick');ticks.forEach(t=>{const e=ev(t.dataset.id);if(!e)return;t.classList.toggle('act',S.Y>=e.y0&&S.Y<=e.y1+12||S.sel===e.id)});const lg=$('#lgd');if(lg)lg.innerHTML=legendHtml()}
 function legendHtml(){const y=S.snapA||500;const seen=new Set();let h='';for(const it of H.snaps[y]){if(seen.has(it.es)||it.a<3.2)continue;seen.add(it.es);if(['persia','jazaros','avaros','bulgaros','magiares','daneses','rus','vascos','anglos'].includes(it.k)&&seen.size>9)continue;h+=`<span class="lg" style="--c:${it.c}"><i></i>${it.es}</span>`}return h}
@@ -381,7 +381,7 @@ function focusEv(e){const pts=[];for(const p of e.pe)pts.push(...p.pts);for(cons
 /* ---------------- PANEL ---------------- */
 const panel=$('#panel');
 const ruTxt=t=>`<div class="ru ${S.ru?'':'off'}">${t}</div>`;
-function renderModes(){const M=[['explore','🗺 Карта'],['cards','🃏 Карточки'],['when','📅 Когда?'],['where','📍 Где?'],['exam','🎯 Prueba']];$('#modes').innerHTML=M.map(m=>`<button data-m="${m[0]}" aria-pressed="${S.mode===m[0]}">${m[1]}</button>`).join('')}
+function renderModes(){const M=[['explore','🗺 Mapa'],['cards','🃏 Tarjetas'],['when','📅 ¿Cuándo?'],['where','📍 ¿Dónde?'],['exam','🎯 Prueba']];$('#modes').innerHTML=M.map(m=>`<button data-m="${m[0]}" aria-pressed="${S.mode===m[0]}">${m[1]}</button>`).join('')}
 $('#modes').onclick=e=>{const m=e.target.dataset.m;if(m)go(m)};
 $('#rusub').checked=S.ru;$('#rusub').onchange=e=>{S.ru=e.target.checked;LS.set('ru',S.ru);document.querySelectorAll('.ru').forEach(n=>n.classList.toggle('off',!S.ru))};
 function go(m){stopPlay();S.mode=m;document.body.dataset.mode=m;S.sel=null;S.reveal=null;S.q=null;fx(null);gEv.style.display='';renderModes();$('#tl').style.display=(m==='cards'||m==='where'||m==='exam')?'none':'';$('#qbar').hidden=true;[S.rmin,S.rmax]=partRange();
@@ -414,9 +414,9 @@ function renderCard(){const c=C.cur,list=deckList();const front=C.rev?`<div clas
  const back=C.rev?`<div class="t">${c.n}</div>${c.dt?`<div class="score">${c.dt}</div>`:''}`:`<div class="es" style="font-weight:500">${c.es}</div>${ruTxt(c.ru)}`;
  const evs=(c.ev||[]).map(id=>ev(id)).filter(Boolean);
  panel.innerHTML=`<div class="chips" style="margin:0 0 8px"><button class="chip" data-deck="fig" aria-pressed="${C.deck==='fig'}">Personajes</button><button class="chip" data-deck="term" aria-pressed="${C.deck==='term'}">Conceptos</button><button class="chip" data-rev="1" aria-pressed="${C.rev}">Datos → nombre</button></div>
- <p class="score">${S.ru?'Круг':'Ronda'} ${C.round}: ${C.seen.size} / ${list.length} · ${C.ok} / ${C.n}</p>
- <button class="card big" id="cd">${C.flip?back:front}${C.flip?'':`<span class="score">${C.rev?'¿Quién o qué es? · кто или что это?':'¿Qué sabes de…? · что ты знаешь о…?'} (tap)</span>`}</button>
- ${C.flip?`<div class="row"><button class="btn" id="kn">✓ Lo sabía · знал</button><button class="btn ghost" id="nk">✗ No lo sabía</button></div>${evs.length?`<div class="chs">${evs.map(e=>`<button class="pill" data-ev="${e.id}">🗺 ${e.es}</button>`).join('')}</div>`:''}`:''}`;
+ <p class="score">Ronda ${C.round}: ${C.seen.size} / ${list.length} · ${C.ok} / ${C.n}</p>
+ <button class="card big" id="cd">${C.flip?back:front}${C.flip?'':`<span class="score">${C.rev?'¿Quién o qué es?':'¿Qué sabes de…?'} (tap)</span>`}</button>
+ ${C.flip?`<div class="row"><button class="btn" id="kn">✓ Lo sabía</button><button class="btn ghost" id="nk">✗ No lo sabía</button></div>${evs.length?`<div class="chs">${evs.map(e=>`<button class="pill" data-ev="${e.id}">🗺 ${e.es}</button>`).join('')}</div>`:''}`:''}`;
  $('#cd').onclick=()=>{if(!C.flip){C.flip=true;renderCard()}};
  if(C.flip){$('#kn').onclick=()=>{C.n++;C.ok++;box[c.id]=Math.min(5,(box[c.id]||0)+1);LS.set('box',box);cardNext()};$('#nk').onclick=()=>{C.n++;box[c.id]=Math.max(0,(box[c.id]||0)-2);LS.set('box',box);C.q.splice(Math.min(3,C.q.length),0,c.id);cardNext()}}}
 panel.addEventListener('click',e=>{if(S.mode!=='cards')return;const d=e.target.dataset.deck;if(d){C.deck=d;cardsStart()}if(e.target.dataset.rev){C.rev=!C.rev;renderCard()}const v=e.target.closest('[data-ev]');if(v)selectEv(v.dataset.ev)});
@@ -426,11 +426,11 @@ let Q={n:0,ok:0};
 function whenNext(){const pool=EV.filter(e=>e.q&&inPart(e));let e;do{e=pool[Math.floor(Math.random()*pool.length)]}while(S.q&&S.q.e===e&&pool.length>1);whenAsk(e)}
 function whenAsk(e){S.reveal=null;S.q={t:'when',e};$('#tl').style.display='';$('#ticks').innerHTML='';S.Y=Math.round(S.rmin+(S.rmax-S.rmin)/2);setYear(S.Y);fx(null);gEv.style.display='none';
  $('#qbar').hidden=false;$('#qbar').innerHTML=`📅 <b>${e.es}</b>${S.ru?`<div class="score">${e.ru}</div>`:''}`;
- panel.innerHTML=`${scoreHead()}<div class="card"><div class="t" style="font-size:1.25rem;font-weight:800">${e.es}</div>${ruTxt(e.ru)}<p class="era" style="margin-top:8px">${S.ru?'Выставь ползунком год и нажми «Проверить»':'Mueve la línea del tiempo al año y pulsa «Comprobar»'}</p></div><div class="row"><button class="btn" id="chk">Comprobar · проверить</button></div><div id="res"></div>`;
+ panel.innerHTML=`${scoreHead()}<div class="card"><div class="t" style="font-size:1.25rem;font-weight:800">${e.es}</div>${ruTxt(e.ru)}<p class="era" style="margin-top:8px">Mueve la línea del tiempo al año y pulsa «Comprobar»</p></div><div class="row"><button class="btn" id="chk">Comprobar</button></div><div id="res"></div>`;
  $('#chk').onclick=whenCheck}
 function whenCheck(){const e=S.q.e,y=S.Y,t=e.qd,d=Math.abs(y-t);const ok=d<=(t>700?5:10);record(ok,'📅 '+e.es+' — '+t);const cls=d<=2?'ok':ok?'ok':'bad';
  gEv.style.display='';S.reveal=e.id;setYear(t);const msg=d===0?'¡Exacto!':d<=2?`Casi exacto: ${t}`:ok?`¡Bien! Fue en el ${t} (diferencia: ${d})`:`Fue en el ${t} (te has equivocado por ${d} años)`;
- $('#res').innerHTML=`<p class="fb ${cls}">${msg}</p><div class="es" style="font-weight:500;margin-top:4px">${e.d}</div>${ruTxt(e.dr)}<div class="row"><button class="btn" id="nx">Siguiente · дальше</button></div>`;$('#chk').disabled=true;$('#nx').onclick=S.mode==='exam'?examNext:whenNext;focusEv(e)}
+ $('#res').innerHTML=`<p class="fb ${cls}">${msg}</p><div class="es" style="font-weight:500;margin-top:4px">${e.d}</div>${ruTxt(e.dr)}<div class="row"><button class="btn" id="nx">Siguiente</button></div>`;$('#chk').disabled=true;$('#nx').onclick=S.mode==='exam'?examNext:whenNext;focusEv(e)}
 
 /* ---------------- QUIZ: WHERE ---------------- */
 function wherePool(){const pl=S.part==='all'?PLACES:PLACESP[S.part];const rq=(S.part==='all'?REALMQ:REALMP[S.part]).filter(([y,k])=>H.snaps[y]&&H.snaps[y].some(i=>i.k===k));return{pl,rq}}
@@ -438,16 +438,16 @@ function mkWhere(){const {pl,rq}=wherePool();if(Math.random()<.5||!rq.length){re
 function whereNext(){let q;do{q=mkWhere()}while(S.q&&JSON.stringify(q)===JSON.stringify(S.q));whereAsk(q)}
 function whereAsk(q){S.reveal=null;gEv.style.display='none';fx(null);$('#tl').style.display='none';
  S.q=q;S.done=false;if(q.t==='realm')S.Y=q.y;else S.Y=S.Y<375?395:S.Y;setYear(S.Y);fit();
- const prompt=q.t==='place'?`<div class="t" style="font-size:1.25rem;font-weight:800">${CITY[q.id][0]}</div><div class="ru ${S.ru?'':'off'}">${CITY[q.id][1]}</div>`:`<div class="es">En el año ${q.y}:</div><div class="t" style="font-size:1.25rem;font-weight:800">${q.es}</div><div class="ru ${S.ru?'':'off'}">${q.y} год: ${q.ru}</div>`;
+ const prompt=q.t==='place'?`<div class="t" style="font-size:1.25rem;font-weight:800">${CITY[q.id][0]}</div><div class="ru ${S.ru?'':'off'}">${CITY[q.id][1]}</div>`:`<div class="es">En el año ${q.y}:</div><div class="t" style="font-size:1.25rem;font-weight:800">${q.es}</div><div class="ru ${S.ru?'':'off'}">${q.y}: ${q.ru}</div>`;
  $('#qbar').hidden=false;$('#qbar').innerHTML=q.t==='place'?`📍 <b>${CITY[q.id][0]}</b>${S.ru?`<div class="score">${CITY[q.id][1]}</div>`:''}`:`📍 Año ${q.y}: <b>${q.es}</b>${S.ru?`<div class="score">${q.y} г.: ${q.ru}</div>`:''}`;
- panel.innerHTML=`${scoreHead()}<div class="card">${prompt}<p class="era" style="margin-top:8px">${S.ru?'Нажми на карте нужное место':'Toca el lugar en el mapa'}</p></div><div id="res"></div>`}
+ panel.innerHTML=`${scoreHead()}<div class="card">${prompt}<p class="era" style="margin-top:8px">Toca el lugar en el mapa</p></div><div id="res"></div>`}
 function onTap(x,y,target){
  if((S.mode==='where'||S.mode==='exam')&&S.q&&(S.q.t==='place'||S.q.t==='realm')&&!S.done){const q=S.q;S.done=true;let ok=false;
   if(q.t==='place'){const pt=prj(...CITY[q.id][2]);const d=Math.hypot(pt[0]-x,pt[1]-y);ok=d<28;cityEls[q.id].g.style.display='';fx([{t:'dot',p:pt,c:ok?'#2f8f5b':'#c0392b'},{t:'ring',p:pt,c:ok?'#2f8f5b':'#c0392b'},{t:'lab',p:pt,s:CITY[q.id][0]}].concat(ok?[]:[{t:'dot',p:[x,y],c:'#d1432f'},{t:'line',a:[x,y],b:pt,c:'#d1432f'}]))}
   else{const grp=SN[q.y];const pt=svg.createSVGPoint();pt.x=x;pt.y=y;const hit=grp.pols.filter(o=>o.it.k===q.k);ok=hit.some(o=>{try{return o.p.isPointInFill(pt)}catch(e){return false}});hit.forEach(o=>o.p.classList.add('hl'));setTimeout(()=>hit.forEach(o=>o.p.classList.remove('hl')),6000);
    grp.lg.style.display='';fx(ok?null:[{t:'dot',p:[x,y],c:'#d1432f'}])}
   record(ok,'📍 '+(q.t==='place'?CITY[q.id][0]:q.y+': '+q.es));
-  $('#res').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'No es ahí. Mira el lugar correcto en el mapa.'}</p>${q.t==='place'?`<div class="es" style="font-weight:500">${PLACENOTE[q.id]}</div>`:''}<div class="row"><button class="btn" id="nx">Siguiente · дальше</button></div>`;$('#nx').onclick=S.mode==='exam'?examNext:whereNext;return}
+  $('#res').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'No es ahí. Mira el lugar correcto en el mapa.'}</p>${q.t==='place'?`<div class="es" style="font-weight:500">${PLACENOTE[q.id]}</div>`:''}<div class="row"><button class="btn" id="nx">Siguiente</button></div>`;$('#nx').onclick=S.mode==='exam'?examNext:whereNext;return}
  if(S.mode==='explore'){const m=target&&target.closest&&target.closest('.m');if(m){selectEv(m.dataset.ev);return}const p=target&&target.closest&&target.closest('.pol');if(p)toast(p.dataset.es+' · '+p.dataset.ru)}}
 
 /* ---------------- WHO + EXAM ---------------- */
@@ -456,12 +456,12 @@ function record(ok,label){if(S.mode==='exam'&&S.exam){if(ok)S.exam.ok++;else S.e
 const partName=()=>PARTS.find(p=>p[0]===S.part)[1];
 function whoAsk(it){S.q={t:'who'};S.reveal=null;$('#qbar').hidden=true;$('#tl').style.display='none';const pool=(it.deck==='fig'?FIG:TERM);const same=pool.filter(x=>x.id!==it.c.id&&inPart(x));const others=pool.filter(x=>x.id!==it.c.id&&!inPart(x));
  const wrong=[...same.sort(()=>Math.random()-.5),...others.sort(()=>Math.random()-.5)].slice(0,3);const opts=[it.c,...wrong].sort(()=>Math.random()-.5);
- panel.innerHTML=`${scoreHead()}<div class="card"><p class="era">${it.deck==='fig'?'¿Quién es? · Кто это?':'¿Qué concepto es? · Что это за понятие?'}</p><div class="es" style="font-weight:500">${it.c.es}</div>${ruTxt(it.c.ru)}<div class="opts">${opts.map(o=>`<button class="opt" data-o="${o.id}">${o.n}</button>`).join('')}</div></div><div id="res"></div>`;
+ panel.innerHTML=`${scoreHead()}<div class="card"><p class="era">${it.deck==='fig'?'¿Quién es?':'¿Qué concepto es?'}</p><div class="es" style="font-weight:500">${it.c.es}</div>${ruTxt(it.c.ru)}<div class="opts">${opts.map(o=>`<button class="opt" data-o="${o.id}">${o.n}</button>`).join('')}</div></div><div id="res"></div>`;
  panel.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(S.q.done)return;S.q.done=true;const ok=b.dataset.o===it.c.id;b.classList.add(ok?'ok':'bad');panel.querySelector(`[data-o="${it.c.id}"]`).classList.add('ok');record(ok,'👤 '+it.c.n);
-  $('#res').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'Respuesta: '+it.c.n}</p><div class="row"><button class="btn" id="nx">Siguiente · дальше</button></div>`;$('#nx').onclick=S.mode==='exam'?examNext:()=>whoAsk(randWho())})}
+  $('#res').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'Respuesta: '+it.c.n}</p><div class="row"><button class="btn" id="nx">Siguiente</button></div>`;$('#nx').onclick=S.mode==='exam'?examNext:()=>whoAsk(randWho())})}
 function randWho(){const d=Math.random()<.5?'fig':'term';const l=(d==='fig'?FIG:TERM).filter(inPart);return{deck:d,c:l[Math.floor(Math.random()*l.length)]}}
 function examIntro(){const best=LS.get('best_'+S.part,null);$('#tl').style.display='none';gEv.style.display='none';
- panel.innerHTML=`<div class="card"><h2>🎯 Prueba: ${partName()}</h2><p class="era">${S.part==='all'?'Todo el tema 1':'Fecha prevista: '+PARTS.find(p=>p[0]===S.part)[2]}</p><div class="es" style="font-weight:500">12 preguntas mezcladas: quién es quién y conceptos, fechas en la línea del tiempo, lugares y territorios en el mapa.</div>${ruTxt('12 вопросов вперемешку: кто есть кто и понятия, даты на линии времени, места и территории на карте.')}${best!=null?`<p class="score" style="margin-top:8px">Mejor nota · лучший результат: ${best} / 10</p>`:''}<div class="row"><button class="btn" id="go">Empezar · начать</button></div></div>`;$('#go').onclick=examStart}
+ panel.innerHTML=`<div class="card"><h2>🎯 Prueba: ${partName()}</h2><p class="era">${S.part==='all'?'Todo el tema 1':'Fecha prevista: '+PARTS.find(p=>p[0]===S.part)[2]}</p><div class="es" style="font-weight:500">12 preguntas mezcladas: quién es quién y conceptos, fechas en la línea del tiempo, lugares y territorios en el mapa.</div>${ruTxt('12 вопросов вперемешку: кто есть кто и понятия, даты на линии времени, места и территории на карте.')}${best!=null?`<p class="score" style="margin-top:8px">Mejor nota: ${best} / 10</p>`:''}<div class="row"><button class="btn" id="go">Empezar</button></div></div>`;$('#go').onclick=examStart}
 function examStart(){const items=[];const evs=EV.filter(e=>e.q&&inPart(e)).sort(()=>Math.random()-.5);const figs=FIG.filter(inPart).sort(()=>Math.random()-.5),terms=TERM.filter(inPart).sort(()=>Math.random()-.5);
  for(let i=0;i<3&&i<evs.length;i++)items.push({t:'when',e:evs[i]});
  const seenW=new Set();for(let i=0;items.filter(x=>x.t==='where').length<4&&i<40;i++){const q=mkWhere();const k=JSON.stringify(q);if(!seenW.has(k)){seenW.add(k);items.push({t:'where',q})}}
@@ -470,7 +470,7 @@ function examStart(){const items=[];const evs=EV.filter(e=>e.q&&inPart(e)).sort(
 function examNext(){const E=S.exam;E.i++;fx(null);gEv.style.display='none';S.reveal=null;S.done=false;if(E.i>=E.items.length)return examEnd();const it=E.items[E.i];
  [S.rmin,S.rmax]=partRange();if(it.t==='when'){buildTrack();whenAsk(it.e)}else if(it.t==='where')whereAsk(it.q);else whoAsk(it)}
 function examEnd(){const E=S.exam;const n=E.items.length,g=Math.round(E.ok/n*100)/10;const nota=Math.round(E.ok/n*10*10)/10;const best=LS.get('best_'+S.part,0);if(nota>best)LS.set('best_'+S.part,nota);$('#qbar').hidden=true;
- panel.innerHTML=`<div class="card"><h2>Resultado · результат</h2><div class="t">${nota} / 10</div><p class="score">${E.ok} de ${n} correctas</p>${E.wrong.length?`<p class="era" style="margin-top:8px">Repasa · повтори:</p><div class="evlist">${E.wrong.map(w=>`<div class="evr" style="cursor:default">${w}</div>`).join('')}</div>`:'<p class="fb ok">¡Sin errores! · Без ошибок!</p>'}<div class="row"><button class="btn" id="again">Otra prueba · ещё раз</button><button class="btn ghost" id="study">🃏 Tarjetas</button></div></div>`;
+ panel.innerHTML=`<div class="card"><h2>Resultado</h2><div class="t">${nota} / 10</div><p class="score">${E.ok} de ${n} correctas</p>${E.wrong.length?`<p class="era" style="margin-top:8px">Repasa:</p><div class="evlist">${E.wrong.map(w=>`<div class="evr" style="cursor:default">${w}</div>`).join('')}</div>`:'<p class="fb ok">¡Sin errores!</p>'}<div class="row"><button class="btn" id="again">Otra prueba</button><button class="btn ghost" id="study">🃏 Tarjetas</button></div></div>`;
  $('#again').onclick=examStart;$('#study').onclick=()=>go('cards')}
 
 /* ---------------- INIT ---------------- */

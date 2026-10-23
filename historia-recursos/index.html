@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recursos para imprimir · Historia</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%A8%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f6f8f9;color:#1f3a4d;line-height:1.45}
+main{max-width:820px;margin:0 auto;padding:24px 16px 48px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.home{color:#5b7282;text-decoration:none;font-size:.85rem;font-weight:600;border:1.5px solid #5b7282;border-radius:99px;padding:3px 10px}
+.tog{font-size:.82rem;color:#5b7282;border:1.5px solid #bcd5df;border-radius:99px;padding:3px 10px;background:#fff;cursor:pointer}
+h1{margin:14px 0 4px;font-size:1.6rem}
+.sub{color:#5b7282;margin:0 0 18px}
+.card{display:block;background:#fff;border:1.5px solid #bcd5df;border-radius:16px;padding:14px 16px;margin:0 0 10px;text-decoration:none;color:inherit}
+a.card:hover,a.card:focus-visible{border-color:#1f3a4d;outline:none}
+.card b{font-size:1.05rem}.card span{display:block;color:#5b7282;font-size:.92rem;margin-top:3px}
+.ru{color:#6a4fa3!important;font-size:.85rem!important}
+body.noru .ru{display:none!important}
+.note{font-size:.85rem;color:#5b7282;background:#fff8e1;border:1px solid #f0dd9c;border-radius:12px;padding:8px 12px;margin:14px 0}
+footer{margin-top:22px;font-size:.78rem;color:#5b7282}
+</style></head>
+<body class="noru"><main>
+<div class="top"><a class="home" href="../">← Lecciones</a><label class="tog"><input type="checkbox" id="rut"> RU</label></div>
+<h1>🖨️ Recursos para imprimir · Tema 1</h1>
+<p class="sub">Fin de la Edad Antigua e inicio de la Edad Media. Hojas en PDF para practicar y organizar el trabajo. No llevan respuestas: se completan a mano.</p>
+<a class="card" href="pdf/mapas-mudos-tema1.pdf" download><b>🗺️ Mapas mudos (4 hojas)</b><span>Imperio bizantino · rutas de las invasiones germanas · reinos germanos a finales del siglo V · reino visigodo en el siglo VI. Con leyenda para colorear, zonas numeradas y ciudades con letras.</span><span class="ru">Контурные карты: Византия, пути вторжений, германские королевства V в., вестготская Испания VI в. Легенда для раскрашивания, номера областей, города буквами.</span></a>
+<a class="card" href="pdf/linea-del-tiempo-tema1.pdf" download><b>📅 Línea del tiempo en blanco</b><span>Del 300 al 1500, con las etapas de la Edad Media y 17 fechas clave para escribir qué pasó.</span><span class="ru">Пустая линия времени 300–1500 с эпохами и 17 датами: впиши, что произошло.</span></a>
+<a class="card" href="pdf/plantilla-cuaderno-tema1.pdf" download><b>📒 Plantilla del cuaderno (Tema 1)</b><span>Portada en español y en inglés, lista de cotejo antes de entregar, índice de tareas y glosario de inglés.</span><span class="ru">Шаблон тетради: титулы на испанском и английском, чек-лист перед сдачей, оглавление заданий и английский глоссарий.</span></a>
+<a class="card" href="pdf/plantilla-trabajo.pdf" download><b>📝 Plantilla para un trabajo</b><span>Orden de las partes, lista de cotejo, modelo de portada e índice, ideas para la opinión personal y cómo escribir la bibliografía.</span><span class="ru">Шаблон работы: порядок частей, чек-лист, образец титула и оглавления, как писать мнение и список источников.</span></a>
+<p class="note">Consejo: imprime los mapas en blanco y negro y colorea con lápices. Para repasar, usa también los entrenadores interactivos de la página principal.</p>
+<footer>Mapas: costas y ríos de Natural Earth (dominio público); territorios aproximados según los mapas del libro de texto.</footer>
+</main>
+<script>
+const t=document.getElementById('rut');let ru=false;try{ru=JSON.parse(localStorage.getItem('h1_rec_ru'))===true}catch(e){}
+t.checked=ru;document.body.classList.toggle('noru',!ru);
+t.onchange=()=>{document.body.classList.toggle('noru',!t.checked);try{localStorage.setItem('h1_rec_ru',JSON.stringify(t.checked))}catch(e){}};
+</script>
+</body></html>

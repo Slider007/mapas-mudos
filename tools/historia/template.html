@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="color-scheme" content="light only">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bizancio — preparar la prueba</title>
+<title>__TITLE__</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%AA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
@@ -80,7 +80,7 @@ input.yr{width:110px;font-size:1.2rem;padding:8px 10px;border-radius:12px;border
 /* map */
 .mapwrap{position:relative;border-radius:16px;overflow:hidden;background:#cfe1e8;border:1.5px solid var(--line);touch-action:manipulation}
 svg#map{display:block;width:100%;height:auto;cursor:crosshair}
-.land{fill:#f3eee0;stroke:#c9bfa6;stroke-width:.6}
+.land{fill:#f3eee0;stroke:#c9bfa6;stroke-width:.6;vector-effect:non-scaling-stroke}
 .biz{fill:#7e57c2;fill-opacity:.42;stroke:#5e35b1;stroke-width:1}
 .oto{fill:#00897b;fill-opacity:.35;stroke:#00695c;stroke-width:1}
 .city circle{fill:#7a2e2e;stroke:#fff;stroke-width:1.2}
@@ -123,27 +123,26 @@ footer{margin-top:20px;font-size:.75rem;color:var(--ink2)}
 <div class="app">
 <header>
  <a class="home" href="../">← <span data-es="Lecciones" data-ru="Уроки">Lecciones</span></a>
- <h1>⛪ El Imperio bizantino<small>Tema 1 · preparar la prueba: aprender → repasar → examen</small></h1>
+ <h1>__H1__<small>__SUB__</small></h1>
  <div class="tools">
-  <label class="tog"><input type="checkbox" id="rut" checked> RU</label>
-  <a class="pdf" href="pdf/chuleta-bizantinos.pdf" download>📄 Chuleta PDF</a>
+  <label class="tog"><input type="checkbox" id="rut"> RU</label>
  </div>
 </header>
 <nav class="steps" id="steps"></nav>
 <div class="prog"><i id="pbar" style="width:0"></i></div>
 <main id="main"></main>
-<footer>Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: dibujado según el mapa 18 del libro (p. 23), territorios aproximados; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector).</footer>
+<footer>__FOOTER__</footer>
 </div>
 <div class="toast" id="toast"></div>
 <script>
 const D=__DATA__;
 const G=__GEO__;
 const $=s=>document.querySelector(s);
-const LS={get(k,d){try{const v=localStorage.getItem('h1_biz_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('h1_biz_'+k,JSON.stringify(v))}catch(e){}}};
+const LS={get(k,d){try{const v=localStorage.getItem('__LSP__'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('__LSP__'+k,JSON.stringify(v))}catch(e){}}};
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let toastT;function toast(t){const n=$('#toast');n.textContent=t;n.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>n.classList.remove('on'),1700)}
-const TOPICS={origen:'Origen',gobierno:'Gobierno',justiniano:'Justiniano',territorios:'Territorios y declive',sociedad:'Sociedad y ciudades',constantinopla:'Constantinopla',religion:'Religión',arte:'Cultura y arte',economia:'Economía'};
+const TOPICS=D.topics;
 
 /* -------- state -------- */
 let P=LS.get('p',{read:{},tl:false,map:false,pyr:false,cards:{},quiz:{},open:{},best:null});
@@ -173,7 +172,7 @@ function renderSteps(){
 }
 $('#steps').onclick=e=>{const b=e.target.closest('[data-s]');if(b)go(b.dataset.s)};
 function go(s){cur=s;LS.set('step',s);renderSteps();({learn,tl,map,pyr,cards,quiz,open:largas,exam})[s]();window.scrollTo({top:0,behavior:'smooth'})}
-$('#rut').checked=LS.get('ru',true);document.body.classList.toggle('noru',!$('#rut').checked);
+$('#rut').checked=LS.get('ru',false);document.body.classList.toggle('noru',!$('#rut').checked);
 $('#rut').onchange=e=>{LS.set('ru',e.target.checked);document.body.classList.toggle('noru',!e.target.checked)};
 const nextBtn=(s,lab)=>`<div class="row"><button class="btn" onclick="go('${s}')">${lab} →</button></div>`;
 
@@ -209,71 +208,62 @@ function tl(){
  }
 }
 
-/* -------- 3. map (como el mapa 18 del libro, p. 23) -------- */
+/* -------- 3. maps (datos en D.maps: capas, regiones, rutas, ciudades y preguntas) -------- */
 const prj=(lon,lat)=>[(lon-G.LON0)*G.C*G.K,(G.LAT1-lat)*G.K];
-const VB=[55,250,840,390];
-const R={ // polígonos aproximados en lon/lat; se recortan con la línea de costa
- o527:[[[19.2,45],[21,44.7],[22.6,44.6],[25,43.7],[27.5,44.1],[28.7,44.8],[29.7,45.2],[31,43.5],[36,42.6],[41.5,41.7],[42,40],[40.5,37.5],[39.5,36.2],[38.5,34.5],[37.3,32.5],[35.5,29.6],[34.5,29],[33,27],[31,26],[30,26],[29,29.5],[26,30.5],[25,30.5],[20,30],[19,30.5],[19.6,33],[20,36.5],[19.2,39.5]]],
- conq:[[[7.9,38.8],[7.9,41.4],[8.6,43.1],[9.6,43.3],[7.6,44.1],[7,45.9],[10,46.6],[13.6,46.6],[15.5,45.3],[17.5,44.2],[19.2,43],[19.2,39.5],[18.6,39.6],[16.3,37.4],[12.3,36.3],[11,37.5]],
-       [[-6.2,36.2],[-6.2,35.4],[-4,35],[-1,35.2],[2,35.9],[5,36.2],[8,35.8],[9,34.5],[10,33.3],[12,32.3],[15,31],[19,30.3],[19.6,33],[15,33.6],[11.6,36.9],[11,37.6],[6,37.6],[0,37.2],[-3.5,36.4]],
-       [[-6.4,36],[-6,36.8],[-4.8,37.3],[-3.5,37.4],[-1.8,38],[-0.6,38.2],[0.3,38.5],[-0.4,37.4],[-1,36.5],[-5,35.95]],
-       [[1,38.5],[4.6,39.6],[4.6,40.2],[2.5,40.2],[1,39.3]]],
- b1025:[[[19.2,44.9],[22.5,44.6],[25,43.7],[27.5,44.1],[29.7,45.3],[31,43.5],[36,42.6],[41.8,42.5],[44.5,41.2],[44,39.5],[41,38],[39.5,37],[37.5,36],[36.5,35.2],[35.2,34.4],[32,34.4],[26.5,34.7],[23.3,34.7],[22.5,36],[20.5,37],[19.2,39.8],[19.2,42]],
-        [[14.9,42],[16.5,42.3],[19,40.5],[17,38.5],[16.3,37.7],[15.7,38.25],[15.6,39.5],[14.9,40.5]]],
- b1204:[[[19.4,42.2],[21.5,42.3],[23,41.8],[25.5,42],[27.5,42.3],[28.2,41.6],[29,41.2],[29,40.3],[26.5,39.5],[26.5,34.8],[23.3,34.8],[22.3,36.3],[20.6,37.3],[19.4,39.8]],
-        [[28.9,41.3],[31,41.3],[35,42.2],[41.5,41.7],[41.5,40.7],[36,40.6],[33,40.2],[31,39.3],[30,37.5],[29.5,36.3],[28,36],[26,37],[26,39.8],[26.2,40.5]]],
- b1453:[[[28.4,41.35],[29.3,41.35],[29.3,40.85],[28.4,40.85]]],
- es:[[[-6.4,36],[-6,36.8],[-4.8,37.3],[-3.5,37.4],[-1.8,38],[-0.6,38.2],[0.3,38.5],[-0.4,37.4],[-1,36.5],[-5,35.95]],[[1,38.5],[4.6,39.6],[4.6,40.2],[2.5,40.2],[1,39.3]],[[-5.6,36.05],[-5,36.05],[-5,35.75],[-5.6,35.75]]],
-};
-const LAYERS=[['conq','Conquistas de Justiniano','#f7d58a'],['o527','Imperio romano de Oriente a la llegada de Justiniano (527)','#e8a33d'],['b1025','Imperio bizantino en 1025','url(#hd)'],['b1204','Imperio bizantino en 1204','url(#hv)'],['b1453','Imperio bizantino en 1453','#d32f2f']];
-const PEOPLES=[['FRANCOS',2.5,47],['SUEVOS',-8.4,42.6],['VASCONES',-2.6,43.1],['VISIGODOS',-4.5,40],['BURGUNDIOS',5.6,46.2],['LOMBARDOS',16.2,47],['GÉPIDOS',21.5,46.3],['ESLAVOS',26.5,46.3],['BÚLGAROS',35,46.6],['ÁVAROS',43,46.6],['PERSAS',45,36.5],['BEREBERES',-2.5,33.6]];
-const RIVL=[['Río Danubio',23.5,43.3,-8],['Río Nilo',31.7,28.6,70],['Río Tigris',44.6,34.6,55],['Río Éufrates',41.2,34.8,30]];
-const ISLES=[['Córcega',9.6,42.6],['Cerdeña',10,40.3],['Sicilia',14.4,37.75],['Is. Baleares',1.8,38.7],['Creta',24.8,34.7],['Chipre',33.2,34.6]];
-let mapOn=LS.get('maplayers',{conq:1,o527:1,b1025:1,b1204:1,b1453:1}),mapQ=null,mapStats={ok:0,n:0},mapMode='ver';
+let MI=0,VB=D.maps[0].vb;const M=()=>D.maps[MI];
+function setMap(i){MI=i;VB=M().vb;MV=null}
+const mapOnAll=LS.get('maplayers',{});const mapOn=id=>{const m=mapOnAll[M().id]||{};return m[id]!==0};
+let mapQ=null,mapStats={ok:0,n:0},mapMode='ver';
 const poly=pl=>'M'+pl.map(([lo,la])=>prj(lo,la).map(v=>v.toFixed(1)).join(',')).join('L')+'Z';
+const line=pl=>'M'+pl.map(([lo,la])=>prj(lo,la).map(v=>v.toFixed(1)).join(',')).join('L');
 const inPoly=(pt,pl)=>{let c=false;for(let i=0,j=pl.length-1;i<pl.length;j=i++){const [xi,yi]=prj(...pl[i]),[xj,yj]=prj(...pl[j]);if((yi>pt[1])!==(yj>pt[1])&&pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi)+xi)c=!c}return c};
-function terrHit(p,tq){ // допуск ~10 экранных пикселей: узкие полосы (юг Испании, Сеута) трудно попасть пальцем
- const svg=$('#map');const upp=VB[2]/svg.getBoundingClientRect().width;const r=10*upp;
+const regHit=(ids,p)=>ids.some(id=>(M().regions[id]||[]).some(pl=>inPoly(p,pl)));
+function tqOk(tq,p){if(tq.near){const c=prj(tq.near[0],tq.near[1]);if(Math.hypot(p[0]-c[0],p[1]-c[1])<tq.near[2])return true}return regHit(tq.in||[],p)&&!regHit(tq.notin||[],p)}
+function terrHit(p,tq){ // допуск ~10 экранных пикселей: узкие полосы трудно попасть пальцем
+ const svg=$('#map');const upp=MV.w/svg.getBoundingClientRect().width;const r=10*upp;
  const pts=[[0,0]];for(let k=0;k<12;k++){const a=k*Math.PI/6;pts.push([Math.cos(a)*r,Math.sin(a)*r],[Math.cos(a)*r/2,Math.sin(a)*r/2],[Math.cos(a)*r/4,Math.sin(a)*r/4])}
- return pts.some(([dx,dy])=>{const q=[p[0]+dx,p[1]+dy];return onLand(q)&&tq.ok(q)})}
+ return pts.some(([dx,dy])=>{const q=[p[0]+dx,p[1]+dy];return onLand(q)&&tqOk(tq,q)})}
 function onLand(pt){try{const l=$('#landp');const q=$('#map').createSVGPoint();q.x=pt[0];q.y=pt[1];return l.isPointInFill(q)}catch(e){return true}}
-const TERRQ=[
- {q:'Toca un territorio que conquistó Justiniano',ok:p=>R.conq.some(pl=>inPoly(p,pl))&&!R.o527.some(pl=>inPoly(p,pl)),a:'las zonas amarillo claro: Italia, norte de África, islas, sur de Hispania y Ceuta'},
- {q:'Toca un territorio del Imperio a la llegada de Justiniano (527)',ok:p=>R.o527.some(pl=>inPoly(p,pl)),a:'naranja: Grecia, Balcanes, Asia Menor, Siria, Palestina y Egipto'},
- {q:'Toca un territorio actual de España que fue bizantino',ok:p=>R.es.some(pl=>inPoly(p,pl)),a:'costa sur y sureste (Málaga, Cartagena), Baleares y Ceuta'},
- {q:'Toca un territorio que seguía siendo bizantino en 1025',ok:p=>R.b1025.some(pl=>inPoly(p,pl)),a:'rayado en diagonal: Balcanes, Grecia, Asia Menor y sur de Italia'},
- {q:'Toca lo que quedaba del Imperio en 1453',ok:p=>R.b1453.some(pl=>inPoly(p,pl))||Math.hypot(p[0]-prj(28.98,41.01)[0],p[1]-prj(28.98,41.01)[1])<14,a:'solo Constantinopla (en rojo)'},
-];
+const ZB='<div class="zb"><button data-z="in" aria-label="acercar">+</button><button data-z="out" aria-label="alejar">−</button><button data-z="fit" aria-label="ver todo">⤢</button></div>';
+const swatch=l=>l[3]==='route'?`<i style="background:none;border:0;border-top:3px solid ${l[2]};border-radius:0;height:0;width:18px;vertical-align:4px"></i>`:`<i style="background:${l[2].startsWith('url')?'repeating-linear-gradient('+(l[2]==='url(#hv)'?'90deg':'45deg')+',#333 0 1px,#fff 1px 5px)':l[2]};border:1px solid #999"></i>`;
 function map(){
- $('#main').innerHTML=`<div class="card"><h2>🗺 La expansión del Imperio bizantino</h2><p class="muted">Como el mapa 18 del libro (p. 23). Activa o quita capas en la leyenda. Después practica con «Ciudades» y «Territorios».</p>
- <div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg><div class="zb"><button data-z="in" aria-label="acercar">+</button><button data-z="out" aria-label="alejar">−</button><button data-z="fit" aria-label="ver todo">⤢</button></div></div>
- <div class="leg" id="leg">${LAYERS.map(l=>`<label style="cursor:pointer"><input type="checkbox" data-l="${l[0]}" ${mapOn[l[0]]?'checked':''}> <i style="background:${l[2].startsWith('url')?'repeating-linear-gradient('+(l[0]==='b1025'?'45deg':'90deg')+',#333 0 1px,#fff 1px 5px)':l[2]};border:1px solid #999"></i>${l[1]}</label>`).join('')}<span style="color:#777">MAYÚSCULAS = pueblos (siglo VI)</span></div>
+ const m=M();
+ $('#main').innerHTML=`<div class="card">${D.maps.length>1?`<div class="chips">${D.maps.map((x,i)=>`<button class="chip" data-mi="${i}" aria-pressed="${i===MI}">${x.tab}</button>`).join('')}</div>`:''}<h2>🗺 ${m.title}</h2><p class="muted">${m.sub} Activa o quita capas en la leyenda. Después practica con «Ciudades» y «Territorios».</p>
+ <div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg>${ZB}</div>
+ <div class="leg" id="leg">${m.layers.map(l=>`<label style="cursor:pointer"><input type="checkbox" data-l="${l[0]}" ${mapOn(l[0])?'checked':''}> ${swatch(l)}${l[1]}</label>`).join('')}${m.legnote?`<span style="color:#777">${m.legnote}</span>`:''}</div>
  <div id="mapinfo" style="margin-top:8px"></div>
  <div class="row"><button class="btn" id="mqc">📍 Ciudades</button><button class="btn" id="mqt">🟧 Territorios</button><button class="btn ghost" id="mv">Ver el mapa</button><span class="score" id="msc"></span></div>
- <div class="ru">Как на карте 18 учебника (с. 23): оранжевый — империя в 527 г.; светло-жёлтый — завоевания Юстиниана; диагональная штриховка — 1025 г.; вертикальная — 1204 г.; красный — 1453 г. (только Константинополь).</div></div>`+nextBtn('pyr','Siguiente: pirámide');
- $('#leg').onchange=e=>{const l=e.target.dataset.l;if(l){mapOn[l]=e.target.checked?1:0;LS.set('maplayers',mapOn);drawMap(mapMode!=='city')}};
+ <div class="ru">${m.ru}</div></div>`+nextBtn('pyr','Siguiente: pirámide');
+ const ch=$('#main').querySelector('[data-mi]');if(ch)ch.parentNode.onclick=e=>{const i=e.target.dataset.mi;if(i!=null){setMap(+i);map()}};
+ $('#leg').onchange=e=>{const l=e.target.dataset.l;if(l){(mapOnAll[m.id]=mapOnAll[m.id]||{})[l]=e.target.checked?1:0;LS.set('maplayers',mapOnAll);const v=MV;drawMap(mapMode!=='city');MV=v;applyView()}};
  $('#mv').onclick=()=>{mapMode='ver';mapQ=null;drawMap(true);infoVer()};
  $('#mqc').onclick=()=>{mapMode='city';mapStats={ok:0,n:0};askCity()};
  $('#mqt').onclick=()=>{mapMode='terr';mapStats={ok:0,n:0};askTerr()};
  mapMode='ver';MV=null;drawMap(true);infoVer();
 }
-function infoVer(){$('#mapinfo').innerHTML=`<p class="muted" style="margin:0"><b>527:</b> Grecia, Balcanes, Asia Menor, Siria, Palestina y Egipto. <b>Justiniano conquista:</b> norte de África, Italia, Sicilia, Cerdeña, Córcega, Baleares, sur de Hispania (Málaga, Cartagena) y Ceuta. <b>1025:</b> Balcanes, Grecia, Asia Menor y sur de Italia. <b>1204:</b> Grecia, Tracia y oeste de Asia Menor. <b>1453:</b> solo Constantinopla.</p>`}
-function drawMap(names,sel){
- const svg=$('#map');let h=`<defs><clipPath id="lc"><path d="${G.land}"/></clipPath>
- <pattern id="hd" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#333" stroke-width="1.1"/></pattern>
- <pattern id="hv" width="5" height="5" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="5" stroke="#222" stroke-width="1"/></pattern></defs>
+function infoVer(){$('#mapinfo').innerHTML=`<p class="muted" style="margin:0">${M().info}</p>`}
+function arrowHead(pl,col){const n=pl.length;const a=prj(...pl[n-2]),b=prj(...pl[n-1]);const ang=Math.atan2(b[1]-a[1],b[0]-a[0]);const s=7*VB[2]/840*zk();
+ const p1=[b[0]-s*Math.cos(ang-0.45),b[1]-s*Math.sin(ang-0.45)],p2=[b[0]-s*Math.cos(ang+0.45),b[1]-s*Math.sin(ang+0.45)];
+ return `<polygon points="${b.join(',')} ${p1.join(',')} ${p2.join(',')}" fill="${col}"/>`}
+function drawMap(names,quiz){
+ const m=M(),svg=$('#map');let h=`<defs><clipPath id="lc"><path d="${G.land}"/></clipPath>
+ <pattern id="hd" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45) scale(${Math.max(.35,VB[2]/840)})"><line x1="0" y1="0" x2="0" y2="6" stroke="#333" stroke-width="1.1"/></pattern>
+ <pattern id="hv" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="scale(${Math.max(.35,VB[2]/840)})"><line x1="0" y1="0" x2="0" y2="5" stroke="#222" stroke-width="1"/></pattern></defs>
  <path id="landp" class="land" d="${G.land}"/><g clip-path="url(#lc)">`;
- for(const [id,,fill] of LAYERS){if(!mapOn[id])continue;for(const pl of R[id])h+=`<path d="${poly(pl)}" fill="${fill}" ${fill.startsWith('url')?'':'fill-opacity="'+(id==='b1453'?1:.85)+'"'} stroke="${fill.startsWith('url')?'none':'#b9862c'}" stroke-width=".5"/>`}
+ for(const [id,,fill,kind] of m.layers){if(kind==='route'||!mapOn(id))continue;for(const pl of m.regions[id]||[])h+=`<path d="${poly(pl)}" fill="${fill}" ${fill.startsWith('url')?'':'fill-opacity="'+(kind==='solid'?1:.85)+'"'} stroke="${fill.startsWith('url')?'none':'#9a8a6a'}" stroke-width=".6" vector-effect="non-scaling-stroke"/>`}
  h+='</g>';
- h+=`<path d="${G.rivers}" fill="none" stroke="#4f8fb8" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>`;
- for(const [t,lo,la,rot] of RIVL){const [x,y]=prj(lo,la);h+=`<text data-fs="9" x="${x}" y="${y}" transform="rotate(${rot||0} ${x} ${y})" text-anchor="middle" style="font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
- for(const [t,lo,la] of PEOPLES){const [x,y]=prj(lo,la);h+=`<text data-fs="10" x="${x}" y="${y}" text-anchor="middle" style="font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
- for(const [t,lo,la] of ISLES){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-style:italic;fill:#335;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
- for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle data-r="3.6" cx="${x}" cy="${y}" r="3.6"/>${names?`<text data-fs="11" data-dx="5" data-dy="-4" data-x="${x}" data-y="${y}" x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
+ h+=`<path d="${G.rivers}" fill="none" stroke="#4f8fb8" stroke-width="1" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>`;
+ for(const [t,lo,la,rot] of m.rivl||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9" x="${x}" y="${y}" transform="rotate(${rot||0} ${x} ${y})" text-anchor="middle" style="font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
+ for(const [id,name,col,kind] of m.layers){if(kind!=='route'||!mapOn(id))continue;for(const r of m.regions[id]||[]){const pl=r.pts||r;h+=`<path d="${line(pl)}" fill="none" stroke="${col}" stroke-width="2.4" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" ${r.dash?'stroke-dasharray="6 4"':''}/>`+(r.noarrow?'':arrowHead(pl,col));
+   if(r.label){const [x,y]=prj(...(r.lab||pl[Math.floor(pl.length/2)]));h+=`<text data-fs="10" x="${x}" y="${y-4}" text-anchor="middle" style="font-weight:800;fill:${col};paint-order:stroke;stroke:#fff;stroke-width:3px">${r.label}</text>`}}}
+ if(!quiz)for(const [t,lo,la] of m.klabels||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-weight:800;fill:#3b3b3b;paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:2.5px">${t}</text>`}
+ for(const [t,lo,la] of m.peoples||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="10" x="${x}" y="${y}" text-anchor="middle" style="font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
+ for(const [t,lo,la] of m.isles||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-style:italic;fill:#335;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
+ for(const [n,c] of Object.entries(m.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle data-r="3.6" cx="${x}" cy="${y}" r="3.6"/>${names?`<text data-fs="11" data-dx="5" data-dy="-4" data-x="${x}" data-y="${y}" x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
  h+='<g id="mfx"></g>';svg.innerHTML=h;svg.onclick=null;initZoom();
 }
 let MV=null,MVdrag={moved:0};const zk=()=>MV?MV.w/VB[2]:1;
-function applyView(){const svg=$('#map');if(!svg||!MV)return;svg.setAttribute('viewBox',`${MV.x} ${MV.y} ${MV.w} ${MV.h}`);const k=MV.w/VB[2];
+function applyView(){const svg=$('#map');if(!svg||!MV)return;svg.setAttribute('viewBox',`${MV.x} ${MV.y} ${MV.w} ${MV.h}`);const k=MV.w/VB[2]*(VB[2]/840);
  svg.querySelectorAll('[data-fs]').forEach(t=>{t.style.fontSize=(+t.dataset.fs*k)+'px';t.style.strokeWidth=(3*k)+'px';if(t.dataset.dx){t.setAttribute('x',+t.dataset.x+5*k);t.setAttribute('y',+t.dataset.y-4*k)}});
  svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',+c.dataset.r*k));svg.querySelectorAll('.city circle').forEach(c=>c.style.strokeWidth=1.2*k);svg.style.touchAction=MV.w<VB[2]-0.5?'none':'pan-y'}
 function zoomAt(f,cx,cy){const nw=Math.max(VB[2]/8,Math.min(VB[2],MV.w*f));const k=nw/MV.w;MV.x=cx-(cx-MV.x)*k;MV.y=cy-(cy-MV.y)*k;MV.w=nw;MV.h*=k;clampView();applyView()}
@@ -289,21 +279,23 @@ function initZoom(){const svg=$('#map');if(!MV)MV={x:VB[0],y:VB[1],w:VB[2],h:VB[
  svg.onwheel=e=>{e.preventDefault();const r=svg.getBoundingClientRect(),upp=MV.w/r.width;zoomAt(e.deltaY>0?1.2:1/1.2,MV.x+(e.clientX-r.left)*upp,MV.y+(e.clientY-r.top)*upp)};
 }
 function svgPt(e){const svg=$('#map');const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());return[p.x,p.y]}
-function nearestCity(p){let best=null,bd=1e9;for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=n}}return[best,bd]}
-function cityOk(p,n){const [nn,d]=nearestCity(p);return nn===n&&d<30}
+function nearestCity(p){let best=null,bd=1e9;for(const [n,c] of Object.entries(M().cities)){const [x,y]=prj(c[0],c[1]);const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=n}}return[best,bd]}
+function cityOk(p,n){const [nn,d]=nearestCity(p);return nn===n&&d<30*VB[2]/840}
+const ring=(x,y,ok,n)=>{const k=zk()*VB[2]/840;return `<circle cx="${x}" cy="${y}" r="${13*k}" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="${3*k}"/><text x="${x+8*k}" y="${y-8*k}" style="font-size:${12*k}px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:${3*k}px">${n}</text>`};
+const dot=(p,ok,r=6)=>{const k=zk()*VB[2]/840;return `<circle cx="${p[0]}" cy="${p[1]}" r="${r*k}" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="${2*k}"/>`};
 function askCity(){
- const names=Object.keys(D.cities);let n;do{n=names[Math.floor(Math.random()*names.length)]}while(mapQ&&n===mapQ.n&&names.length>1);
- mapQ={n,done:false};drawMap(false);$('#mapinfo').innerHTML=`<span class="q">Toca: ${n}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
- $('#map').onclick=e=>{if(MVdrag.moved>6||mapQ.done)return;mapQ.done=true;const p=svgPt(e);const c=D.cities[n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,n);mapStats.n++;if(ok)mapStats.ok++;
-  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="${13*zk()}" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="${3*zk()}"/><text x="${x+8*zk()}" y="${y-8*zk()}" style="font-size:${12*zk()}px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:${3*zk()}px">${n}</text>${ok?'':`<circle cx="${p[0]}" cy="${p[1]}" r="${4*zk()}" fill="#d1432f"/>`}`;
+ const names=Object.keys(M().cities);let n;do{n=names[Math.floor(Math.random()*names.length)]}while(mapQ&&n===mapQ.n&&names.length>1);
+ mapQ={n,done:false};MV=null;drawMap(false);$('#mapinfo').innerHTML=`<span class="q">Toca: ${n}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
+ $('#map').onclick=e=>{if(MVdrag.moved>6||mapQ.done)return;mapQ.done=true;const p=svgPt(e);const c=M().cities[n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,n);mapStats.n++;if(ok)mapStats.ok++;
+  $('#mfx').innerHTML=ring(x,y,ok,n)+(ok?'':dot(p,false,4));
   $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'Aquí no.'}</span> ${n}: ${c[2]}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
   $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}$('#mn').onclick=askCity}
 }
 function askTerr(){
- let q;do{q=TERRQ[Math.floor(Math.random()*TERRQ.length)]}while(mapQ&&mapQ.t===q&&TERRQ.length>1);
- mapQ={t:q,done:false};drawMap(true);$('#mapinfo').innerHTML=`<span class="q">${q.q}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
+ const T=M().terrq;let q;do{q=T[Math.floor(Math.random()*T.length)]}while(mapQ&&mapQ.t===q&&T.length>1);
+ mapQ={t:q,done:false};MV=null;drawMap(true,true);$('#mapinfo').innerHTML=`<span class="q">${q.q}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
  $('#map').onclick=e=>{if(MVdrag.moved>6||mapQ.done)return;mapQ.done=true;const p=svgPt(e);const ok=terrHit(p,q);mapStats.n++;if(ok)mapStats.ok++;
-  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="${6*zk()}" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="${2*zk()}"/>`;
+  $('#mfx').innerHTML=dot(p,ok);
   $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'No.'}</span> Respuesta: ${q.a}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
   $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}$('#mn').onclick=askTerr}
 }
@@ -313,9 +305,9 @@ let pyrSel=null,pyrPlace={};
 function pyr(){
  const L=D.pyramid.levels;const items=D.pyramid.items;
  const pool=items.filter(it=>pyrPlace[it[0]]==null);
- $('#main').innerHTML=`<div class="card"><h2>🔺 La pirámide social bizantina</h2><p class="muted">Toca un grupo y después el escalón donde va. Pirámide del resumen del profesor. Por encima de todos estaba el emperador (basileus).</p><div class="ru">Нажми на группу, потом на уровень пирамиды.</div>
+ $('#main').innerHTML=`<div class="card"><h2>🔺 ${D.pyramid.title}</h2><p class="muted">Toca un grupo y después el escalón donde va. ${D.pyramid.note}</p><div class="ru">Нажми на группу, потом на уровень пирамиды.</div>
  <div class="pool">${shuffle(pool).map(it=>`<button class="tag ${pyrSel===it[0]?'sel':''}" data-t="${esc(it[0])}">${it[0]}</button>`).join('')||'<span class="muted">Todos colocados</span>'}</div>
- <div class="pyr"><div style="justify-self:center;background:#5e35b1;color:#fff;border-radius:10px;padding:4px 12px;font-weight:800;font-size:.85rem">👑 Basileus (por encima de todos)</div>${L.map((l,i)=>`<div class="lvl" data-l="${i}" style="width:${50+i*22}%;justify-self:center"><h4>${l}</h4><div class="in">${items.filter(it=>pyrPlace[it[0]]===i).map(it=>`<span class="tag" data-back="${esc(it[0])}">${it[0]}</span>`).join('')}</div></div>`).join('')}</div>
+ <div class="pyr">${D.pyramid.apex?`<div style="justify-self:center;background:var(--biz);color:#fff;border-radius:10px;padding:4px 12px;font-weight:800;font-size:.85rem">👑 ${D.pyramid.apex}</div>`:''}${L.map((l,i)=>`<div class="lvl" data-l="${i}" style="width:${Math.min(100,50+i*(50/Math.max(1,L.length-1)))}%;justify-self:center"><h4>${l}</h4><div class="in">${items.filter(it=>pyrPlace[it[0]]===i).map(it=>`<span class="tag" data-back="${esc(it[0])}">${it[0]}</span>`).join('')}</div></div>`).join('')}</div>
  <div class="row"><button class="btn" id="pc" ${pool.length?'disabled':''}>Comprobar</button><button class="btn ghost" id="pr">Empezar de nuevo</button><button class="btn ghost" id="ps">Ver solución</button></div><p class="fb" id="pf"></p></div>`+nextBtn('cards','Siguiente: tarjetas');
  $('#main').querySelectorAll('.pool .tag').forEach(b=>b.onclick=()=>{pyrSel=b.dataset.t;pyr()});
  $('#main').querySelectorAll('.lvl').forEach(d=>d.onclick=e=>{const back=e.target.closest('[data-back]');if(back){delete pyrPlace[back.dataset.back];pyr();return}if(pyrSel){pyrPlace[pyrSel]=+d.dataset.l;pyrSel=null;pyr()}});
@@ -392,8 +384,8 @@ function buildExam(){
  shuffle(D.quiz).slice(0,11).forEach(q=>it.push({t:'mc',q:q.q,a:q.a,o:shuffle([q.a,...q.w]),e:q.e}));
  shuffle(D.tf).slice(0,4).forEach(q=>it.push({t:'mc',q:'Verdadero o falso: '+q[0],a:q[1]?'Verdadero':'Falso',o:['Verdadero','Falso'],e:q[2]}));
  shuffle(D.timeline.filter(t=>D.tlcore.includes(t[0]))).slice(0,2).forEach(t=>it.push({t:'yr',q:t[1],a:t[0]}));
- const cn=shuffle(Object.keys(D.cities))[0];it.push({t:'map',q:'Localiza en el mapa: '+cn,n:cn});const tq=TERRQ[Math.floor(Math.random()*TERRQ.length)];it.push({t:'terr',q:tq.q,tq});
- const pi=D.pyramid.items[Math.floor(Math.random()*D.pyramid.items.length)];it.push({t:'mc',q:`¿En qué escalón de la pirámide estaban «${pi[0]}»?`,a:D.pyramid.levels[pi[1]],o:D.pyramid.levels.slice(),e:'Pirámide del resumen del profesor.'});
+ {const mi=Math.floor(Math.random()*D.maps.length);const cn=shuffle(Object.keys(D.maps[mi].cities))[0];it.push({t:'map',q:'Localiza en el mapa: '+cn,n:cn,mi})}{const mi=Math.floor(Math.random()*D.maps.length);const T=D.maps[mi].terrq;const tq=T[Math.floor(Math.random()*T.length)];it.push({t:'terr',q:tq.q,tq,mi})}
+ const pi=D.pyramid.items[Math.floor(Math.random()*D.pyramid.items.length)];it.push({t:'mc',q:`¿En qué escalón de la pirámide estaban «${pi[0]}»?`,a:D.pyramid.levels[pi[1]],o:D.pyramid.levels.slice(),e:D.pyramid.src});
  return{items:shuffle(it),k:0,ok:0,wrong:[]};
 }
 function examQ(){
@@ -401,22 +393,22 @@ function examQ(){
  const q=E.items[E.k];let body='';
  if(q.t==='mc')body=`<div class="opts">${q.o.map(o=>`<button data-o="${esc(o)}">${o}</button>`).join('')}</div>`;
  if(q.t==='yr')body=`<p class="muted">¿En qué año?</p><div class="row"><input class="yr" id="ey" inputmode="numeric" maxlength="4"><button class="btn" id="eyc">Responder</button></div>`;
- if(q.t==='map'||q.t==='terr')body=`<div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg><div class="zb"><button data-z="in" aria-label="acercar">+</button><button data-z="out" aria-label="alejar">−</button><button data-z="fit" aria-label="ver todo">⤢</button></div></div>`;
+ if(q.t==='map'||q.t==='terr'){setMap(q.mi);body=`<div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg>${ZB}</div>`}
  $('#main').innerHTML=`<div class="card"><p class="score">Pregunta ${E.k+1} / ${E.items.length} · aciertos ${E.ok}</p><div class="prog"><i style="width:${E.k/E.items.length*100}%"></i></div><p class="q">${q.q}</p>${body}<div id="ef"></div></div>`;
  const fin=(ok,msg)=>{if(ok)E.ok++;else E.wrong.push({q:q.q,a:msg});$('#ef').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'Incorrecto. Respuesta: '+msg}</p>${q.e&&!ok?`<p class="expl">${q.e}</p>`:''}<div class="row"><button class="btn" id="en">${E.k+1<E.items.length?'Siguiente':'Ver nota'}</button></div>`;$('#en').onclick=()=>{E.k++;examQ()};$('#en').focus()};
  if(q.t==='mc')$('#main').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const ok=b.dataset.o===q.a;$('#main').querySelectorAll('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add('ok')});if(!ok)b.classList.add('bad');fin(ok,q.a)});
  if(q.t==='yr'){const go_=()=>{const v=+$('#ey').value;if(!v)return;$('#eyc').disabled=true;$('#ey').disabled=true;fin(v===q.a,String(q.a))};$('#eyc').onclick=go_;$('#ey').onkeydown=e=>{if(e.key==='Enter')go_()};$('#ey').focus()}
- if(q.t==='map'){mapQ=null;MV=null;drawMap(false);let done=false;$('#map').onclick=e=>{if(MVdrag.moved>6||done)return;done=true;const p=svgPt(e);const c=D.cities[q.n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,q.n);
-  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="${13*zk()}" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="${3*zk()}"/><text x="${x+8*zk()}" y="${y-8*zk()}" style="font-size:${12*zk()}px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:${3*zk()}px">${q.n}</text>`;fin(ok,q.n+' (marcada en el mapa)')}}
- if(q.t==='terr'){mapQ=null;MV=null;drawMap(true);let done=false;$('#map').onclick=e=>{if(MVdrag.moved>6||done)return;done=true;const p=svgPt(e);const ok=terrHit(p,q.tq);
-  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="${6*zk()}" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="${2*zk()}"/>`;fin(ok,q.tq.a)}}
+ if(q.t==='map'){mapQ=null;drawMap(false);let done=false;$('#map').onclick=e=>{if(MVdrag.moved>6||done)return;done=true;const p=svgPt(e);const c=M().cities[q.n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,q.n);
+  $('#mfx').innerHTML=ring(x,y,ok,q.n);fin(ok,q.n+' (marcada en el mapa)')}}
+ if(q.t==='terr'){mapQ=null;drawMap(true,true);let done=false;$('#map').onclick=e=>{if(MVdrag.moved>6||done)return;done=true;const p=svgPt(e);const ok=terrHit(p,q.tq);
+  $('#mfx').innerHTML=dot(p,ok);fin(ok,q.tq.a)}}
 }
 function examEnd(){
  const n=E.items.length,g=Math.round(E.ok/n*100)/10;if(P.best==null||g>P.best)P.best=g;save();
- const msg=g>=9?'¡Sobresaliente! Estás lista. 🎉':g>=7?'¡Notable! Repasa los errores y repite.':g>=5?'Aprobado. Repasa las tarjetas y el test de los temas con errores.':'Todavía no. Vuelve a «Aprender» y al test por temas.';
+ const msg=g>=9?'¡Sobresaliente! 🎉':g>=7?'¡Notable! Repasa los errores y repite.':g>=5?'Aprobado. Repasa las tarjetas y el test de los temas con errores.':'Todavía no. Vuelve a «Aprender» y al test por temas.';
  $('#main').innerHTML=`<div class="card"><h2>Resultado</h2><div class="big">${g.toLocaleString('es')} / 10</div><p>${E.ok} de ${n} correctas. ${msg}</p>
  ${E.wrong.length?`<h3>Para repasar</h3><ul class="res">${E.wrong.map(w=>`<li>${w.q}<br><b style="color:var(--ok)">→ ${w.a}</b></li>`).join('')}</ul>`:''}
- <div class="row"><button class="btn" id="er">Otro examen</button><a class="btn ghost" href="pdf/chuleta-bizantinos.pdf" download style="text-decoration:none">📄 Chuleta PDF</a></div></div>`;
+ <div class="row"><button class="btn" id="er">Otro examen</button></div></div>`;
  $('#er').onclick=()=>{E=buildExam();examQ()};
 }
 

@@ -1,4 +1,4 @@
-# Содержание тренажёра «El Imperio bizantino». Источники: учебник (Tema 1, p. 22–25), резюме учителя (п. 9–16), лист заданий.
+# Тренажёр «El Imperio bizantino» (тема 1, часть 2). Источники: учебник (Tema 1, p. 22–25), резюме учителя (п. 9–16), лист заданий.
 
 SECTIONS = [
  {"id": "origen", "t": "1. Origen del Imperio bizantino", "tr": "Происхождение Византийской империи",
@@ -297,3 +297,46 @@ OPEN = [
   "a": "Tras Justiniano el Imperio adoptó elementos griegos: el griego sustituyó al latín. Por su situación y su comercio recibió influencias de Occidente, del islam y de Asia y fue el centro cultural del Mediterráneo. Su arte era suntuoso: iglesias con planta de cruz griega cubierta con cúpula, como Santa Sofía, y otras como San Vital y San Apolinar in Classe en Rávena. Eran sobrias por fuera y por dentro se decoraban con mosaicos de teselas e iconos, con figuras rígidas, frontales y sin volumen sobre fondo dorado y colores vivos.",
   "k": ["griego en vez de latín", "centro cultural del Mediterráneo", "suntuoso", "cruz griega y cúpula", "Santa Sofía / Rávena", "mosaicos e iconos, fondo dorado"]},
 ]
+
+META = {
+ "title": "Bizancio — preparar la prueba", "h1": "⛪ El Imperio bizantino",
+ "sub": "Tema 1 · parte 2 · aprender → repasar → examen", "lsp": "h1_biz_",
+ "footer": "Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: dibujado según el mapa 18 del libro (p. 23), territorios aproximados; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector).",
+}
+TOPICS = {"origen": "Origen", "gobierno": "Gobierno", "justiniano": "Justiniano", "territorios": "Territorios y declive", "sociedad": "Sociedad y ciudades",
+          "constantinopla": "Constantinopla", "religion": "Religión", "arte": "Cultura y arte", "economia": "Economía"}
+PYRAMID.update({"title": "La pirámide social bizantina", "apex": "Basileus (por encima de todos)",
+                "note": "Pirámide del resumen del profesor. Por encima de todos estaba el emperador (basileus).", "src": "Pirámide del resumen del profesor."})
+
+_ES = [[[-6.4,36],[-6,36.8],[-4.8,37.3],[-3.5,37.4],[-1.8,38],[-0.6,38.2],[0.3,38.5],[-0.4,37.4],[-1,36.5],[-5,35.95]],[[1,38.5],[4.6,39.6],[4.6,40.2],[2.5,40.2],[1,39.3]]]
+MAPS = [{
+ "id": "biz", "tab": "Imperio bizantino", "title": "La expansión del Imperio bizantino", "sub": "Como el mapa 18 del libro (p. 23).",
+ "vb": [55, 250, 840, 390],
+ "layers": [["conq", "Conquistas de Justiniano", "#f7d58a"], ["o527", "Imperio romano de Oriente a la llegada de Justiniano (527)", "#e8a33d"],
+            ["b1025", "Imperio bizantino en 1025", "url(#hd)"], ["b1204", "Imperio bizantino en 1204", "url(#hv)"], ["b1453", "Imperio bizantino en 1453", "#d32f2f", "solid"]],
+ "regions": {
+  "o527": [[[19.2,45],[21,44.7],[22.6,44.6],[25,43.7],[27.5,44.1],[28.7,44.8],[29.7,45.2],[31,43.5],[36,42.6],[41.5,41.7],[42,40],[40.5,37.5],[39.5,36.2],[38.5,34.5],[37.3,32.5],[35.5,29.6],[34.5,29],[33,27],[31,26],[30,26],[29,29.5],[26,30.5],[25,30.5],[20,30],[19,30.5],[19.6,33],[20,36.5],[19.2,39.5]]],
+  "conq": [[[7.9,38.8],[7.9,41.4],[8.6,43.1],[9.6,43.3],[7.6,44.1],[7,45.9],[10,46.6],[13.6,46.6],[15.5,45.3],[17.5,44.2],[19.2,43],[19.2,39.5],[18.6,39.6],[16.3,37.4],[12.3,36.3],[11,37.5]],
+           [[-6.2,36.2],[-6.2,35.4],[-4,35],[-1,35.2],[2,35.9],[5,36.2],[8,35.8],[9,34.5],[10,33.3],[12,32.3],[15,31],[19,30.3],[19.6,33],[15,33.6],[11.6,36.9],[11,37.6],[6,37.6],[0,37.2],[-3.5,36.4]]] + _ES,
+  "b1025": [[[19.2,44.9],[22.5,44.6],[25,43.7],[27.5,44.1],[29.7,45.3],[31,43.5],[36,42.6],[41.8,42.5],[44.5,41.2],[44,39.5],[41,38],[39.5,37],[37.5,36],[36.5,35.2],[35.2,34.4],[32,34.4],[26.5,34.7],[23.3,34.7],[22.5,36],[20.5,37],[19.2,39.8],[19.2,42]],
+            [[14.9,42],[16.5,42.3],[19,40.5],[17,38.5],[16.3,37.7],[15.7,38.25],[15.6,39.5],[14.9,40.5]]],
+  "b1204": [[[19.4,42.2],[21.5,42.3],[23,41.8],[25.5,42],[27.5,42.3],[28.2,41.6],[29,41.2],[29,40.3],[26.5,39.5],[26.5,34.8],[23.3,34.8],[22.3,36.3],[20.6,37.3],[19.4,39.8]],
+            [[28.9,41.3],[31,41.3],[35,42.2],[41.5,41.7],[41.5,40.7],[36,40.6],[33,40.2],[31,39.3],[30,37.5],[29.5,36.3],[28,36],[26,37],[26,39.8],[26.2,40.5]]],
+  "b1453": [[[28.4,41.35],[29.3,41.35],[29.3,40.85],[28.4,40.85]]],
+  "es": _ES + [[[-5.6,36.05],[-5,36.05],[-5,35.75],[-5.6,35.75]]],
+ },
+ "peoples": [["FRANCOS",2.5,47],["SUEVOS",-8.4,42.6],["VASCONES",-2.6,43.1],["VISIGODOS",-4.5,40],["BURGUNDIOS",5.6,46.2],["LOMBARDOS",16.2,47],["GÉPIDOS",21.5,46.3],["ESLAVOS",26.5,46.3],["BÚLGAROS",35,46.6],["ÁVAROS",43,46.6],["PERSAS",45,36.5],["BEREBERES",-2.5,33.6]],
+ "rivl": [["Río Danubio",23.5,43.3,-8],["Río Nilo",31.7,28.6,70],["Río Tigris",44.6,34.6,55],["Río Éufrates",41.2,34.8,30]],
+ "isles": [["Córcega",9.6,42.6],["Cerdeña",10,40.3],["Sicilia",14.4,37.75],["Is. Baleares",1.8,38.7],["Creta",24.8,34.7],["Chipre",33.2,34.6]],
+ "legnote": "MAYÚSCULAS = pueblos (siglo VI)",
+ "cities": CITIES,
+ "terrq": [
+  {"q": "Toca un territorio que conquistó Justiniano", "in": ["conq"], "notin": ["o527"], "a": "las zonas amarillo claro: Italia, norte de África, islas, sur de Hispania y Ceuta"},
+  {"q": "Toca un territorio del Imperio a la llegada de Justiniano (527)", "in": ["o527"], "a": "naranja: Grecia, Balcanes, Asia Menor, Siria, Palestina y Egipto"},
+  {"q": "Toca un territorio actual de España que fue bizantino", "in": ["es"], "a": "costa sur y sureste (Málaga, Cartagena), Baleares y Ceuta"},
+  {"q": "Toca un territorio que seguía siendo bizantino en 1025", "in": ["b1025"], "a": "rayado en diagonal: Balcanes, Grecia, Asia Menor y sur de Italia"},
+  {"q": "Toca lo que quedaba del Imperio en 1453", "in": ["b1453"], "near": [28.98, 41.01, 14], "a": "solo Constantinopla (en rojo)"},
+ ],
+ "info": "<b>527:</b> Grecia, Balcanes, Asia Menor, Siria, Palestina y Egipto. <b>Justiniano conquista:</b> norte de África, Italia, Sicilia, Cerdeña, Córcega, Baleares, sur de Hispania (Málaga, Cartagena) y Ceuta. <b>1025:</b> Balcanes, Grecia, Asia Menor y sur de Italia. <b>1204:</b> Grecia, Tracia y oeste de Asia Menor. <b>1453:</b> solo Constantinopla.",
+ "ru": "Как на карте 18 учебника (с. 23): оранжевый — империя в 527 г.; светло-жёлтый — завоевания Юстиниана; диагональная штриховка — 1025 г.; вертикальная — 1204 г.; красный — 1453 г. (только Константинополь).",
+}]
