@@ -226,7 +226,7 @@ function terrHit(p,tq){ // допуск ~10 экранных пикселей: �
  return pts.some(([dx,dy])=>{const q=[p[0]+dx,p[1]+dy];return onLand(q)&&tqOk(tq,q)})}
 function onLand(pt){try{const l=$('#landp');const q=$('#map').createSVGPoint();q.x=pt[0];q.y=pt[1];return l.isPointInFill(q)}catch(e){return true}}
 const ZB='<div class="zb"><button data-z="in" aria-label="acercar">+</button><button data-z="out" aria-label="alejar">−</button><button data-z="fit" aria-label="ver todo">⤢</button></div>';
-const swatch=l=>l[3]==='route'?`<i style="background:none;border:0;border-top:3px solid ${l[2]};border-radius:0;height:0;width:18px;vertical-align:4px"></i>`:`<i style="background:${l[2].startsWith('url')?'repeating-linear-gradient('+(l[2]==='url(#hv)'?'90deg':'45deg')+',#333 0 1px,#fff 1px 5px)':l[2]};border:1px solid #999"></i>`;
+const swatch=l=>l[3]==='route'?`<i style="background:none;border:0;border-top:3px solid ${l[2]};border-radius:0;height:0;width:18px;vertical-align:4px"></i>`:`<i style="background:${l[2].startsWith('url')?'repeating-linear-gradient('+(l[2]==='url(#hv)'?'90deg':'135deg')+',#333 0 1px,#fff 1px 5px)':l[2]};border:1px solid #999"></i>`;
 function map(){
  const m=M();
  $('#main').innerHTML=`<div class="card">${D.maps.length>1?`<div class="chips">${D.maps.map((x,i)=>`<button class="chip" data-mi="${i}" aria-pressed="${i===MI}">${x.tab}</button>`).join('')}</div>`:''}<h2>🗺 ${m.title}</h2><p class="muted">${m.sub} Activa o quita capas en la leyenda. Después practica con «Ciudades» y «Territorios».</p>
