@@ -80,6 +80,7 @@ input.yr{width:110px;font-size:1.2rem;padding:8px 10px;border-radius:12px;border
 /* map */
 .mapwrap{position:relative;border-radius:16px;overflow:hidden;background:#cfe1e8;border:1.5px solid var(--line);touch-action:manipulation}
 svg#map{display:block;width:100%;height:auto;cursor:crosshair}
+@media(max-width:640px){.mapwrap{margin:0 -31px;border-radius:0;border-left:0;border-right:0}}
 .land{fill:#f3eee0;stroke:#c9bfa6;stroke-width:.6;vector-effect:non-scaling-stroke}
 .biz{fill:#7e57c2;fill-opacity:.42;stroke:#5e35b1;stroke-width:1}
 .oto{fill:#00897b;fill-opacity:.35;stroke:#00695c;stroke-width:1}
@@ -263,21 +264,27 @@ function drawMap(names,quiz){
  h+='<g id="mfx"></g>';svg.innerHTML=h;svg.onclick=null;initZoom();
 }
 let MV=null,MVdrag={moved:0};const zk=()=>MV?MV.w/VB[2]:1;
-function applyView(){const svg=$('#map');if(!svg||!MV)return;svg.setAttribute('viewBox',`${MV.x} ${MV.y} ${MV.w} ${MV.h}`);const k=MV.w/VB[2]*(VB[2]/840);
+// on phones the map box is taller than the map's own shape: show the centre and pan sideways
+function mapAsp(){const svg=$('#map');const w=svg?svg.parentNode.clientWidth:900;return w<640?Math.max(VB[3]/VB[2],0.62):VB[3]/VB[2]}
+function fitView(){const a=mapAsp();let h=VB[3],w=h/a;if(w>VB[2]){w=VB[2];h=w*a}
+ const cx=M().cx!=null?prj(M().cx,0)[0]:VB[0]+VB[2]/2;return{x:Math.max(VB[0],Math.min(VB[0]+VB[2]-w,cx-w/2)),y:VB[1],w,h}}
+function allView(){const a=mapAsp(),w=VB[2],h=w*a;return{x:VB[0],y:VB[1]+(VB[3]-h)/2,w,h}}
+function applyView(){const svg=$('#map');if(!svg||!MV)return;svg.style.aspectRatio=`${MV.w} / ${MV.h}`;svg.setAttribute('viewBox',`${MV.x} ${MV.y} ${MV.w} ${MV.h}`);const k=MV.w/VB[2]*(VB[2]/840);
  svg.querySelectorAll('[data-fs]').forEach(t=>{t.style.fontSize=(+t.dataset.fs*k)+'px';t.style.strokeWidth=(3*k)+'px';if(t.dataset.dx){t.setAttribute('x',+t.dataset.x+5*k);t.setAttribute('y',+t.dataset.y-4*k)}});
- svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',+c.dataset.r*k));svg.querySelectorAll('.city circle').forEach(c=>c.style.strokeWidth=1.2*k);svg.style.touchAction=MV.w<VB[2]-0.5?'none':'pan-y'}
+ svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',+c.dataset.r*k));svg.querySelectorAll('.city circle').forEach(c=>c.style.strokeWidth=1.2*k);svg.style.touchAction=MV.w<fitView().w-0.5?'none':'pan-y'}
 function zoomAt(f,cx,cy){const nw=Math.max(VB[2]/8,Math.min(VB[2],MV.w*f));const k=nw/MV.w;MV.x=cx-(cx-MV.x)*k;MV.y=cy-(cy-MV.y)*k;MV.w=nw;MV.h*=k;clampView();applyView()}
-function clampView(){MV.x=Math.max(VB[0],Math.min(VB[0]+VB[2]-MV.w,MV.x));MV.y=Math.max(VB[1],Math.min(VB[1]+VB[3]-MV.h,MV.y))}
-function initZoom(){const svg=$('#map');if(!MV)MV={x:VB[0],y:VB[1],w:VB[2],h:VB[3]};applyView();
- const wrap=svg.parentNode;const zb=wrap.querySelector('.zb');if(zb)zb.onclick=e=>{const z=e.target.dataset.z;if(!z)return;e.stopPropagation();if(z==='fit'){MV={x:VB[0],y:VB[1],w:VB[2],h:VB[3]};applyView()}else zoomAt(z==='in'?1/1.6:1.6,MV.x+MV.w/2,MV.y+MV.h/2)};
+function clampView(){const cl=(v,a,L,l)=>l>=L?a+(L-l)/2:Math.max(a,Math.min(a+L-l,v));MV.x=cl(MV.x,VB[0],VB[2],MV.w);MV.y=cl(MV.y,VB[1],VB[3],MV.h)}
+function initZoom(){const svg=$('#map');if(!MV)MV=fitView();applyView();
+ const wrap=svg.parentNode;const zb=wrap.querySelector('.zb');if(zb)zb.onclick=e=>{const z=e.target.dataset.z;if(!z)return;e.stopPropagation();if(z==='fit'){const f=fitView();MV=(Math.abs(MV.w-f.w)<1&&Math.abs(MV.x-f.x)<1&&f.w<VB[2]-1)?allView():f;applyView()}else zoomAt(z==='in'?1/1.6:1.6,MV.x+MV.w/2,MV.y+MV.h/2)};
  const ptrs=new Map();let last=null,pinch=null;
  svg.onpointerdown=e=>{ptrs.set(e.pointerId,[e.clientX,e.clientY]);MVdrag.moved=0;last=[e.clientX,e.clientY];if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch=Math.hypot(a[0]-b[0],a[1]-b[1]);MVdrag.moved=99}};
  svg.onpointermove=e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,[e.clientX,e.clientY]);const r=svg.getBoundingClientRect(),upp=MV.w/r.width;
   if(ptrs.size===2&&pinch){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);const cx=MV.x+(((a[0]+b[0])/2)-r.left)*upp,cy=MV.y+(((a[1]+b[1])/2)-r.top)*upp;zoomAt(pinch/d,cx,cy);pinch=d;return}
-  if(MV.w>=VB[2]-0.5)return;const dx=e.clientX-last[0],dy=e.clientY-last[1];MVdrag.moved+=Math.abs(dx)+Math.abs(dy);if(MVdrag.moved>6){MV.x-=dx*upp;MV.y-=dy*upp;clampView();applyView()}last=[e.clientX,e.clientY]};
+  if(MV.w>=VB[2]-0.5&&MV.h>=VB[3]-0.5)return;const dx=e.clientX-last[0],dy=e.clientY-last[1];MVdrag.moved+=Math.abs(dx)+Math.abs(dy);if(MVdrag.moved>6){MV.x-=dx*upp;MV.y-=dy*upp;clampView();applyView()}last=[e.clientX,e.clientY]};
  const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};svg.onpointerup=up;svg.onpointercancel=up;
  svg.onwheel=e=>{e.preventDefault();const r=svg.getBoundingClientRect(),upp=MV.w/r.width;zoomAt(e.deltaY>0?1.2:1/1.2,MV.x+(e.clientX-r.left)*upp,MV.y+(e.clientY-r.top)*upp)};
 }
+window.addEventListener('resize',()=>{if($('#map')&&MV){const f=fitView();if(Math.abs(MV.w/MV.h-f.w/f.h)>0.01){MV=f;applyView()}}});
 function svgPt(e){const svg=$('#map');const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());return[p.x,p.y]}
 function nearestCity(p){let best=null,bd=1e9;for(const [n,c] of Object.entries(M().cities)){const [x,y]=prj(c[0],c[1]);const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=n}}return[best,bd]}
 function cityOk(p,n){const [nn,d]=nearestCity(p);return nn===n&&d<30*VB[2]/840}
