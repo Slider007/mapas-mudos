@@ -358,15 +358,15 @@ function quiz(){
 let Oi=0;
 function largas(){
  const o=D.open[Oi];const st=P.open[Oi];
- $('#main').innerHTML=`<div class="card"><h2>✍️ Preguntas largas (de desarrollo)</h2><p class="muted">Así suelen ser las preguntas del examen. Escribe tu respuesta (o dila en voz alta), mira la respuesta modelo y marca las ideas que incluiste.</p><div class="ru">Напиши ответ сама, потом открой образец и отметь, какие ключевые идеи у тебя были.</div>
+ $('#main').innerHTML=`<div class="card"><h2>✍️ Preguntas largas (de desarrollo)</h2><p class="muted">Así suelen ser las preguntas del examen. Escribe tu respuesta (o dila en voz alta), después abre el ejemplo de respuesta y marca las ideas que incluiste. En el cuaderno y en el examen, escribe siempre con tus propias palabras.</p><div class="ru">Сначала напиши ответ сам(а), потом открой пример ответа и отметь, какие ключевые идеи у тебя были. В тетради и на экзамене пиши своими словами.</div>
  <div class="chips">${D.open.map((x,i)=>`<button class="chip" data-i="${i}" aria-pressed="${i===Oi}">${i+1}${P.open[i]!=null?' ✓':''}</button>`).join('')}</div>
  <p class="q">${Oi+1}. ${o.q}</p><textarea id="ot" placeholder="Escribe aquí tu respuesta…">${esc(LS.get('ans'+Oi,''))}</textarea>
- <div class="row"><button class="btn" id="os">Ver respuesta modelo</button></div><div id="om"></div></div>`+nextBtn('exam','Siguiente: examen final');
+ <div class="row"><button class="btn" id="os">👀 Ver un ejemplo de respuesta</button></div><div id="om"></div></div>`+nextBtn('exam','Siguiente: examen final');
  $('#main').querySelector('.chips').onclick=e=>{const i=e.target.dataset.i;if(i!=null){Oi=+i;largas()}};
  $('#ot').oninput=e=>LS.set('ans'+Oi,e.target.value);
- const show=()=>{$('#om').innerHTML=`<div class="model"><b>Respuesta modelo:</b><p style="margin:6px 0 0">${o.a}</p></div><div class="kw" style="margin-top:10px"><b>¿Qué ideas clave has puesto?</b>${o.k.map((k,j)=>`<label><input type="checkbox" data-j="${j}"> ${k}</label>`).join('')}</div><div class="row"><button class="btn" id="og">Guardar y siguiente</button></div><p class="fb" id="okf"></p>`;
+ const show=()=>{$('#om').innerHTML=`<div class="model"><b>Un ejemplo de respuesta</b> <span class="muted">(no la copies: úsala para comprobar tus ideas)</span><p style="margin:6px 0 0">${o.a}</p></div><div class="kw" style="margin-top:10px"><b>¿Qué ideas clave has puesto?</b>${o.k.map((k,j)=>`<label><input type="checkbox" data-j="${j}"> ${k}</label>`).join('')}</div><div class="row"><button class="btn" id="og">Guardar y siguiente</button></div><p class="fb" id="okf"></p>`;
   $('#og').onclick=()=>{const n=$('#om').querySelectorAll('input:checked').length;P.open[Oi]=n;save();toast(`${n} / ${o.k.length} ideas clave`);Oi=(Oi+1)%D.open.length;largas()}};
- $('#os').onclick=show;
+ $('#os').onclick=()=>{if($('#om').innerHTML){$('#om').innerHTML='';$('#os').textContent='👀 Ver un ejemplo de respuesta'}else{show();$('#os').textContent='🙈 Ocultar el ejemplo'}};
 }
 
 /* -------- 8. exam -------- */
