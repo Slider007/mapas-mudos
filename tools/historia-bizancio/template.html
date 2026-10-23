@@ -131,7 +131,7 @@ footer{margin-top:20px;font-size:.75rem;color:var(--ink2)}
 <nav class="steps" id="steps"></nav>
 <div class="prog"><i id="pbar" style="width:0"></i></div>
 <main id="main"></main>
-<footer>Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: territorios aproximados según <a href="https://github.com/aourednik/historical-basemaps">historical-basemaps</a> (GPL-3.0) · Natural Earth.</footer>
+<footer>Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: dibujado según el mapa 18 del libro (p. 23), territorios aproximados; costas: Natural Earth.</footer>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -208,45 +208,84 @@ function tl(){
  }
 }
 
-/* -------- 3. map -------- */
+/* -------- 3. map (como el mapa 18 del libro, p. 23) -------- */
 const prj=(lon,lat)=>[(lon-G.LON0)*G.C*G.K,(G.LAT1-lat)*G.K];
-const VB=[55,250,840,390];// x,y,w,h (Mediterráneo)
-const SNAP=[['500','Hacia el 527: antes de Justiniano'],['600','Hacia el 600: tras las conquistas de Justiniano'],['1000','Hacia el 1025'],['1400','Siglo XV: solo Constantinopla']];
-let mapSnap='600',mapQ=null,mapStats={ok:0,n:0};
+const VB=[55,250,840,390];
+const R={ // polígonos aproximados en lon/lat; se recortan con la línea de costa
+ o527:[[[19.2,45],[21,44.7],[22.6,44.6],[25,43.7],[27.5,44.1],[28.7,44.8],[29.7,45.2],[31,43.5],[36,42.6],[41.5,41.7],[42,40],[40.5,37.5],[39.5,36.2],[38.5,34.5],[37.3,32.5],[35.5,29.6],[34.5,29],[33,27],[31,26],[30,26],[29,29.5],[26,30.5],[25,30.5],[20,30],[19,30.5],[19.6,33],[20,36.5],[19.2,39.5]]],
+ conq:[[[7.9,38.8],[7.9,41.4],[8.6,43.1],[9.6,43.3],[7.6,44.1],[7,45.9],[10,46.6],[13.6,46.6],[15.5,45.3],[17.5,44.2],[19.2,43],[19.2,39.5],[18.6,39.6],[16.3,37.4],[12.3,36.3],[11,37.5]],
+       [[-6.2,36.2],[-6.2,35.4],[-4,35],[-1,35.2],[2,35.9],[5,36.2],[8,35.8],[9,34.5],[10,33.3],[12,32.3],[15,31],[19,30.3],[19.6,33],[15,33.6],[11.6,36.9],[11,37.6],[6,37.6],[0,37.2],[-3.5,36.4]],
+       [[-6.4,36],[-6,36.8],[-4.8,37.3],[-3.5,37.4],[-1.8,38],[-0.6,38.2],[0.3,38.5],[-0.4,37.4],[-1,36.5],[-5,35.95]],
+       [[1,38.5],[4.6,39.6],[4.6,40.2],[2.5,40.2],[1,39.3]]],
+ b1025:[[[19.2,44.9],[22.5,44.6],[25,43.7],[27.5,44.1],[29.7,45.3],[31,43.5],[36,42.6],[41.8,42.5],[44.5,41.2],[44,39.5],[41,38],[39.5,37],[37.5,36],[36.5,35.2],[35.2,34.4],[32,34.4],[26.5,34.7],[23.3,34.7],[22.5,36],[20.5,37],[19.2,39.8],[19.2,42]],
+        [[14.9,42],[16.5,42.3],[19,40.5],[17,38.5],[16.3,37.7],[15.7,38.25],[15.6,39.5],[14.9,40.5]]],
+ b1204:[[[19.4,42.2],[21.5,42.3],[23,41.8],[25.5,42],[27.5,42.3],[28.2,41.6],[29,41.2],[29,40.3],[26.5,39.5],[26.5,34.8],[23.3,34.8],[22.3,36.3],[20.6,37.3],[19.4,39.8]],
+        [[28.9,41.3],[31,41.3],[35,42.2],[41.5,41.7],[41.5,40.7],[36,40.6],[33,40.2],[31,39.3],[30,37.5],[29.5,36.3],[28,36],[26,37],[26,39.8],[26.2,40.5]]],
+ b1453:[[[28.4,41.35],[29.3,41.35],[29.3,40.85],[28.4,40.85]]],
+ es:[[[-6.4,36],[-6,36.8],[-4.8,37.3],[-3.5,37.4],[-1.8,38],[-0.6,38.2],[0.3,38.5],[-0.4,37.4],[-1,36.5],[-5,35.95]],[[1,38.5],[4.6,39.6],[4.6,40.2],[2.5,40.2],[1,39.3]],[[-5.6,36.05],[-5,36.05],[-5,35.75],[-5.6,35.75]]],
+};
+const LAYERS=[['conq','Conquistas de Justiniano','#f7d58a'],['o527','Imperio romano de Oriente a la llegada de Justiniano (527)','#e8a33d'],['b1025','Imperio bizantino en 1025','url(#hd)'],['b1204','Imperio bizantino en 1204','url(#hv)'],['b1453','Imperio bizantino en 1453','#d32f2f']];
+const PEOPLES=[['FRANCOS',2.5,47],['SUEVOS',-8.4,42.6],['VASCONES',-2.6,43.1],['VISIGODOS',-4.5,40],['BURGUNDIOS',5.6,46.2],['LOMBARDOS',16.2,47],['GÉPIDOS',21.5,46.3],['ESLAVOS',26.5,46.3],['BÚLGAROS',35,46.6],['ÁVAROS',43,46.6],['PERSAS',45,36.5],['BEREBERES',-2.5,33.6]];
+const ISLES=[['Córcega',9.6,42.6],['Cerdeña',10,40.3],['Sicilia',14.4,37.75],['Is. Baleares',1.8,38.7],['Creta',24.8,34.7],['Chipre',33.2,34.6]];
+let mapOn=LS.get('maplayers',{conq:1,o527:1,b1025:1,b1204:1,b1453:1}),mapQ=null,mapStats={ok:0,n:0},mapMode='ver';
+const poly=pl=>'M'+pl.map(([lo,la])=>prj(lo,la).map(v=>v.toFixed(1)).join(',')).join('L')+'Z';
+const inPoly=(pt,pl)=>{let c=false;for(let i=0,j=pl.length-1;i<pl.length;j=i++){const [xi,yi]=prj(...pl[i]),[xj,yj]=prj(...pl[j]);if((yi>pt[1])!==(yj>pt[1])&&pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi)+xi)c=!c}return c};
+function terrHit(p,tq){ // допуск ~10 экранных пикселей: узкие полосы (юг Испании, Сеута) трудно попасть пальцем
+ const svg=$('#map');const upp=VB[2]/svg.getBoundingClientRect().width;const r=10*upp;
+ const pts=[[0,0]];for(let k=0;k<12;k++){const a=k*Math.PI/6;pts.push([Math.cos(a)*r,Math.sin(a)*r],[Math.cos(a)*r/2,Math.sin(a)*r/2],[Math.cos(a)*r/4,Math.sin(a)*r/4])}
+ return pts.some(([dx,dy])=>{const q=[p[0]+dx,p[1]+dy];return onLand(q)&&tq.ok(q)})}
+function onLand(pt){try{const l=$('#landp');const q=$('#map').createSVGPoint();q.x=pt[0];q.y=pt[1];return l.isPointInFill(q)}catch(e){return true}}
+const TERRQ=[
+ {q:'Toca un territorio que conquistó Justiniano',ok:p=>R.conq.some(pl=>inPoly(p,pl))&&!R.o527.some(pl=>inPoly(p,pl)),a:'las zonas amarillo claro: Italia, norte de África, islas, sur de Hispania y Ceuta'},
+ {q:'Toca un territorio del Imperio a la llegada de Justiniano (527)',ok:p=>R.o527.some(pl=>inPoly(p,pl)),a:'naranja: Grecia, Balcanes, Asia Menor, Siria, Palestina y Egipto'},
+ {q:'Toca un territorio actual de España que fue bizantino',ok:p=>R.es.some(pl=>inPoly(p,pl)),a:'costa sur y sureste (Málaga, Cartagena), Baleares y Ceuta'},
+ {q:'Toca un territorio que seguía siendo bizantino en 1025',ok:p=>R.b1025.some(pl=>inPoly(p,pl)),a:'rayado en diagonal: Balcanes, Grecia, Asia Menor y sur de Italia'},
+ {q:'Toca lo que quedaba del Imperio en 1453',ok:p=>R.b1453.some(pl=>inPoly(p,pl))||Math.hypot(p[0]-prj(28.98,41.01)[0],p[1]-prj(28.98,41.01)[1])<14,a:'solo Constantinopla (en rojo)'},
+];
 function map(){
- $('#main').innerHTML=`<div class="card"><h2>🗺 Mapa del Imperio bizantino</h2><p class="muted">Mira cómo cambia el territorio. Después, en «Localiza», toca la ciudad que se pide.</p>
- <div class="chips" id="snaps">${SNAP.map(s=>`<button class="chip" data-y="${s[0]}" aria-pressed="${mapSnap===s[0]}">${s[1]}</button>`).join('')}</div>
+ $('#main').innerHTML=`<div class="card"><h2>🗺 La expansión del Imperio bizantino</h2><p class="muted">Como el mapa 18 del libro (p. 23). Activa o quita capas en la leyenda. Después practica con «Ciudades» y «Territorios».</p>
  <div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg></div>
- <div class="leg"><span><i style="background:#7e57c2aa"></i>Imperio bizantino</span>${mapSnap==='1400'?'<span><i style="background:#00897b88"></i>Imperio otomano (turcos)</span>':''}</div>
- <div id="mapinfo" class="muted" style="margin-top:8px"></div>
- <div class="row"><button class="btn" id="mq">📍 Localiza ciudades</button><button class="btn ghost" id="mv">Ver nombres</button><span class="score" id="msc"></span></div>
- <div class="ru">Территории: в 527 г. — Греция, Балканы, Малая Азия, Сирия, Палестина, Египет. Юстиниан добавил Северную Африку, Италию, острова, юг Испании. В XV в. остался только Константинополь.</div></div>`+nextBtn('pyr','Siguiente: pirámide');
- drawMap(true);
- $('#snaps').onclick=e=>{const y=e.target.dataset.y;if(y){mapSnap=y;map()}};
- $('#mv').onclick=()=>{mapQ=null;drawMap(true);$('#mapinfo').textContent=''};
- $('#mq').onclick=()=>{mapStats={ok:0,n:0};askCity()};
- const info={'500':'Grecia, los Balcanes, Asia Menor (Anatolia), Siria, Palestina y Egipto.','600':'Además: norte de África, Italia (en parte, ya con los lombardos en el norte), islas y el sur de Hispania. Ojo: el mapa del libro (p. 23) marca las conquistas máximas de Justiniano: Italia entera, Baleares, Córcega, Cerdeña, Sicilia, sur de Hispania y Ceuta.','1000':'Se han perdido Egipto, Siria, Palestina, África, Italia (casi toda) e Hispania. Quedan Asia Menor y los Balcanes.','1400':'Los turcos lo han conquistado casi todo: solo queda Constantinopla y algo más. Cae en 1453.'};
- $('#mapinfo').innerHTML='<b>'+SNAP.find(s=>s[0]===mapSnap)[1]+':</b> '+info[mapSnap];
+ <div class="leg" id="leg">${LAYERS.map(l=>`<label style="cursor:pointer"><input type="checkbox" data-l="${l[0]}" ${mapOn[l[0]]?'checked':''}> <i style="background:${l[2].startsWith('url')?'repeating-linear-gradient('+(l[0]==='b1025'?'45deg':'90deg')+',#333 0 1px,#fff 1px 5px)':l[2]};border:1px solid #999"></i>${l[1]}</label>`).join('')}<span style="color:#777">MAYÚSCULAS = pueblos (siglo VI)</span></div>
+ <div id="mapinfo" style="margin-top:8px"></div>
+ <div class="row"><button class="btn" id="mqc">📍 Ciudades</button><button class="btn" id="mqt">🟧 Territorios</button><button class="btn ghost" id="mv">Ver el mapa</button><span class="score" id="msc"></span></div>
+ <div class="ru">Как на карте 18 учебника (с. 23): оранжевый — империя в 527 г.; светло-жёлтый — завоевания Юстиниана; диагональная штриховка — 1025 г.; вертикальная — 1204 г.; красный — 1453 г. (только Константинополь).</div></div>`+nextBtn('pyr','Siguiente: pirámide');
+ $('#leg').onchange=e=>{const l=e.target.dataset.l;if(l){mapOn[l]=e.target.checked?1:0;LS.set('maplayers',mapOn);drawMap(mapMode!=='city')}};
+ $('#mv').onclick=()=>{mapMode='ver';mapQ=null;drawMap(true);infoVer()};
+ $('#mqc').onclick=()=>{mapMode='city';mapStats={ok:0,n:0};askCity()};
+ $('#mqt').onclick=()=>{mapMode='terr';mapStats={ok:0,n:0};askTerr()};
+ mapMode='ver';drawMap(true);infoVer();
 }
-function drawMap(names){
- const svg=$('#map');let h=`<path class="land" d="${G.land}"/>`;
- for(const it of G.snaps[mapSnap])h+=`<path class="${it.k==='otomano'?'oto':'biz'}" d="${it.d}" fill-rule="evenodd"/>`;
- for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle cx="${x}" cy="${y}" r="4"/>${names?`<text x="${x+6}" y="${y-5}">${n}</text>`:''}</g>`}
- h+='<g id="mfx"></g>';svg.innerHTML=h;
- svg.onclick=mapQ?onMapTap:null;
+function infoVer(){$('#mapinfo').innerHTML=`<p class="muted" style="margin:0"><b>527:</b> Grecia, Balcanes, Asia Menor, Siria, Palestina y Egipto. <b>Justiniano conquista:</b> norte de África, Italia, Sicilia, Cerdeña, Córcega, Baleares, sur de Hispania (Málaga, Cartagena) y Ceuta. <b>1025:</b> Balcanes, Grecia, Asia Menor y sur de Italia. <b>1204:</b> Grecia, Tracia y oeste de Asia Menor. <b>1453:</b> solo Constantinopla.</p>`}
+function drawMap(names,sel){
+ const svg=$('#map');let h=`<defs><clipPath id="lc"><path d="${G.land}"/></clipPath>
+ <pattern id="hd" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#333" stroke-width="1.1"/></pattern>
+ <pattern id="hv" width="5" height="5" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="5" stroke="#222" stroke-width="1"/></pattern></defs>
+ <path id="landp" class="land" d="${G.land}"/><g clip-path="url(#lc)">`;
+ for(const [id,,fill] of LAYERS){if(!mapOn[id])continue;for(const pl of R[id])h+=`<path d="${poly(pl)}" fill="${fill}" ${fill.startsWith('url')?'':'fill-opacity="'+(id==='b1453'?1:.85)+'"'} stroke="${fill.startsWith('url')?'none':'#b9862c'}" stroke-width=".5"/>`}
+ h+='</g>';
+ for(const [t,lo,la] of PEOPLES){const [x,y]=prj(lo,la);h+=`<text x="${x}" y="${y}" text-anchor="middle" style="font-size:10px;font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
+ for(const [t,lo,la] of ISLES){const [x,y]=prj(lo,la);h+=`<text x="${x}" y="${y}" text-anchor="middle" style="font-size:9.5px;font-style:italic;fill:#335;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
+ for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle cx="${x}" cy="${y}" r="3.6"/>${names?`<text x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
+ h+='<g id="mfx"></g>';svg.innerHTML=h;svg.onclick=null;
 }
+function svgPt(e){const svg=$('#map');const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());return[p.x,p.y]}
+function nearestCity(p){let best=null,bd=1e9;for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=n}}return[best,bd]}
+function cityOk(p,n){const [nn,d]=nearestCity(p);return nn===n&&d<30}
 function askCity(){
  const names=Object.keys(D.cities);let n;do{n=names[Math.floor(Math.random()*names.length)]}while(mapQ&&n===mapQ.n&&names.length>1);
  mapQ={n,done:false};drawMap(false);$('#mapinfo').innerHTML=`<span class="q">Toca: ${n}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
+ $('#map').onclick=e=>{if(mapQ.done)return;mapQ.done=true;const p=svgPt(e);const c=D.cities[n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,n);mapStats.n++;if(ok)mapStats.ok++;
+  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${n}</text>${ok?'':`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#d1432f"/>`}`;
+  $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'Aquí no.'}</span> ${n}: ${c[2]}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
+  $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}$('#mn').onclick=askCity}
 }
-function onMapTap(e){
- if(!mapQ||mapQ.done)return;const svg=$('#map');const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());
- const c=D.cities[mapQ.n];const [x,y]=prj(c[0],c[1]);const d=Math.hypot(p.x-x,p.y-y);const ok=d<28;mapQ.done=true;mapStats.n++;if(ok)mapStats.ok++;
- $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${mapQ.n}</text>${ok?'':`<circle cx="${p.x}" cy="${p.y}" r="4" fill="#d1432f"/>`}`;
- $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'Aquí no.'}</span> ${mapQ.n}: ${c[2]}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
- $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;
- if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}
- $('#mn').onclick=askCity;
+function askTerr(){
+ let q;do{q=TERRQ[Math.floor(Math.random()*TERRQ.length)]}while(mapQ&&mapQ.t===q&&TERRQ.length>1);
+ mapQ={t:q,done:false};drawMap(true);$('#mapinfo').innerHTML=`<span class="q">${q.q}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
+ $('#map').onclick=e=>{if(mapQ.done)return;mapQ.done=true;const p=svgPt(e);const ok=terrHit(p,q);mapStats.n++;if(ok)mapStats.ok++;
+  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="2"/>`;
+  $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'No.'}</span> Respuesta: ${q.a}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
+  $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}$('#mn').onclick=askTerr}
 }
 
 /* -------- 4. pyramid -------- */
@@ -254,9 +293,9 @@ let pyrSel=null,pyrPlace={};
 function pyr(){
  const L=D.pyramid.levels;const items=D.pyramid.items;
  const pool=items.filter(it=>pyrPlace[it[0]]==null);
- $('#main').innerHTML=`<div class="card"><h2>🔺 La pirámide social bizantina</h2><p class="muted">Toca un grupo y después el escalón donde va. Versión del libro (p. 24).</p><div class="ru">Нажми на группу, потом на уровень пирамиды.</div>
+ $('#main').innerHTML=`<div class="card"><h2>🔺 La pirámide social bizantina</h2><p class="muted">Toca un grupo y después el escalón donde va. Pirámide del resumen del profesor. Por encima de todos estaba el emperador (basileus).</p><div class="ru">Нажми на группу, потом на уровень пирамиды.</div>
  <div class="pool">${shuffle(pool).map(it=>`<button class="tag ${pyrSel===it[0]?'sel':''}" data-t="${esc(it[0])}">${it[0]}</button>`).join('')||'<span class="muted">Todos colocados</span>'}</div>
- <div class="pyr">${L.map((l,i)=>`<div class="lvl" data-l="${i}" style="margin:0 ${(3-i)*0}px;width:${40+i*20}%;justify-self:center"><h4>${l}</h4><div class="in">${items.filter(it=>pyrPlace[it[0]]===i).map(it=>`<span class="tag" data-back="${esc(it[0])}">${it[0]}</span>`).join('')}</div></div>`).join('')}</div>
+ <div class="pyr"><div style="justify-self:center;background:#5e35b1;color:#fff;border-radius:10px;padding:4px 12px;font-weight:800;font-size:.85rem">👑 Basileus (por encima de todos)</div>${L.map((l,i)=>`<div class="lvl" data-l="${i}" style="width:${50+i*22}%;justify-self:center"><h4>${l}</h4><div class="in">${items.filter(it=>pyrPlace[it[0]]===i).map(it=>`<span class="tag" data-back="${esc(it[0])}">${it[0]}</span>`).join('')}</div></div>`).join('')}</div>
  <div class="row"><button class="btn" id="pc" ${pool.length?'disabled':''}>Comprobar</button><button class="btn ghost" id="pr">Empezar de nuevo</button><button class="btn ghost" id="ps">Ver solución</button></div><p class="fb" id="pf"></p></div>`+nextBtn('cards','Siguiente: tarjetas');
  $('#main').querySelectorAll('.pool .tag').forEach(b=>b.onclick=()=>{pyrSel=b.dataset.t;pyr()});
  $('#main').querySelectorAll('.lvl').forEach(d=>d.onclick=e=>{const back=e.target.closest('[data-back]');if(back){delete pyrPlace[back.dataset.back];pyr();return}if(pyrSel){pyrPlace[pyrSel]=+d.dataset.l;pyrSel=null;pyr()}});
@@ -333,8 +372,8 @@ function buildExam(){
  shuffle(D.quiz).slice(0,11).forEach(q=>it.push({t:'mc',q:q.q,a:q.a,o:shuffle([q.a,...q.w]),e:q.e}));
  shuffle(D.tf).slice(0,4).forEach(q=>it.push({t:'mc',q:'Verdadero o falso: '+q[0],a:q[1]?'Verdadero':'Falso',o:['Verdadero','Falso'],e:q[2]}));
  shuffle(D.timeline.filter(t=>D.tlcore.includes(t[0]))).slice(0,2).forEach(t=>it.push({t:'yr',q:t[1],a:t[0]}));
- const cn=shuffle(Object.keys(D.cities)).slice(0,2);cn.forEach(n=>it.push({t:'map',q:'Localiza en el mapa: '+n,n}));
- const pi=D.pyramid.items[Math.floor(Math.random()*D.pyramid.items.length)];it.push({t:'mc',q:`¿En qué escalón de la pirámide estaban «${pi[0]}»?`,a:D.pyramid.levels[pi[1]],o:D.pyramid.levels.slice(),e:'Pirámide del libro, p. 24.'});
+ const cn=shuffle(Object.keys(D.cities))[0];it.push({t:'map',q:'Localiza en el mapa: '+cn,n:cn});const tq=TERRQ[Math.floor(Math.random()*TERRQ.length)];it.push({t:'terr',q:tq.q,tq});
+ const pi=D.pyramid.items[Math.floor(Math.random()*D.pyramid.items.length)];it.push({t:'mc',q:`¿En qué escalón de la pirámide estaban «${pi[0]}»?`,a:D.pyramid.levels[pi[1]],o:D.pyramid.levels.slice(),e:'Pirámide del resumen del profesor.'});
  return{items:shuffle(it),k:0,ok:0,wrong:[]};
 }
 function examQ(){
@@ -342,13 +381,15 @@ function examQ(){
  const q=E.items[E.k];let body='';
  if(q.t==='mc')body=`<div class="opts">${q.o.map(o=>`<button data-o="${esc(o)}">${o}</button>`).join('')}</div>`;
  if(q.t==='yr')body=`<p class="muted">¿En qué año?</p><div class="row"><input class="yr" id="ey" inputmode="numeric" maxlength="4"><button class="btn" id="eyc">Responder</button></div>`;
- if(q.t==='map'){mapSnap='600';body=`<div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg></div>`}
+ if(q.t==='map'||q.t==='terr')body=`<div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg></div>`;
  $('#main').innerHTML=`<div class="card"><p class="score">Pregunta ${E.k+1} / ${E.items.length} · aciertos ${E.ok}</p><div class="prog"><i style="width:${E.k/E.items.length*100}%"></i></div><p class="q">${q.q}</p>${body}<div id="ef"></div></div>`;
  const fin=(ok,msg)=>{if(ok)E.ok++;else E.wrong.push({q:q.q,a:msg});$('#ef').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'Incorrecto. Respuesta: '+msg}</p>${q.e&&!ok?`<p class="expl">${q.e}</p>`:''}<div class="row"><button class="btn" id="en">${E.k+1<E.items.length?'Siguiente':'Ver nota'}</button></div>`;$('#en').onclick=()=>{E.k++;examQ()};$('#en').focus()};
  if(q.t==='mc')$('#main').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const ok=b.dataset.o===q.a;$('#main').querySelectorAll('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add('ok')});if(!ok)b.classList.add('bad');fin(ok,q.a)});
  if(q.t==='yr'){const go_=()=>{const v=+$('#ey').value;if(!v)return;$('#eyc').disabled=true;$('#ey').disabled=true;fin(v===q.a,String(q.a))};$('#eyc').onclick=go_;$('#ey').onkeydown=e=>{if(e.key==='Enter')go_()};$('#ey').focus()}
- if(q.t==='map'){mapQ=null;drawMap(false);const svg=$('#map');let done=false;svg.onclick=e=>{if(done)return;done=true;const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());const c=D.cities[q.n];const [x,y]=prj(c[0],c[1]);const ok=Math.hypot(p.x-x,p.y-y)<28;
-  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${q.n}</text>`;fin(ok,q.n+' (marcada en el mapa)')}}
+ if(q.t==='map'){mapQ=null;drawMap(false);let done=false;$('#map').onclick=e=>{if(done)return;done=true;const p=svgPt(e);const c=D.cities[q.n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,q.n);
+  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${q.n}</text>`;fin(ok,q.n+' (marcada en el mapa)')}}
+ if(q.t==='terr'){mapQ=null;drawMap(true);let done=false;$('#map').onclick=e=>{if(done)return;done=true;const p=svgPt(e);const ok=terrHit(p,q.tq);
+  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="2"/>`;fin(ok,q.tq.a)}}
 }
 function examEnd(){
  const n=E.items.length,g=Math.round(E.ok/n*100)/10;if(P.best==null||g>P.best)P.best=g;save();
