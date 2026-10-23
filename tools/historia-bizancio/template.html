@@ -85,6 +85,7 @@ svg#map{display:block;width:100%;height:auto;cursor:crosshair}
 .oto{fill:#00897b;fill-opacity:.35;stroke:#00695c;stroke-width:1}
 .city circle{fill:#7a2e2e;stroke:#fff;stroke-width:1.2}
 .city text{font-size:11px;font-weight:700;fill:#2b2b2b;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+.zb{position:absolute;right:8px;top:8px;display:grid;gap:5px}.zb button{width:34px;height:34px;border-radius:10px;border:0;background:#fff;box-shadow:0 0 0 1px #c9bfa6;font-size:1.1rem;cursor:pointer}
 .leg{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin-top:6px}
 .leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
 /* pyramid */
@@ -131,7 +132,7 @@ footer{margin-top:20px;font-size:.75rem;color:var(--ink2)}
 <nav class="steps" id="steps"></nav>
 <div class="prog"><i id="pbar" style="width:0"></i></div>
 <main id="main"></main>
-<footer>Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: dibujado según el mapa 18 del libro (p. 23), territorios aproximados; costas: Natural Earth.</footer>
+<footer>Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: dibujado según el mapa 18 del libro (p. 23), territorios aproximados; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector).</footer>
 </div>
 <div class="toast" id="toast"></div>
 <script>
@@ -226,6 +227,7 @@ const R={ // polígonos aproximados en lon/lat; se recortan con la línea de cos
 };
 const LAYERS=[['conq','Conquistas de Justiniano','#f7d58a'],['o527','Imperio romano de Oriente a la llegada de Justiniano (527)','#e8a33d'],['b1025','Imperio bizantino en 1025','url(#hd)'],['b1204','Imperio bizantino en 1204','url(#hv)'],['b1453','Imperio bizantino en 1453','#d32f2f']];
 const PEOPLES=[['FRANCOS',2.5,47],['SUEVOS',-8.4,42.6],['VASCONES',-2.6,43.1],['VISIGODOS',-4.5,40],['BURGUNDIOS',5.6,46.2],['LOMBARDOS',16.2,47],['GÉPIDOS',21.5,46.3],['ESLAVOS',26.5,46.3],['BÚLGAROS',35,46.6],['ÁVAROS',43,46.6],['PERSAS',45,36.5],['BEREBERES',-2.5,33.6]];
+const RIVL=[['Río Danubio',23.5,43.3,-8],['Río Nilo',31.7,28.6,70],['Río Tigris',44.6,34.6,55],['Río Éufrates',41.2,34.8,30]];
 const ISLES=[['Córcega',9.6,42.6],['Cerdeña',10,40.3],['Sicilia',14.4,37.75],['Is. Baleares',1.8,38.7],['Creta',24.8,34.7],['Chipre',33.2,34.6]];
 let mapOn=LS.get('maplayers',{conq:1,o527:1,b1025:1,b1204:1,b1453:1}),mapQ=null,mapStats={ok:0,n:0},mapMode='ver';
 const poly=pl=>'M'+pl.map(([lo,la])=>prj(lo,la).map(v=>v.toFixed(1)).join(',')).join('L')+'Z';
@@ -244,7 +246,7 @@ const TERRQ=[
 ];
 function map(){
  $('#main').innerHTML=`<div class="card"><h2>🗺 La expansión del Imperio bizantino</h2><p class="muted">Como el mapa 18 del libro (p. 23). Activa o quita capas en la leyenda. Después practica con «Ciudades» y «Territorios».</p>
- <div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg></div>
+ <div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg><div class="zb"><button data-z="in" aria-label="acercar">+</button><button data-z="out" aria-label="alejar">−</button><button data-z="fit" aria-label="ver todo">⤢</button></div></div>
  <div class="leg" id="leg">${LAYERS.map(l=>`<label style="cursor:pointer"><input type="checkbox" data-l="${l[0]}" ${mapOn[l[0]]?'checked':''}> <i style="background:${l[2].startsWith('url')?'repeating-linear-gradient('+(l[0]==='b1025'?'45deg':'90deg')+',#333 0 1px,#fff 1px 5px)':l[2]};border:1px solid #999"></i>${l[1]}</label>`).join('')}<span style="color:#777">MAYÚSCULAS = pueblos (siglo VI)</span></div>
  <div id="mapinfo" style="margin-top:8px"></div>
  <div class="row"><button class="btn" id="mqc">📍 Ciudades</button><button class="btn" id="mqt">🟧 Territorios</button><button class="btn ghost" id="mv">Ver el mapa</button><span class="score" id="msc"></span></div>
@@ -253,7 +255,7 @@ function map(){
  $('#mv').onclick=()=>{mapMode='ver';mapQ=null;drawMap(true);infoVer()};
  $('#mqc').onclick=()=>{mapMode='city';mapStats={ok:0,n:0};askCity()};
  $('#mqt').onclick=()=>{mapMode='terr';mapStats={ok:0,n:0};askTerr()};
- mapMode='ver';drawMap(true);infoVer();
+ mapMode='ver';MV=null;drawMap(true);infoVer();
 }
 function infoVer(){$('#mapinfo').innerHTML=`<p class="muted" style="margin:0"><b>527:</b> Grecia, Balcanes, Asia Menor, Siria, Palestina y Egipto. <b>Justiniano conquista:</b> norte de África, Italia, Sicilia, Cerdeña, Córcega, Baleares, sur de Hispania (Málaga, Cartagena) y Ceuta. <b>1025:</b> Balcanes, Grecia, Asia Menor y sur de Italia. <b>1204:</b> Grecia, Tracia y oeste de Asia Menor. <b>1453:</b> solo Constantinopla.</p>`}
 function drawMap(names,sel){
@@ -263,10 +265,28 @@ function drawMap(names,sel){
  <path id="landp" class="land" d="${G.land}"/><g clip-path="url(#lc)">`;
  for(const [id,,fill] of LAYERS){if(!mapOn[id])continue;for(const pl of R[id])h+=`<path d="${poly(pl)}" fill="${fill}" ${fill.startsWith('url')?'':'fill-opacity="'+(id==='b1453'?1:.85)+'"'} stroke="${fill.startsWith('url')?'none':'#b9862c'}" stroke-width=".5"/>`}
  h+='</g>';
- for(const [t,lo,la] of PEOPLES){const [x,y]=prj(lo,la);h+=`<text x="${x}" y="${y}" text-anchor="middle" style="font-size:10px;font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
- for(const [t,lo,la] of ISLES){const [x,y]=prj(lo,la);h+=`<text x="${x}" y="${y}" text-anchor="middle" style="font-size:9.5px;font-style:italic;fill:#335;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
- for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle cx="${x}" cy="${y}" r="3.6"/>${names?`<text x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
- h+='<g id="mfx"></g>';svg.innerHTML=h;svg.onclick=null;
+ h+=`<path d="${G.rivers}" fill="none" stroke="#4f8fb8" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>`;
+ for(const [t,lo,la,rot] of RIVL){const [x,y]=prj(lo,la);h+=`<text data-fs="9" x="${x}" y="${y}" transform="rotate(${rot||0} ${x} ${y})" text-anchor="middle" style="font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
+ for(const [t,lo,la] of PEOPLES){const [x,y]=prj(lo,la);h+=`<text data-fs="10" x="${x}" y="${y}" text-anchor="middle" style="font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
+ for(const [t,lo,la] of ISLES){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-style:italic;fill:#335;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
+ for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle data-r="3.6" cx="${x}" cy="${y}" r="3.6"/>${names?`<text data-fs="11" data-dx="5" data-dy="-4" data-x="${x}" data-y="${y}" x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
+ h+='<g id="mfx"></g>';svg.innerHTML=h;svg.onclick=null;initZoom();
+}
+let MV=null,MVdrag={moved:0};const zk=()=>MV?MV.w/VB[2]:1;
+function applyView(){const svg=$('#map');if(!svg||!MV)return;svg.setAttribute('viewBox',`${MV.x} ${MV.y} ${MV.w} ${MV.h}`);const k=MV.w/VB[2];
+ svg.querySelectorAll('[data-fs]').forEach(t=>{t.style.fontSize=(+t.dataset.fs*k)+'px';t.style.strokeWidth=(3*k)+'px';if(t.dataset.dx){t.setAttribute('x',+t.dataset.x+5*k);t.setAttribute('y',+t.dataset.y-4*k)}});
+ svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',+c.dataset.r*k));svg.querySelectorAll('.city circle').forEach(c=>c.style.strokeWidth=1.2*k);svg.style.touchAction=MV.w<VB[2]-0.5?'none':'pan-y'}
+function zoomAt(f,cx,cy){const nw=Math.max(VB[2]/8,Math.min(VB[2],MV.w*f));const k=nw/MV.w;MV.x=cx-(cx-MV.x)*k;MV.y=cy-(cy-MV.y)*k;MV.w=nw;MV.h*=k;clampView();applyView()}
+function clampView(){MV.x=Math.max(VB[0],Math.min(VB[0]+VB[2]-MV.w,MV.x));MV.y=Math.max(VB[1],Math.min(VB[1]+VB[3]-MV.h,MV.y))}
+function initZoom(){const svg=$('#map');if(!MV)MV={x:VB[0],y:VB[1],w:VB[2],h:VB[3]};applyView();
+ const wrap=svg.parentNode;const zb=wrap.querySelector('.zb');if(zb)zb.onclick=e=>{const z=e.target.dataset.z;if(!z)return;e.stopPropagation();if(z==='fit'){MV={x:VB[0],y:VB[1],w:VB[2],h:VB[3]};applyView()}else zoomAt(z==='in'?1/1.6:1.6,MV.x+MV.w/2,MV.y+MV.h/2)};
+ const ptrs=new Map();let last=null,pinch=null;
+ svg.onpointerdown=e=>{ptrs.set(e.pointerId,[e.clientX,e.clientY]);MVdrag.moved=0;last=[e.clientX,e.clientY];if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch=Math.hypot(a[0]-b[0],a[1]-b[1]);MVdrag.moved=99}};
+ svg.onpointermove=e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,[e.clientX,e.clientY]);const r=svg.getBoundingClientRect(),upp=MV.w/r.width;
+  if(ptrs.size===2&&pinch){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);const cx=MV.x+(((a[0]+b[0])/2)-r.left)*upp,cy=MV.y+(((a[1]+b[1])/2)-r.top)*upp;zoomAt(pinch/d,cx,cy);pinch=d;return}
+  if(MV.w>=VB[2]-0.5)return;const dx=e.clientX-last[0],dy=e.clientY-last[1];MVdrag.moved+=Math.abs(dx)+Math.abs(dy);if(MVdrag.moved>6){MV.x-=dx*upp;MV.y-=dy*upp;clampView();applyView()}last=[e.clientX,e.clientY]};
+ const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};svg.onpointerup=up;svg.onpointercancel=up;
+ svg.onwheel=e=>{e.preventDefault();const r=svg.getBoundingClientRect(),upp=MV.w/r.width;zoomAt(e.deltaY>0?1.2:1/1.2,MV.x+(e.clientX-r.left)*upp,MV.y+(e.clientY-r.top)*upp)};
 }
 function svgPt(e){const svg=$('#map');const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());return[p.x,p.y]}
 function nearestCity(p){let best=null,bd=1e9;for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=n}}return[best,bd]}
@@ -274,16 +294,16 @@ function cityOk(p,n){const [nn,d]=nearestCity(p);return nn===n&&d<30}
 function askCity(){
  const names=Object.keys(D.cities);let n;do{n=names[Math.floor(Math.random()*names.length)]}while(mapQ&&n===mapQ.n&&names.length>1);
  mapQ={n,done:false};drawMap(false);$('#mapinfo').innerHTML=`<span class="q">Toca: ${n}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
- $('#map').onclick=e=>{if(mapQ.done)return;mapQ.done=true;const p=svgPt(e);const c=D.cities[n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,n);mapStats.n++;if(ok)mapStats.ok++;
-  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${n}</text>${ok?'':`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#d1432f"/>`}`;
+ $('#map').onclick=e=>{if(MVdrag.moved>6||mapQ.done)return;mapQ.done=true;const p=svgPt(e);const c=D.cities[n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,n);mapStats.n++;if(ok)mapStats.ok++;
+  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="${13*zk()}" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="${3*zk()}"/><text x="${x+8*zk()}" y="${y-8*zk()}" style="font-size:${12*zk()}px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:${3*zk()}px">${n}</text>${ok?'':`<circle cx="${p[0]}" cy="${p[1]}" r="${4*zk()}" fill="#d1432f"/>`}`;
   $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'Aquí no.'}</span> ${n}: ${c[2]}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
   $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}$('#mn').onclick=askCity}
 }
 function askTerr(){
  let q;do{q=TERRQ[Math.floor(Math.random()*TERRQ.length)]}while(mapQ&&mapQ.t===q&&TERRQ.length>1);
  mapQ={t:q,done:false};drawMap(true);$('#mapinfo').innerHTML=`<span class="q">${q.q}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
- $('#map').onclick=e=>{if(mapQ.done)return;mapQ.done=true;const p=svgPt(e);const ok=terrHit(p,q);mapStats.n++;if(ok)mapStats.ok++;
-  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="2"/>`;
+ $('#map').onclick=e=>{if(MVdrag.moved>6||mapQ.done)return;mapQ.done=true;const p=svgPt(e);const ok=terrHit(p,q);mapStats.n++;if(ok)mapStats.ok++;
+  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="${6*zk()}" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="${2*zk()}"/>`;
   $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'No.'}</span> Respuesta: ${q.a}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
   $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}$('#mn').onclick=askTerr}
 }
@@ -381,15 +401,15 @@ function examQ(){
  const q=E.items[E.k];let body='';
  if(q.t==='mc')body=`<div class="opts">${q.o.map(o=>`<button data-o="${esc(o)}">${o}</button>`).join('')}</div>`;
  if(q.t==='yr')body=`<p class="muted">¿En qué año?</p><div class="row"><input class="yr" id="ey" inputmode="numeric" maxlength="4"><button class="btn" id="eyc">Responder</button></div>`;
- if(q.t==='map'||q.t==='terr')body=`<div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg></div>`;
+ if(q.t==='map'||q.t==='terr')body=`<div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg><div class="zb"><button data-z="in" aria-label="acercar">+</button><button data-z="out" aria-label="alejar">−</button><button data-z="fit" aria-label="ver todo">⤢</button></div></div>`;
  $('#main').innerHTML=`<div class="card"><p class="score">Pregunta ${E.k+1} / ${E.items.length} · aciertos ${E.ok}</p><div class="prog"><i style="width:${E.k/E.items.length*100}%"></i></div><p class="q">${q.q}</p>${body}<div id="ef"></div></div>`;
  const fin=(ok,msg)=>{if(ok)E.ok++;else E.wrong.push({q:q.q,a:msg});$('#ef').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'Incorrecto. Respuesta: '+msg}</p>${q.e&&!ok?`<p class="expl">${q.e}</p>`:''}<div class="row"><button class="btn" id="en">${E.k+1<E.items.length?'Siguiente':'Ver nota'}</button></div>`;$('#en').onclick=()=>{E.k++;examQ()};$('#en').focus()};
  if(q.t==='mc')$('#main').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const ok=b.dataset.o===q.a;$('#main').querySelectorAll('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add('ok')});if(!ok)b.classList.add('bad');fin(ok,q.a)});
  if(q.t==='yr'){const go_=()=>{const v=+$('#ey').value;if(!v)return;$('#eyc').disabled=true;$('#ey').disabled=true;fin(v===q.a,String(q.a))};$('#eyc').onclick=go_;$('#ey').onkeydown=e=>{if(e.key==='Enter')go_()};$('#ey').focus()}
- if(q.t==='map'){mapQ=null;drawMap(false);let done=false;$('#map').onclick=e=>{if(done)return;done=true;const p=svgPt(e);const c=D.cities[q.n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,q.n);
-  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${q.n}</text>`;fin(ok,q.n+' (marcada en el mapa)')}}
- if(q.t==='terr'){mapQ=null;drawMap(true);let done=false;$('#map').onclick=e=>{if(done)return;done=true;const p=svgPt(e);const ok=terrHit(p,q.tq);
-  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="2"/>`;fin(ok,q.tq.a)}}
+ if(q.t==='map'){mapQ=null;MV=null;drawMap(false);let done=false;$('#map').onclick=e=>{if(MVdrag.moved>6||done)return;done=true;const p=svgPt(e);const c=D.cities[q.n];const [x,y]=prj(c[0],c[1]);const ok=cityOk(p,q.n);
+  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="${13*zk()}" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="${3*zk()}"/><text x="${x+8*zk()}" y="${y-8*zk()}" style="font-size:${12*zk()}px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:${3*zk()}px">${q.n}</text>`;fin(ok,q.n+' (marcada en el mapa)')}}
+ if(q.t==='terr'){mapQ=null;MV=null;drawMap(true);let done=false;$('#map').onclick=e=>{if(MVdrag.moved>6||done)return;done=true;const p=svgPt(e);const ok=terrHit(p,q.tq);
+  $('#mfx').innerHTML=`<circle cx="${p[0]}" cy="${p[1]}" r="${6*zk()}" fill="${ok?'#2f8f5b':'#d1432f'}" stroke="#fff" stroke-width="${2*zk()}"/>`;fin(ok,q.tq.a)}}
 }
 function examEnd(){
  const n=E.items.length,g=Math.round(E.ok/n*100)/10;if(P.best==null||g>P.best)P.best=g;save();
