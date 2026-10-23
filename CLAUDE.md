@@ -7,7 +7,7 @@
 - `espana-fisica/`: урок 2, готов (`index.html`, `img/`, `pdf/`)
 - `espana-administrativa/`, `europa-politica/`, `europa-fisica/`: уроки 1, 3, 4, пока заглушки на стартовой странице
 - `historia-tema1/`: история, тема 1, готов. Один файл `index.html` со встроенными данными: события, личности, понятия, исторические границы. Три части по проверочным: p1 германцы и вестготы, p2 Византия, p3 Каролинги
-- `historia-bizancio/`: тренажёр к проверочной по Византии (8 шагов от материала до экзамена) и шпаргалка `pdf/chuleta-bizantinos.pdf`. Собирается из `tools/historia-bizancio/` (`build.py <out.html>`, `mkpdf.py <out.pdf>`); прогресс в `localStorage` с ключами `h1_biz_`
+- `historia-bizancio/`: тренажёр к проверочной по Византии (8 шагов от материала до экзамена) и шпаргалка `pdf/chuleta-bizantinos.pdf`. Собирается из `tools/historia-bizancio/` (`build.py <out.html>`, `mkpdf.py <out.pdf>`; текст шпаргалки ES/RU в `chuleta.py`); прогресс в `localStorage` с ключами `h1_biz_`
 - `tools/`: скрипты, исходные данные и шаблон страницы, из которых собран урок 2 (см. `tools/README.md`)
 
 ## Правила
