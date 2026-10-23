@@ -16,6 +16,7 @@ Mapas mudos interactivos para las clases de geografía: localizar, nombrar, repe
 | 2 | `espana-fisica/` | España física: costa, ríos, relieve (178 objetos) | listo |
 | 3 | `europa-politica/` | Europa política | en preparación |
 | 4 | `europa-fisica/` | Europa física | en preparación |
+| Historia T1 | `historia-tema1/` | Fin de la Edad Antigua e inicio de la Edad Media: germanos y visigodos, bizantinos, carolingios (3 pruebas) | listo |
 
 Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para imprimir y mapa físico del IGN). La página `index.html` de la raíz enumera las lecciones. La carpeta `tools/` contiene los scripts, datos y la plantilla con que se construyó la lección 2 (véase `tools/README.md`).
 
@@ -25,6 +26,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Países vecinos, batimetría, nombres de mares: Natural Earth (dominio público)
 - Relieve: Copernicus DEM GLO-90 (ESA)
 - Fondo «Mapa físico de España 1:3 000 000», PDF: © Instituto Geográfico Nacional / CNIG
+- Fronteras históricas de `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), licencia GPL-3.0 (fronteras aproximadas)
 
 ### Licencia
 - Código (`tools/`, HTML/JS): **MIT**, véase [`LICENSE`](LICENSE).
@@ -42,6 +44,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 | 2 | `espana-fisica/` | Физическая карта Испании: побережье, реки, рельеф (178 объектов) | готово |
 | 3 | `europa-politica/` | Политическая карта Европы | в работе |
 | 4 | `europa-fisica/` | Физическая карта Европы | в работе |
+| История, тема 1 | `historia-tema1/` | Конец Античности и начало Средневековья: германцы и вестготы, Византия, Каролинги (3 проверочные) | готово |
 
 Каждый урок это папка с `index.html`, `img/` и `pdf/` (контурная карта для печати и физическая карта IGN). Корневой `index.html` содержит список уроков. В `tools/` лежат скрипты, данные и шаблон, из которых собран урок 2 (см. `tools/README.md`).
 
@@ -51,6 +54,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Соседние страны, глубины моря, названия акваторий: Natural Earth (public domain)
 - Рельеф: Copernicus DEM GLO-90 (ESA)
 - Подложка «Mapa físico de España 1:3 000 000», PDF: © Instituto Geográfico Nacional / CNIG
+- Исторические границы в `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), лицензия GPL-3.0 (границы приблизительные)
 
 ### Лицензия
 - Код (`tools/`, HTML/JS): **MIT**, см. [`LICENSE`](LICENSE).
@@ -68,6 +72,7 @@ Interactive blank (outline) maps for school geography lessons: locate, name, rev
 | 2 | `espana-fisica/` | Physical map of Spain: coast, rivers, relief (178 objects) | ready |
 | 3 | `europa-politica/` | Political map of Europe | in progress |
 | 4 | `europa-fisica/` | Physical map of Europe | in progress |
+| History, topic 1 | `historia-tema1/` | End of Antiquity and start of the Middle Ages: Germanic peoples and Visigoths, Byzantium, Carolingians (3 quizzes) | ready |
 
 Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank map and the IGN physical map). The root `index.html` lists the lessons. `tools/` holds the scripts, data and template used to build lesson 2 (see `tools/README.md`).
 
@@ -77,6 +82,7 @@ Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank ma
 - Neighbouring countries, sea depths, sea names: Natural Earth (public domain)
 - Relief: Copernicus DEM GLO-90 (ESA)
 - Base map "Mapa físico de España 1:3 000 000", PDF: © Instituto Geográfico Nacional / CNIG
+- Historical borders in `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), GPL-3.0 licence (borders are approximate)
 
 ### License
 - Code (`tools/`, HTML/JS): **MIT**, see [`LICENSE`](LICENSE).
