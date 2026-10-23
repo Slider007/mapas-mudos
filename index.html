@@ -35,13 +35,14 @@ footer{margin-top:28px;font-size:.78rem;color:#5b7282}
 <h2 class="sec">🏰 Historia</h2>
 <div class="cards">
 <a class="card" href="historia-tema1/"><div class="n">T1</div><div><b>Tema 1: de la Edad Antigua a la Edad Media</b><span data-t="h1">Карта, линия времени, походы, карточки и тесты · 3 pruebas: germanos y visigodos (16 oct), bizantinos (23 oct), carolingios (30 oct)</span></div></a>
+<a class="card" href="historia-bizancio/"><div class="n">⛪</div><div><b>Bizancio: preparar la prueba</b><span data-t="h2">Тренажёр к проверочной по Византии: материал, даты, карта, пирамида, карточки, тест, экзамен · шпаргалка PDF</span></div></a>
 </div>
 <footer><span data-t="src">Данные</span>: © OpenStreetMap contributors · Natural Earth · Copernicus DEM · © IGN / CNIG · historical-basemaps (GPL-3.0)</footer>
 </main>
 <script>
 const T={ru:{},es:{sub:'Mapas y entrenadores interactivos por lecciones: localizar, nombrar, repasar y hacer el «examen».',
 s1:'División administrativa de España: próximamente',s2:'Mapa físico de España: costas, ríos, relieve · prueba 21 oct',
-s3:'Mapa político de Europa · prueba 4 nov · próximamente',s4:'Mapa físico de Europa · prueba 25 nov · próximamente',h1:'Mapa, línea del tiempo, campañas, tarjetas y tests · 3 pruebas: germanos y visigodos (16 oct), bizantinos (23 oct), carolingios (30 oct)',src:'Datos'}};
+s3:'Mapa político de Europa · prueba 4 nov · próximamente',s4:'Mapa físico de Europa · prueba 25 nov · próximamente',h1:'Mapa, línea del tiempo, campañas, tarjetas y tests · 3 pruebas: germanos y visigodos (16 oct), bizantinos (23 oct), carolingios (30 oct)',h2:'Entrenador para la prueba del Imperio bizantino: teoría, fechas, mapa, pirámide, tarjetas, test, examen · chuleta en PDF',src:'Datos'}};
 document.querySelectorAll('[data-t]').forEach(e=>T.ru[e.dataset.t]=e.textContent);
 let lang='ru';try{const v=JSON.parse(localStorage.getItem('mme_lang'));if(v==='es'||v==='ru')lang=v}catch(e){}
 function setLang(l){lang=l;document.documentElement.lang=l;

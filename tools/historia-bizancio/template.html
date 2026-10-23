@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="es" data-theme="light" style="color-scheme:light">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bizancio — preparar la prueba</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%AA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1f2f45;--ink2:#5b6b80;--bg:#f7f5fb;--panel:#fff;--soft:#efeaf7;--line:#d9cfea;--biz:#7e57c2;--biz2:#5e35b1;--gold:#c9a227;--ok:#2f8f5b;--bad:#d1432f;--hi:#f2a516;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+button,input,textarea{font:inherit;color:inherit}
+.app{max-width:980px;margin:0 auto;padding:max(10px,env(safe-area-inset-top)) 14px 40px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:4px 0 8px}
+.home{color:var(--ink2);text-decoration:none;font-size:.85rem;font-weight:600;border:1.5px solid var(--ink2);border-radius:99px;padding:3px 10px}
+.home:hover{color:var(--ink);border-color:var(--ink)}
+h1{flex:0 0 100%;order:3;margin:2px 0 0;font-size:1.5rem;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+h1 small{display:block;font-size:.85rem;font-weight:400;color:var(--ink2)}
+.tools{margin-left:auto;display:flex;gap:6px;align-items:center}
+.tog{display:flex;gap:5px;align-items:center;font-size:.82rem;color:var(--ink2);cursor:pointer;border:1.5px solid var(--line);border-radius:99px;padding:3px 10px;background:var(--panel)}
+.pdf{font-size:.82rem;font-weight:700;text-decoration:none;color:#fff;background:var(--biz);border-radius:99px;padding:5px 12px}
+.steps{display:flex;gap:6px;overflow-x:auto;padding:6px 0 10px;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.steps button{flex:none;border:1.5px solid var(--line);background:var(--panel);border-radius:14px;padding:7px 11px;font-weight:700;font-size:.86rem;cursor:pointer;white-space:nowrap}
+.steps button[aria-pressed=true]{background:var(--biz);border-color:var(--biz);color:#fff}
+.steps button .ck{color:var(--ok);margin-left:4px}
+.steps button[aria-pressed=true] .ck{color:#d6f5e2}
+.prog{height:6px;border-radius:9px;background:var(--soft);overflow:hidden;margin:0 0 12px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--biz),var(--gold));transition:width .4s}
+.card{background:var(--panel);border:1.5px solid var(--line);border-radius:18px;padding:16px 18px;margin:0 0 12px}
+h2{margin:0 0 6px;font-size:1.2rem}
+h3{margin:0 0 4px;font-size:1.05rem}
+.muted{color:var(--ink2);font-size:.9rem}
+.ru{color:#6a4fa3;font-size:.9rem;background:#f4effc;border-left:3px solid #b9a3e3;padding:6px 10px;border-radius:0 10px 10px 0;margin:8px 0 0}
+body.noru .ru{display:none}
+.pts{margin:6px 0 0;padding:0;list-style:none}
+.pts li{margin:6px 0}
+.key{margin-top:10px;font-size:.88rem;background:#fff8e1;border:1px solid #f0dd9c;border-radius:12px;padding:7px 10px}
+.key b{color:#8a6d00}
+details.sec{background:var(--panel);border:1.5px solid var(--line);border-radius:16px;margin:0 0 10px;overflow:hidden}
+details.sec summary{list-style:none;cursor:pointer;padding:13px 16px;font-weight:800;display:flex;gap:10px;align-items:center}
+details.sec summary::-webkit-details-marker{display:none}
+details.sec summary .st{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--ink2)}
+details.sec summary .st.ok{color:var(--ok)}
+details.sec .body{padding:0 16px 14px}
+.btn{border:0;border-radius:12px;padding:10px 16px;font-weight:700;cursor:pointer;background:var(--biz);color:#fff}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.ok{background:var(--ok)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.chip{border:1.5px solid var(--line);background:var(--panel);border-radius:99px;padding:4px 11px;font-size:.84rem;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.opts{display:grid;gap:8px;margin-top:10px}
+.opts button{text-align:left;border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:11px 12px;cursor:pointer;font-weight:600}
+.opts button:hover:not(:disabled){border-color:var(--biz)}
+.opts button.ok{border-color:var(--ok);background:#e6f4ec}
+.opts button.bad{border-color:var(--bad);background:#fbe9e6}
+.fb{margin-top:10px;font-weight:700}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.expl{margin-top:6px;font-size:.92rem;color:var(--ink2)}
+.score{font-variant-numeric:tabular-nums;color:var(--ink2);font-size:.86rem}
+.q{font-size:1.15rem;font-weight:800;margin:4px 0}
+/* timeline */
+.tl{position:relative;margin:8px 0 0;padding-left:22px}
+.tl:before{content:"";position:absolute;left:8px;top:4px;bottom:4px;width:3px;background:linear-gradient(var(--biz),var(--gold));border-radius:3px}
+.tli{position:relative;margin:0 0 10px}
+.tli:before{content:"";position:absolute;left:-19px;top:6px;width:11px;height:11px;border-radius:50%;background:#fff;border:3px solid var(--biz)}
+.tli.core:before{background:var(--gold);border-color:var(--gold)}
+.tli b{display:inline-block;min-width:52px;font-variant-numeric:tabular-nums}
+.ord{display:grid;gap:8px;margin-top:10px}
+.ord button{text-align:left;border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:600}
+.ord button.done{background:#e6f4ec;border-color:var(--ok)}
+.ord button.bad{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+input.yr{width:110px;font-size:1.2rem;padding:8px 10px;border-radius:12px;border:1.5px solid var(--line)}
+/* map */
+.mapwrap{position:relative;border-radius:16px;overflow:hidden;background:#cfe1e8;border:1.5px solid var(--line);touch-action:manipulation}
+svg#map{display:block;width:100%;height:auto;cursor:crosshair}
+.land{fill:#f3eee0;stroke:#c9bfa6;stroke-width:.6}
+.biz{fill:#7e57c2;fill-opacity:.42;stroke:#5e35b1;stroke-width:1}
+.oto{fill:#00897b;fill-opacity:.35;stroke:#00695c;stroke-width:1}
+.city circle{fill:#7a2e2e;stroke:#fff;stroke-width:1.2}
+.city text{font-size:11px;font-weight:700;fill:#2b2b2b;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+.leg{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin-top:6px}
+.leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+/* pyramid */
+.pyr{display:grid;gap:6px;margin:10px auto;max-width:560px}
+.lvl{border:2px dashed var(--line);border-radius:12px;padding:8px;min-height:52px;text-align:center;cursor:pointer;background:var(--panel)}
+.lvl.sel{border-color:var(--biz);background:#f4effc}
+.lvl h4{margin:0 0 4px;font-size:.8rem;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+.lvl .in{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.tag{border:1.5px solid var(--ink2);background:#fff;border-radius:99px;padding:4px 10px;font-size:.84rem;cursor:pointer;font-weight:600}
+.tag.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tag.ok{border-color:var(--ok);background:#e6f4ec}
+.tag.bad{border-color:var(--bad);background:#fbe9e6}
+.pool{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
+/* flashcards */
+.fc{width:100%;min-height:190px;border:2px solid var(--line);border-radius:18px;background:linear-gradient(160deg,#fff,#f6f1ff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;cursor:pointer;gap:6px}
+.fc .t{font-size:1.6rem;font-weight:800;color:var(--biz2)}
+.fc .d{font-size:1.05rem;font-weight:600}
+/* open */
+textarea{width:100%;min-height:120px;border:1.5px solid var(--line);border-radius:12px;padding:10px;resize:vertical}
+.model{background:#f1f8f4;border:1.5px solid #bfe3cd;border-radius:12px;padding:10px 12px;margin-top:10px}
+.kw label{display:flex;gap:8px;align-items:flex-start;margin:5px 0;cursor:pointer}
+/* exam */
+.big{font-size:2.6rem;font-weight:800;color:var(--biz2);line-height:1}
+.res li{margin:6px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.stat{background:var(--soft);border-radius:14px;padding:10px 12px}
+.stat b{font-size:1.4rem;display:block}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:8px 16px;border-radius:12px;font-weight:700;transition:transform .25s;z-index:9}
+.toast.on{transform:translateX(-50%) translateY(0)}
+footer{margin-top:20px;font-size:.75rem;color:var(--ink2)}
+:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <a class="home" href="../">← <span data-es="Lecciones" data-ru="Уроки">Lecciones</span></a>
+ <h1>⛪ El Imperio bizantino<small>Tema 1 · preparar la prueba: aprender → repasar → examen</small></h1>
+ <div class="tools">
+  <label class="tog"><input type="checkbox" id="rut" checked> RU</label>
+  <a class="pdf" href="pdf/chuleta-bizantinos.pdf" download>📄 Chuleta PDF</a>
+ </div>
+</header>
+<nav class="steps" id="steps"></nav>
+<div class="prog"><i id="pbar" style="width:0"></i></div>
+<main id="main"></main>
+<footer>Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: territorios aproximados según <a href="https://github.com/aourednik/historical-basemaps">historical-basemaps</a> (GPL-3.0) · Natural Earth.</footer>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const D=__DATA__;
+const G=__GEO__;
+const $=s=>document.querySelector(s);
+const LS={get(k,d){try{const v=localStorage.getItem('h1_biz_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('h1_biz_'+k,JSON.stringify(v))}catch(e){}}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let toastT;function toast(t){const n=$('#toast');n.textContent=t;n.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>n.classList.remove('on'),1700)}
+const TOPICS={origen:'Origen',gobierno:'Gobierno',justiniano:'Justiniano',territorios:'Territorios y declive',sociedad:'Sociedad y ciudades',constantinopla:'Constantinopla',religion:'Religión',arte:'Cultura y arte',economia:'Economía'};
+
+/* -------- state -------- */
+let P=LS.get('p',{read:{},tl:false,map:false,pyr:false,cards:{},quiz:{},open:{},best:null});
+const save=()=>{LS.set('p',P);renderSteps()};
+const STEPS=[
+ ['learn','📖 1. Aprender','Учить материал'],
+ ['tl','📅 2. Línea del tiempo','Даты'],
+ ['map','🗺 3. Mapa','Карта'],
+ ['pyr','🔺 4. Pirámide','Пирамида общества'],
+ ['cards','🃏 5. Tarjetas','Карточки'],
+ ['quiz','✅ 6. Test','Тест по темам'],
+ ['open','✍️ 7. Preguntas largas','Развёрнутые ответы'],
+ ['exam','🎯 8. Examen','Итоговый экзамен'],
+];
+function doneStep(id){
+ if(id==='learn')return D.sections.every(s=>P.read[s.id]);
+ if(id==='tl')return P.tl;if(id==='map')return P.map;if(id==='pyr')return P.pyr;
+ if(id==='cards')return D.cards.filter(c=>(P.cards[c[0]]||0)>=2).length>=D.cards.length*0.8;
+ if(id==='quiz')return Object.values(P.quiz).filter(v=>v===true).length>=D.quiz.length*0.8;
+ if(id==='open')return Object.keys(P.open).length>=D.open.length*0.7;
+ if(id==='exam')return P.best!=null&&P.best>=7;
+}
+let cur=LS.get('step','learn');
+function renderSteps(){
+ $('#steps').innerHTML=STEPS.map(s=>`<button data-s="${s[0]}" aria-pressed="${cur===s[0]}" title="${s[2]}">${s[1]}${doneStep(s[0])?'<span class="ck">✓</span>':''}</button>`).join('');
+ const n=STEPS.filter(s=>doneStep(s[0])).length;$('#pbar').style.width=(n/STEPS.length*100)+'%';
+}
+$('#steps').onclick=e=>{const b=e.target.closest('[data-s]');if(b)go(b.dataset.s)};
+function go(s){cur=s;LS.set('step',s);renderSteps();({learn,tl,map,pyr,cards,quiz,open:largas,exam})[s]();window.scrollTo({top:0,behavior:'smooth'})}
+$('#rut').checked=LS.get('ru',true);document.body.classList.toggle('noru',!$('#rut').checked);
+$('#rut').onchange=e=>{LS.set('ru',e.target.checked);document.body.classList.toggle('noru',!e.target.checked)};
+const nextBtn=(s,lab)=>`<div class="row"><button class="btn" onclick="go('${s}')">${lab} →</button></div>`;
+
+/* -------- 1. learn -------- */
+function learn(){
+ const r=D.sections.filter(s=>P.read[s.id]).length;
+ $('#main').innerHTML=`<div class="card"><h2>📖 Aprender</h2><p class="muted">Lee cada apartado, mira la línea «Recuerda» y marca «Lo he leído». Leído: <b>${r} / ${D.sections.length}</b>.</p><div class="ru">Прочитай каждый раздел (по-испански; перевод — фиолетовым), запомни строку «Recuerda» и нажми «Lo he leído».</div></div>`+
+ D.sections.map((s,i)=>`<details class="sec" ${!P.read[s.id]&&i===D.sections.findIndex(x=>!P.read[x.id])?'open':''}><summary>${s.t}<span class="st ${P.read[s.id]?'ok':''}">${P.read[s.id]?'✓ leído':'por leer'}</span></summary><div class="body"><div class="ru" style="margin:0 0 6px">${s.tr}</div><ul class="pts">${s.pts.map(p=>`<li>${p}</li>`).join('')}</ul><div class="key"><b>Recuerda:</b> ${s.key}</div><div class="ru">${s.ru}</div><div class="row"><button class="btn ${P.read[s.id]?'ghost':''}" data-read="${s.id}">${P.read[s.id]?'Leído ✓':'Lo he leído'}</button></div></div></details>`).join('')+
+ nextBtn('tl','Siguiente: línea del tiempo');
+ $('#main').querySelectorAll('[data-read]').forEach(b=>b.onclick=()=>{P.read[b.dataset.read]=true;save();learn()});
+}
+
+/* -------- 2. timeline -------- */
+let TLm='ver';
+function tl(){
+ const chips=`<div class="chips">${[['ver','Ver'],['ord','Ordenar'],['yr','¿Qué año?']].map(m=>`<button class="chip" data-m="${m[0]}" aria-pressed="${TLm===m[0]}">${m[1]}</button>`).join('')}</div>`;
+ let h=`<div class="card"><h2>📅 Línea del tiempo</h2><p class="muted">Las fechas en dorado son las de la línea del tiempo del libro (p. 22): se aprenden de memoria.</p>${chips}<div id="tlb"></div></div>`;
+ $('#main').innerHTML=h+nextBtn('map','Siguiente: mapa');
+ $('#main').querySelector('.chips').onclick=e=>{const m=e.target.dataset.m;if(m){TLm=m;tl()}};
+ const B=$('#tlb');
+ if(TLm==='ver'){B.innerHTML=`<div class="tl">${D.timeline.map(t=>`<div class="tli ${D.tlcore.includes(t[0])?'core':''}"><b>${t[0]}</b> ${t[1]}<div class="ru" style="margin-top:3px">${t[2]}</div></div>`).join('')}</div><p class="muted">Duración: 395 → 1453 = <b>1058 años</b> («más de mil años»). Esplendor: 395–565 · Declive: 565–1453.</p>`}
+ else if(TLm==='ord'){
+  const items=shuffle(D.timeline.filter(t=>D.tlcore.includes(t[0])));let next=0;const sorted=items.map(t=>t[0]).sort((a,b)=>a-b);let errs=0;
+  B.innerHTML=`<p><b>Toca los hechos en orden cronológico</b> (del más antiguo al más reciente).</p><div class="ord">${items.map(t=>`<button data-y="${t[0]}">${t[1]}</button>`).join('')}</div><p class="fb" id="ordfb"></p>`;
+  B.querySelectorAll('.ord button').forEach(b=>b.onclick=()=>{if(b.classList.contains('done'))return;const y=+b.dataset.y;
+   if(y===sorted[next]){b.classList.add('done');b.innerHTML=`<b>${y}</b> · ${b.textContent}`;next++;if(next===sorted.length){$('#ordfb').className='fb ok';$('#ordfb').textContent=errs?`¡Hecho! Con ${errs} error(es). Repite para hacerlo sin fallos.`:'¡Perfecto, sin errores! ✓';if(!errs){P.tl=true;save()}}}
+   else{errs++;b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');toast('Todavía no: busca uno más antiguo')}})
+ }else{
+  const pool=D.timeline.filter(t=>t[0]!==1985);let t=pool[Math.floor(Math.random()*pool.length)];
+  B.innerHTML=`<p class="q">${t[1]}</p><p class="muted">¿En qué año?</p><div class="row"><input class="yr" id="yi" inputmode="numeric" maxlength="4" placeholder="año"><button class="btn" id="yc">Comprobar</button><button class="btn ghost" id="yn">Otra</button></div><p class="fb" id="yf"></p>`;
+  const chk=()=>{const v=+$('#yi').value;if(!v)return;const f=$('#yf');if(v===t[0]){f.className='fb ok';f.textContent='¡Correcto! '+t[0]}else{f.className='fb bad';f.textContent=`No: fue en ${t[0]}.`}};
+  $('#yc').onclick=chk;$('#yi').onkeydown=e=>{if(e.key==='Enter')chk()};$('#yn').onclick=tl;$('#yi').focus();
+ }
+}
+
+/* -------- 3. map -------- */
+const prj=(lon,lat)=>[(lon-G.LON0)*G.C*G.K,(G.LAT1-lat)*G.K];
+const VB=[55,250,840,390];// x,y,w,h (Mediterráneo)
+const SNAP=[['500','Hacia el 527: antes de Justiniano'],['600','Hacia el 600: tras las conquistas de Justiniano'],['1000','Hacia el 1025'],['1400','Siglo XV: solo Constantinopla']];
+let mapSnap='600',mapQ=null,mapStats={ok:0,n:0};
+function map(){
+ $('#main').innerHTML=`<div class="card"><h2>🗺 Mapa del Imperio bizantino</h2><p class="muted">Mira cómo cambia el territorio. Después, en «Localiza», toca la ciudad que se pide.</p>
+ <div class="chips" id="snaps">${SNAP.map(s=>`<button class="chip" data-y="${s[0]}" aria-pressed="${mapSnap===s[0]}">${s[1]}</button>`).join('')}</div>
+ <div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg></div>
+ <div class="leg"><span><i style="background:#7e57c2aa"></i>Imperio bizantino</span>${mapSnap==='1400'?'<span><i style="background:#00897b88"></i>Imperio otomano (turcos)</span>':''}</div>
+ <div id="mapinfo" class="muted" style="margin-top:8px"></div>
+ <div class="row"><button class="btn" id="mq">📍 Localiza ciudades</button><button class="btn ghost" id="mv">Ver nombres</button><span class="score" id="msc"></span></div>
+ <div class="ru">Территории: в 527 г. — Греция, Балканы, Малая Азия, Сирия, Палестина, Египет. Юстиниан добавил Северную Африку, Италию, острова, юг Испании. В XV в. остался только Константинополь.</div></div>`+nextBtn('pyr','Siguiente: pirámide');
+ drawMap(true);
+ $('#snaps').onclick=e=>{const y=e.target.dataset.y;if(y){mapSnap=y;map()}};
+ $('#mv').onclick=()=>{mapQ=null;drawMap(true);$('#mapinfo').textContent=''};
+ $('#mq').onclick=()=>{mapStats={ok:0,n:0};askCity()};
+ const info={'500':'Grecia, los Balcanes, Asia Menor (Anatolia), Siria, Palestina y Egipto.','600':'Además: norte de África, Italia (en parte, ya con los lombardos en el norte), islas y el sur de Hispania. Ojo: el mapa del libro (p. 23) marca las conquistas máximas de Justiniano: Italia entera, Baleares, Córcega, Cerdeña, Sicilia, sur de Hispania y Ceuta.','1000':'Se han perdido Egipto, Siria, Palestina, África, Italia (casi toda) e Hispania. Quedan Asia Menor y los Balcanes.','1400':'Los turcos lo han conquistado casi todo: solo queda Constantinopla y algo más. Cae en 1453.'};
+ $('#mapinfo').innerHTML='<b>'+SNAP.find(s=>s[0]===mapSnap)[1]+':</b> '+info[mapSnap];
+}
+function drawMap(names){
+ const svg=$('#map');let h=`<path class="land" d="${G.land}"/>`;
+ for(const it of G.snaps[mapSnap])h+=`<path class="${it.k==='otomano'?'oto':'biz'}" d="${it.d}" fill-rule="evenodd"/>`;
+ for(const [n,c] of Object.entries(D.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle cx="${x}" cy="${y}" r="4"/>${names?`<text x="${x+6}" y="${y-5}">${n}</text>`:''}</g>`}
+ h+='<g id="mfx"></g>';svg.innerHTML=h;
+ svg.onclick=mapQ?onMapTap:null;
+}
+function askCity(){
+ const names=Object.keys(D.cities);let n;do{n=names[Math.floor(Math.random()*names.length)]}while(mapQ&&n===mapQ.n&&names.length>1);
+ mapQ={n,done:false};drawMap(false);$('#mapinfo').innerHTML=`<span class="q">Toca: ${n}</span>`;$('#msc').textContent=mapStats.n?`${mapStats.ok} / ${mapStats.n}`:'';
+}
+function onMapTap(e){
+ if(!mapQ||mapQ.done)return;const svg=$('#map');const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+ const c=D.cities[mapQ.n];const [x,y]=prj(c[0],c[1]);const d=Math.hypot(p.x-x,p.y-y);const ok=d<28;mapQ.done=true;mapStats.n++;if(ok)mapStats.ok++;
+ $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${mapQ.n}</text>${ok?'':`<circle cx="${p.x}" cy="${p.y}" r="4" fill="#d1432f"/>`}`;
+ $('#mapinfo').innerHTML=`<span class="fb ${ok?'ok':'bad'}">${ok?'¡Bien!':'Aquí no.'}</span> ${mapQ.n}: ${c[2]}. <button class="btn" id="mn" style="margin-left:6px;padding:6px 12px">Siguiente</button>`;
+ $('#msc').textContent=`${mapStats.ok} / ${mapStats.n}`;
+ if(mapStats.n>=8&&mapStats.ok/mapStats.n>=0.75){P.map=true;save()}
+ $('#mn').onclick=askCity;
+}
+
+/* -------- 4. pyramid -------- */
+let pyrSel=null,pyrPlace={};
+function pyr(){
+ const L=D.pyramid.levels;const items=D.pyramid.items;
+ const pool=items.filter(it=>pyrPlace[it[0]]==null);
+ $('#main').innerHTML=`<div class="card"><h2>🔺 La pirámide social bizantina</h2><p class="muted">Toca un grupo y después el escalón donde va. Versión del libro (p. 24).</p><div class="ru">Нажми на группу, потом на уровень пирамиды.</div>
+ <div class="pool">${shuffle(pool).map(it=>`<button class="tag ${pyrSel===it[0]?'sel':''}" data-t="${esc(it[0])}">${it[0]}</button>`).join('')||'<span class="muted">Todos colocados</span>'}</div>
+ <div class="pyr">${L.map((l,i)=>`<div class="lvl" data-l="${i}" style="margin:0 ${(3-i)*0}px;width:${40+i*20}%;justify-self:center"><h4>${l}</h4><div class="in">${items.filter(it=>pyrPlace[it[0]]===i).map(it=>`<span class="tag" data-back="${esc(it[0])}">${it[0]}</span>`).join('')}</div></div>`).join('')}</div>
+ <div class="row"><button class="btn" id="pc" ${pool.length?'disabled':''}>Comprobar</button><button class="btn ghost" id="pr">Empezar de nuevo</button><button class="btn ghost" id="ps">Ver solución</button></div><p class="fb" id="pf"></p></div>`+nextBtn('cards','Siguiente: tarjetas');
+ $('#main').querySelectorAll('.pool .tag').forEach(b=>b.onclick=()=>{pyrSel=b.dataset.t;pyr()});
+ $('#main').querySelectorAll('.lvl').forEach(d=>d.onclick=e=>{const back=e.target.closest('[data-back]');if(back){delete pyrPlace[back.dataset.back];pyr();return}if(pyrSel){pyrPlace[pyrSel]=+d.dataset.l;pyrSel=null;pyr()}});
+ $('#pr').onclick=()=>{pyrPlace={};pyrSel=null;pyr()};
+ $('#ps').onclick=()=>{items.forEach(it=>pyrPlace[it[0]]=it[1]);pyr();$('#pf').className='fb';$('#pf').textContent='Esta es la solución. Pulsa «Empezar de nuevo» e inténtalo tú.'};
+ $('#pc').onclick=()=>{let bad=0;$('#main').querySelectorAll('[data-back]').forEach(t=>{const it=items.find(x=>x[0]===t.dataset.back);const ok=it[1]===pyrPlace[it[0]];t.classList.add(ok?'ok':'bad');if(!ok)bad++});
+  const f=$('#pf');if(!bad){f.className='fb ok';f.textContent='¡Perfecto! Pirámide correcta ✓';P.pyr=true;save()}else{f.className='fb bad';f.textContent=`${bad} grupo(s) mal colocados (en rojo). Tócalos para devolverlos.`}};
+}
+
+/* -------- 5. flashcards -------- */
+let C={q:[],cur:null,flip:false,rev:false};
+function cards(){
+ if(!C.q.length){C.q=shuffle(D.cards.map(c=>c[0])).sort((a,b)=>(P.cards[a]||0)-(P.cards[b]||0))}
+ if(!C.cur)C.cur=C.q.shift();
+ const c=D.cards.find(x=>x[0]===C.cur);const known=D.cards.filter(x=>(P.cards[x[0]]||0)>=2).length;
+ const front=C.rev?`<div class="d">${c[1]}</div><span class="muted">¿Qué es o quién es?</span>`:`<div class="t">${c[0]}</div><span class="muted">¿Qué sabes de esto? (toca para girar)</span>`;
+ const back=`<div class="t">${c[0]}</div><div class="d">${c[1]}</div><div class="ru">${c[2]}</div>`;
+ $('#main').innerHTML=`<div class="card"><h2>🃏 Tarjetas</h2><p class="muted">Sabes bien: <b>${known} / ${D.cards.length}</b> (cada tarjeta, 2 aciertos seguidos). Las que fallas vuelven antes.</p>
+ <div class="chips"><button class="chip" id="rv" aria-pressed="${C.rev}">Definición → nombre</button></div>
+ <button class="fc" id="fc">${C.flip?back:front}</button>
+ ${C.flip?`<div class="row"><button class="btn ok" id="kn">✓ Lo sabía</button><button class="btn ghost" id="nk">✗ No lo sabía</button></div>`:''}</div>`+nextBtn('quiz','Siguiente: test');
+ $('#fc').onclick=()=>{if(!C.flip){C.flip=true;cards()}};
+ $('#rv').onclick=()=>{C.rev=!C.rev;C.flip=false;cards()};
+ if(C.flip){$('#kn').onclick=()=>{P.cards[c[0]]=(P.cards[c[0]]||0)+1;nextCard()};$('#nk').onclick=()=>{P.cards[c[0]]=0;C.q.splice(Math.min(3,C.q.length),0,c[0]);nextCard()}}
+}
+function nextCard(){save();C.cur=null;C.flip=false;cards()}
+
+/* -------- 6. quiz -------- */
+let Qt='all',Qs=null;
+function quiz(){
+ const pool=D.quiz.map((q,i)=>({...q,i})).filter(q=>Qt==='all'||q.topic===Qt);
+ if(!Qs||Qs.topic!==Qt){Qs={topic:Qt,list:shuffle(pool).sort((a,b)=>(P.quiz[a.i]===true)-(P.quiz[b.i]===true)),k:0,ok:0,n:0}}
+ const right=Object.values(P.quiz).filter(v=>v===true).length;
+ const q=Qs.list[Qs.k%Qs.list.length];const opts=shuffle([q.a,...q.w]);
+ $('#main').innerHTML=`<div class="card"><h2>✅ Test por temas</h2><p class="muted">Acertadas alguna vez: <b>${right} / ${D.quiz.length}</b>. Primero salen las que aún no has acertado.</p>
+ <div class="chips">${[['all','Todo'],...Object.entries(TOPICS)].map(t=>`<button class="chip" data-t="${t[0]}" aria-pressed="${Qt===t[0]}">${t[1]}</button>`).join('')}</div>
+ <p class="score">Pregunta ${Qs.n+1} · ${Qs.ok} / ${Qs.n} en esta ronda · tema: ${TOPICS[q.topic]}</p>
+ <p class="q">${q.q}</p><div class="opts">${opts.map(o=>`<button data-o="${esc(o)}">${o}</button>`).join('')}</div><div id="qf"></div></div>`+nextBtn('open','Siguiente: preguntas largas');
+ $('#main').querySelector('.chips').onclick=e=>{const t=e.target.dataset.t;if(t){Qt=t;Qs=null;quiz()}};
+ $('#main').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{
+  const ok=b.dataset.o===q.a;$('#main').querySelectorAll('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add('ok')});if(!ok)b.classList.add('bad');
+  Qs.n++;if(ok){Qs.ok++;P.quiz[q.i]=true}else if(P.quiz[q.i]!==true)P.quiz[q.i]=false;save();
+  $('#qf').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'Incorrecto.'}</p><p class="expl">${q.e}</p><div class="row"><button class="btn" id="qn">Siguiente</button></div>`;
+  $('#qn').onclick=()=>{Qs.k++;quiz()};$('#qn').focus()});
+}
+
+/* -------- 7. open questions -------- */
+let Oi=0;
+function largas(){
+ const o=D.open[Oi];const st=P.open[Oi];
+ $('#main').innerHTML=`<div class="card"><h2>✍️ Preguntas largas (de desarrollo)</h2><p class="muted">Así suelen ser las preguntas del examen. Escribe tu respuesta (o dila en voz alta), mira la respuesta modelo y marca las ideas que incluiste.</p><div class="ru">Напиши ответ сама, потом открой образец и отметь, какие ключевые идеи у тебя были.</div>
+ <div class="chips">${D.open.map((x,i)=>`<button class="chip" data-i="${i}" aria-pressed="${i===Oi}">${i+1}${P.open[i]!=null?' ✓':''}</button>`).join('')}</div>
+ <p class="q">${Oi+1}. ${o.q}</p><textarea id="ot" placeholder="Escribe aquí tu respuesta…">${esc(LS.get('ans'+Oi,''))}</textarea>
+ <div class="row"><button class="btn" id="os">Ver respuesta modelo</button></div><div id="om"></div></div>`+nextBtn('exam','Siguiente: examen final');
+ $('#main').querySelector('.chips').onclick=e=>{const i=e.target.dataset.i;if(i!=null){Oi=+i;largas()}};
+ $('#ot').oninput=e=>LS.set('ans'+Oi,e.target.value);
+ const show=()=>{$('#om').innerHTML=`<div class="model"><b>Respuesta modelo:</b><p style="margin:6px 0 0">${o.a}</p></div><div class="kw" style="margin-top:10px"><b>¿Qué ideas clave has puesto?</b>${o.k.map((k,j)=>`<label><input type="checkbox" data-j="${j}"> ${k}</label>`).join('')}</div><div class="row"><button class="btn" id="og">Guardar y siguiente</button></div><p class="fb" id="okf"></p>`;
+  $('#og').onclick=()=>{const n=$('#om').querySelectorAll('input:checked').length;P.open[Oi]=n;save();toast(`${n} / ${o.k.length} ideas clave`);Oi=(Oi+1)%D.open.length;largas()}};
+ $('#os').onclick=show;
+}
+
+/* -------- 8. exam -------- */
+let E=null;
+function exam(){
+ if(!E){
+  $('#main').innerHTML=`<div class="card"><h2>🎯 Examen final</h2><p>20 preguntas mezcladas, como en una prueba real: test, verdadero/falso, fechas, mapa y pirámide. Sin ayudas. Al final verás tu nota sobre 10 y los errores para repasar.</p><div class="ru">20 смешанных вопросов без подсказок. В конце — оценка из 10 и разбор ошибок.</div>
+  <div class="grid2" style="margin-top:10px"><div class="stat"><span class="muted">Mejor nota</span><b>${P.best!=null?P.best.toLocaleString('es')+' / 10':'—'}</b></div><div class="stat"><span class="muted">Recomendado</span><b style="font-size:1rem">Haz antes los pasos 1–7</b></div></div>
+  <div class="row"><button class="btn" id="es">Empezar el examen</button></div></div>`;
+  $('#es').onclick=()=>{E=buildExam();examQ()};return}
+ examQ();
+}
+function buildExam(){
+ const it=[];
+ shuffle(D.quiz).slice(0,11).forEach(q=>it.push({t:'mc',q:q.q,a:q.a,o:shuffle([q.a,...q.w]),e:q.e}));
+ shuffle(D.tf).slice(0,4).forEach(q=>it.push({t:'mc',q:'Verdadero o falso: '+q[0],a:q[1]?'Verdadero':'Falso',o:['Verdadero','Falso'],e:q[2]}));
+ shuffle(D.timeline.filter(t=>D.tlcore.includes(t[0]))).slice(0,2).forEach(t=>it.push({t:'yr',q:t[1],a:t[0]}));
+ const cn=shuffle(Object.keys(D.cities)).slice(0,2);cn.forEach(n=>it.push({t:'map',q:'Localiza en el mapa: '+n,n}));
+ const pi=D.pyramid.items[Math.floor(Math.random()*D.pyramid.items.length)];it.push({t:'mc',q:`¿En qué escalón de la pirámide estaban «${pi[0]}»?`,a:D.pyramid.levels[pi[1]],o:D.pyramid.levels.slice(),e:'Pirámide del libro, p. 24.'});
+ return{items:shuffle(it),k:0,ok:0,wrong:[]};
+}
+function examQ(){
+ if(E.k>=E.items.length)return examEnd();
+ const q=E.items[E.k];let body='';
+ if(q.t==='mc')body=`<div class="opts">${q.o.map(o=>`<button data-o="${esc(o)}">${o}</button>`).join('')}</div>`;
+ if(q.t==='yr')body=`<p class="muted">¿En qué año?</p><div class="row"><input class="yr" id="ey" inputmode="numeric" maxlength="4"><button class="btn" id="eyc">Responder</button></div>`;
+ if(q.t==='map'){mapSnap='600';body=`<div class="mapwrap"><svg id="map" viewBox="${VB.join(' ')}"></svg></div>`}
+ $('#main').innerHTML=`<div class="card"><p class="score">Pregunta ${E.k+1} / ${E.items.length} · aciertos ${E.ok}</p><div class="prog"><i style="width:${E.k/E.items.length*100}%"></i></div><p class="q">${q.q}</p>${body}<div id="ef"></div></div>`;
+ const fin=(ok,msg)=>{if(ok)E.ok++;else E.wrong.push({q:q.q,a:msg});$('#ef').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?'¡Correcto!':'Incorrecto. Respuesta: '+msg}</p>${q.e&&!ok?`<p class="expl">${q.e}</p>`:''}<div class="row"><button class="btn" id="en">${E.k+1<E.items.length?'Siguiente':'Ver nota'}</button></div>`;$('#en').onclick=()=>{E.k++;examQ()};$('#en').focus()};
+ if(q.t==='mc')$('#main').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const ok=b.dataset.o===q.a;$('#main').querySelectorAll('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.o===q.a)x.classList.add('ok')});if(!ok)b.classList.add('bad');fin(ok,q.a)});
+ if(q.t==='yr'){const go_=()=>{const v=+$('#ey').value;if(!v)return;$('#eyc').disabled=true;$('#ey').disabled=true;fin(v===q.a,String(q.a))};$('#eyc').onclick=go_;$('#ey').onkeydown=e=>{if(e.key==='Enter')go_()};$('#ey').focus()}
+ if(q.t==='map'){mapQ=null;drawMap(false);const svg=$('#map');let done=false;svg.onclick=e=>{if(done)return;done=true;const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());const c=D.cities[q.n];const [x,y]=prj(c[0],c[1]);const ok=Math.hypot(p.x-x,p.y-y)<28;
+  $('#mfx').innerHTML=`<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${ok?'#2f8f5b':'#d1432f'}" stroke-width="3"/><text x="${x+8}" y="${y-8}" style="font-size:12px;font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px">${q.n}</text>`;fin(ok,q.n+' (marcada en el mapa)')}}
+}
+function examEnd(){
+ const n=E.items.length,g=Math.round(E.ok/n*100)/10;if(P.best==null||g>P.best)P.best=g;save();
+ const msg=g>=9?'¡Sobresaliente! Estás lista. 🎉':g>=7?'¡Notable! Repasa los errores y repite.':g>=5?'Aprobado. Repasa las tarjetas y el test de los temas con errores.':'Todavía no. Vuelve a «Aprender» y al test por temas.';
+ $('#main').innerHTML=`<div class="card"><h2>Resultado</h2><div class="big">${g.toLocaleString('es')} / 10</div><p>${E.ok} de ${n} correctas. ${msg}</p>
+ ${E.wrong.length?`<h3>Para repasar</h3><ul class="res">${E.wrong.map(w=>`<li>${w.q}<br><b style="color:var(--ok)">→ ${w.a}</b></li>`).join('')}</ul>`:''}
+ <div class="row"><button class="btn" id="er">Otro examen</button><a class="btn ghost" href="pdf/chuleta-bizantinos.pdf" download style="text-decoration:none">📄 Chuleta PDF</a></div></div>`;
+ $('#er').onclick=()=>{E=buildExam();examQ()};
+}
+
+renderSteps();go(cur);
+</script>
+</body>
+</html>

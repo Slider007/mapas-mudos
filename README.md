@@ -17,6 +17,7 @@ Mapas mudos interactivos para las clases de geografía: localizar, nombrar, repe
 | 3 | `europa-politica/` | Europa política | en preparación |
 | 4 | `europa-fisica/` | Europa física | en preparación |
 | Historia T1 | `historia-tema1/` | Fin de la Edad Antigua e inicio de la Edad Media: germanos y visigodos, bizantinos, carolingios (3 pruebas) | listo |
+| Historia T1 · Bizancio | `historia-bizancio/` | Entrenador para la prueba del Imperio bizantino (teoría, fechas, mapa, pirámide, tarjetas, test, examen) y chuleta en PDF | listo |
 
 Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para imprimir y mapa físico del IGN). La página `index.html` de la raíz enumera las lecciones. La carpeta `tools/` contiene los scripts, datos y la plantilla con que se construyó la lección 2 (véase `tools/README.md`).
 
@@ -45,6 +46,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 | 3 | `europa-politica/` | Политическая карта Европы | в работе |
 | 4 | `europa-fisica/` | Физическая карта Европы | в работе |
 | История, тема 1 | `historia-tema1/` | Конец Античности и начало Средневековья: германцы и вестготы, Византия, Каролинги (3 проверочные) | готово |
+| История, тема 1 · Византия | `historia-bizancio/` | Тренажёр к проверочной по Византии (материал, даты, карта, пирамида, карточки, тест, экзамен) и шпаргалка PDF | готово |
 
 Каждый урок это папка с `index.html`, `img/` и `pdf/` (контурная карта для печати и физическая карта IGN). Корневой `index.html` содержит список уроков. В `tools/` лежат скрипты, данные и шаблон, из которых собран урок 2 (см. `tools/README.md`).
 
@@ -73,6 +75,7 @@ Interactive blank (outline) maps for school geography lessons: locate, name, rev
 | 3 | `europa-politica/` | Political map of Europe | in progress |
 | 4 | `europa-fisica/` | Physical map of Europe | in progress |
 | History, topic 1 | `historia-tema1/` | End of Antiquity and start of the Middle Ages: Germanic peoples and Visigoths, Byzantium, Carolingians (3 quizzes) | ready |
+| History T1 · Byzantium | `historia-bizancio/` | Trainer for the Byzantine Empire quiz (theory, dates, map, pyramid, flashcards, test, exam) and a PDF cheat sheet | ready |
 
 Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank map and the IGN physical map). The root `index.html` lists the lessons. `tools/` holds the scripts, data and template used to build lesson 2 (see `tools/README.md`).
 
