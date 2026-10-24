@@ -281,7 +281,7 @@ CITIES_B = {
 }
 
 MAPS = [
- {"id": "imperio", "tab": "Expansión (p. 21)", "title": "La expansión del Imperio carolingio", "sub": "Organizado como el mapa 12 del libro (p. 21).",
+ {"id": "imperio", "tab": "🗺 1 · Expansión del Imperio", "title": "La expansión del Imperio carolingio", "sub": "Organizado como el mapa 12 del libro (p. 21).",
   "vb": [50, 40, 600, 440], "cx": 6,
   "layers": [["f768", "Reino franco en el 768", "#f2c9de"], ["conq", "Conquistas de Carlomagno (hasta el 814)", "#d98cc0"],
              ["mar", "Marcas (territorios fronterizos)", "#9b6fd1"], ["pap", "Estados de la Iglesia", "#f5dd5a"],
@@ -325,7 +325,7 @@ MAPS = [
          "<li><b>Берега, озёра и реки:</b> Natural Earth 1:10m.</li></ul>"
          "<p>Границы того времени приблизительные. На контрольной главное — карта учебника.</p>",
  },
- {"id": "verdun", "tab": "Tratado de Verdún (p. 21)", "title": "El Tratado de Verdún (843)", "sub": "Organizado como el mapa 14 del libro (p. 21).",
+ {"id": "verdun", "tab": "🗺 2 · Tratado de Verdún (843)", "title": "El Tratado de Verdún (843)", "sub": "Organizado como el mapa 14 del libro (p. 21).",
   "vb": [110, 60, 360, 340],
   "layers": [["carlos", "Carlos el Calvo (parte occidental)", "#f0a877"], ["lotario", "Lotario (parte intermedia y título de emperador)", "#86cfc2"],
              ["luis", "Luis el Germánico (parte oriental)", "#e7b3dc"], ["pap850", "Estados de la Iglesia", "#f5dd5a"]],
