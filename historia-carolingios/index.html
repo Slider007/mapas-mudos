@@ -80,6 +80,9 @@ input.yr{width:110px;font-size:1.2rem;padding:8px 10px;border-radius:12px;border
 /* map */
 .mapwrap{position:relative;border-radius:16px;overflow:hidden;background:#cfe1e8;border:1.5px solid var(--line);touch-action:manipulation}
 svg#map{display:block;width:100%;height:auto;cursor:crosshair}
+.mm{margin:12px 0 6px}.mmw{border-radius:12px;overflow:hidden;background:#cfe1e8;border:1.5px solid var(--line)}
+svg.mini{display:block;width:100%;height:auto}.mm figcaption{font-size:.88rem;color:var(--ink2);margin-top:6px}
+.mm .mleg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.8rem;margin-top:4px}.mm .mleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px;border:1px solid #999}
 @media(max-width:640px){.mapwrap{margin:0 -31px;border-radius:0;border-left:0;border-right:0}}
 .land{fill:#f3eee0;stroke:#c9bfa6;stroke-width:.6;vector-effect:non-scaling-stroke}
 .biz{fill:#7e57c2;fill-opacity:.42;stroke:#5e35b1;stroke-width:1}
@@ -180,11 +183,42 @@ const nextBtn=(s,lab)=>`<div class="row"><button class="btn" onclick="go('${s}')
 /* -------- 1. learn -------- */
 function learn(){
  const r=D.sections.filter(s=>P.read[s.id]).length;
- $('#main').innerHTML=`<div class="card"><h2>📖 Aprender</h2><p class="muted">Lee cada apartado, mira la línea «Recuerda» y marca «Lo he leído». Leído: <b>${r} / ${D.sections.length}</b>.</p><div class="ru">Прочитай каждый раздел (по-испански; перевод — фиолетовым), запомни строку «Recuerda» и нажми «Lo he leído».</div></div>`+
- D.sections.map((s,i)=>`<details class="sec" ${!P.read[s.id]&&i===D.sections.findIndex(x=>!P.read[x.id])?'open':''}><summary>${s.t}<span class="st ${P.read[s.id]?'ok':''}">${P.read[s.id]?'✓ leído':'por leer'}</span></summary><div class="body"><div class="ru" style="margin:0 0 6px">${s.tr}</div><ul class="pts">${s.pts.map(p=>`<li>${p}</li>`).join('')}</ul><div class="key"><b>Recuerda:</b> ${s.key}</div><div class="ru">${s.ru}</div><div class="row"><button class="btn ${P.read[s.id]?'ghost':''}" data-read="${s.id}">${P.read[s.id]?'Leído ✓':'Lo he leído'}</button></div></div></details>`).join('')+
+ $('#main').innerHTML=(D.sections.some(s=>s.map)?`<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="LANDP" d="${G.land}" vector-effect="non-scaling-stroke"/><clipPath id="LANDC"><use href="#LANDP"/></clipPath></defs></svg>`:'')+`<div class="card"><h2>📖 Aprender</h2><p class="muted">Lee cada apartado, mira la línea «Recuerda» y marca «Lo he leído». Leído: <b>${r} / ${D.sections.length}</b>.</p><div class="ru">Прочитай каждый раздел (по-испански; перевод — фиолетовым), запомни строку «Recuerda» и нажми «Lo he leído».</div></div>`+
+ D.sections.map((s,i)=>`<details class="sec" ${!P.read[s.id]&&i===D.sections.findIndex(x=>!P.read[x.id])?'open':''}><summary>${s.t}<span class="st ${P.read[s.id]?'ok':''}">${P.read[s.id]?'✓ leído':'por leer'}</span></summary><div class="body"><div class="ru" style="margin:0 0 6px">${s.tr}</div><ul class="pts">${s.pts.map(p=>`<li>${p}</li>`).join('')}</ul>${s.map?miniFig(s.map,i):''}<div class="key"><b>Recuerda:</b> ${s.key}</div><div class="ru">${s.ru}</div><div class="row"><button class="btn ${P.read[s.id]?'ghost':''}" data-read="${s.id}">${P.read[s.id]?'Leído ✓':'Lo he leído'}</button></div></div></details>`).join('')+
  nextBtn('tl','Siguiente: línea del tiempo');
  $('#main').querySelectorAll('[data-read]').forEach(b=>b.onclick=()=>{P.read[b.dataset.read]=true;save();learn()});
+ $('#main').querySelectorAll('details.sec').forEach(d=>d.addEventListener('toggle',sizeMinis));sizeMinis();
 }
+
+/* mini-mapas de cada apartado: qué pasa y dónde */
+function miniFig(mm,uid){
+ const sw=(fill)=>fill==='#hd'?'repeating-linear-gradient(135deg,#333 0 1px,#fff 1px 5px)':fill;
+ return `<figure class="mm"><div class="mmw">${miniMap(mm,uid)}</div><figcaption>${mm.leg?`<div class="mleg">${mm.leg.map(([f,t])=>`<span><i style="background:${sw(f)}"></i>${t}</span>`).join('')}</div>`:''}<div style="margin-top:4px">${mm.cap}</div>${mm.cap_ru?`<div class="ru">${mm.cap_ru}</div>`:''}</figcaption></figure>`}
+function miniMap(mm,uid){
+ const vb=mm.vb,P=(lo,la)=>prj(lo,la),f=v=>v.toFixed(2);
+ const T=(x,y,t,fs,st,anchor='middle',dx=0,dy=0,sw=3)=>`<text data-fs="${fs}" data-x="${f(x)}" data-y="${f(y)}" data-dx="${dx}" data-dy="${dy}" data-sw="${sw}" x="${f(x)}" y="${f(y)}" text-anchor="${anchor}" style="${st}">${t}</text>`;
+ let h=`<svg class="mini" viewBox="${vb.join(' ')}" data-w="${vb[2]}" role="img" aria-label="${(mm.cap||'').replace(/<[^>]+>/g,'').replace(/"/g,'')}"><defs><pattern id="hd${uid}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45) scale(${f(vb[2]/560)})"><line x1="0" y1="0" x2="0" y2="6" stroke="#333" stroke-width="1.1"/></pattern></defs>
+ <use href="#LANDP" class="land"/><g clip-path="url(#LANDC)">`;
+ for(const [rings,fill,op] of mm.regs||[])for(const pl of rings)h+=`<path d="${poly(pl)}" fill="${fill==='#hd'?`url(#hd${uid})`:fill}" fill-opacity="${op==null?.8:op}" stroke="${fill==='#hd'?'none':'#9a8a6a'}" stroke-width=".6" vector-effect="non-scaling-stroke"/>`;
+ h+=`</g><path d="${G.rivers}" fill="none" stroke="#4f8fb8" stroke-width=".9" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`;
+ for(const r of mm.lines||[]){const d=line(r.pts),col=r.col||'#c62828';
+  h+=`<path d="${d}" fill="none" stroke="#fff" data-lw="5.5" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/><path d="${d}" fill="none" stroke="${col}" data-lw="2.4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" ${r.dash?'data-dash="6 4" stroke-dasharray="6 4"':''}/>`;
+  if(!r.noarrow){const n=r.pts.length,a=P(...r.pts[n-2]),b=P(...r.pts[n-1]),ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
+   h+=`<path data-as="1" data-tx="${f(b[0])}" data-ty="${f(b[1])}" data-rot="${f(ang)}" d="M-4.5,-4.6 L3.2,0 L-4.5,4.6 L-2.6,0Z" fill="${col}" stroke="#fff" stroke-width=".25" transform="translate(${f(b[0])},${f(b[1])}) rotate(${f(ang)})"/>`}
+  if(r.label){const [x,y]=P(...(r.lab||r.pts[Math.floor(r.pts.length/2)]));h+=T(x,y,r.label,10,`font-weight:800;fill:${col};paint-order:stroke;stroke:#fff`)}}
+ for(const [t,lo,la,st] of mm.labels||[]){const [x,y]=P(lo,la);
+  const S={sea:[9.5,'font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#cfe1e8'],big:[10.5,'font-weight:800;letter-spacing:.05em;fill:#444;paint-order:stroke;stroke:rgba(255,255,255,.9)'],note:[9,'fill:#333;paint-order:stroke;stroke:#fff']}[st]||[10,`font-weight:800;fill:${st||'#333'};paint-order:stroke;stroke:#fff`];
+  h+=T(x,y,t,S[0],S[1])}
+ for(const [n,lo,la,side] of mm.pts||[]){const [x,y]=P(lo,la),[an,dx,dy]={w:['end',-5,-4],n:['middle',0,-7],s:['middle',0,15]}[side]||['start',5,-4];
+  h+=`<circle data-r="3.4" cx="${f(x)}" cy="${f(y)}" r="3.4" fill="#7a2e2e" stroke="#fff" data-lw="1.2" stroke-width="1.2"/>`+T(x,y,n,10.5,'font-weight:700;fill:#222;paint-order:stroke;stroke:#fff;stroke-linejoin:round',an,dx,dy)}
+ return h+'</svg>'}
+function sizeMinis(){document.querySelectorAll('svg.mini').forEach(s=>{const w=s.clientWidth;if(!w)return;const u=+s.dataset.w/w;
+ s.querySelectorAll('[data-fs]').forEach(t=>{t.style.fontSize=(t.dataset.fs*u)+'px';t.style.strokeWidth=(t.dataset.sw*u)+'px';t.setAttribute('x',+t.dataset.x+t.dataset.dx*u);t.setAttribute('y',+t.dataset.y+t.dataset.dy*u)});
+ s.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',c.dataset.r*u));
+ s.querySelectorAll('[data-lw]').forEach(p=>p.setAttribute('stroke-width',p.dataset.lw*u));
+ s.querySelectorAll('[data-dash]').forEach(p=>p.setAttribute('stroke-dasharray',p.dataset.dash.split(' ').map(v=>v*u).join(' ')));
+ s.querySelectorAll('[data-as]').forEach(a=>a.setAttribute('transform',`translate(${a.dataset.tx},${a.dataset.ty}) rotate(${a.dataset.rot}) scale(${u})`))})}
+window.addEventListener('resize',sizeMinis);
 
 /* -------- 2. timeline -------- */
 let TLm='ver';
