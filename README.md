@@ -19,7 +19,7 @@ Mapas mudos interactivos para las clases de geografía: localizar, nombrar, repe
 | Historia T1 | `historia-tema1/` | Fin de la Edad Antigua e inicio de la Edad Media: germanos y visigodos, bizantinos, carolingios (3 pruebas) | listo |
 | Historia T1 · parte 1 | `historia-visigodos/` | Entrenador: pueblos germanos y visigodos (teoría, fechas, 3 mapas del libro, pirámide, tarjetas, test, examen) | listo |
 | Historia T1 · parte 2 | `historia-bizancio/` | Entrenador: el Imperio bizantino (teoría, fechas, mapa del libro, pirámide, tarjetas, test, examen) | listo |
-| Historia T1 · parte 3 | — | Entrenador: los carolingios | en preparación |
+| Historia T1 · parte 3 | `historia-carolingios/` | Entrenador: los carolingios (prueba 30 oct) | listo |
 | Historia T1 · recursos | `historia-recursos/` | PDF para imprimir: mapas mudos, línea del tiempo, plantillas del cuaderno y de trabajos | listo |
 | Historia T2 | — | El islam y al-Ándalus | en preparación |
 
@@ -34,6 +34,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Costas, lagos y ríos de los entrenadores de historia: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Fronteras históricas de `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), licencia GPL-3.0 (fronteras aproximadas)
 - Mapa de Bizancio (527 y conquistas de Justiniano): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, licencia CC BY 4.0; 1025, 1204 y 1453: según el mapa 18 del libro de texto
+- Mapas de los carolingios (reino franco en 768, Imperio en 814, Tratado de Verdún): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), CC BY 4.0, organizados como los mapas 12 y 14 del libro; marcas aproximadas
 
 ### Licencia
 - Código (`tools/`, HTML/JS): **MIT**, véase [`LICENSE`](LICENSE).
@@ -54,7 +55,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 | История, тема 1 | `historia-tema1/` | Конец Античности и начало Средневековья: германцы и вестготы, Византия, Каролинги (3 проверочные) | готово |
 | История, тема 1 · часть 1 | `historia-visigodos/` | Тренажёр: германцы и вестготы (материал, даты, 3 карты из учебника, пирамида, карточки, тест, экзамен) | готово |
 | История, тема 1 · часть 2 | `historia-bizancio/` | Тренажёр: Византия (материал, даты, карта из учебника, пирамида, карточки, тест, экзамен) | готово |
-| История, тема 1 · часть 3 | — | Тренажёр: Каролинги | в работе |
+| История, тема 1 · часть 3 | `historia-carolingios/` | Тренажёр: Каролинги (проверочная 30 окт) | готов |
 | История, тема 1 · материалы | `historia-recursos/` | PDF для печати: контурные карты, линия времени, шаблоны тетради и работы | готово |
 | История, тема 2 | — | Ислам и Аль-Андалус | в работе |
 
@@ -69,6 +70,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Берега, озёра и реки в тренажёрах по истории: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Исторические границы в `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), лицензия GPL-3.0 (границы приблизительные)
 - Карта Византии (527 г. и завоевания Юстиниана): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, лицензия CC BY 4.0; 1025, 1204 и 1453 гг. — по карте 18 учебника
+- Карты Каролингов (королевство франков в 768 г., империя в 814 г., Верденский договор): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), CC BY 4.0, устроены как карты 12 и 14 учебника; марки приблизительные
 
 ### Лицензия
 - Код (`tools/`, HTML/JS): **MIT**, см. [`LICENSE`](LICENSE).
@@ -89,7 +91,7 @@ Interactive blank (outline) maps for school geography lessons: locate, name, rev
 | History, topic 1 | `historia-tema1/` | End of Antiquity and start of the Middle Ages: Germanic peoples and Visigoths, Byzantium, Carolingians (3 quizzes) | ready |
 | History T1 · part 1 | `historia-visigodos/` | Trainer: Germanic peoples and Visigoths (theory, dates, 3 textbook maps, pyramid, flashcards, test, exam) | ready |
 | History T1 · part 2 | `historia-bizancio/` | Trainer: the Byzantine Empire (theory, dates, textbook map, pyramid, flashcards, test, exam) | ready |
-| History T1 · part 3 | — | Trainer: the Carolingians | in progress |
+| History T1 · part 3 | `historia-carolingios/` | Trainer: the Carolingians (quiz 30 Oct) | ready |
 | History T1 · resources | `historia-recursos/` | Printable PDFs: blank maps, timeline, notebook and project templates | ready |
 | History T2 | — | Islam and al-Andalus | in progress |
 
@@ -104,6 +106,7 @@ Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank ma
 - Coasts, lakes and rivers in the history trainers: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector)
 - Historical borders in `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), GPL-3.0 licence (borders are approximate)
 - Byzantium map (527 and Justinian's conquests): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, CC BY 4.0 licence; 1025, 1204 and 1453 follow map 18 of the textbook
+- Carolingian maps (Frankish kingdom in 768, Empire in 814, Treaty of Verdun): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), CC BY 4.0, laid out like maps 12 and 14 of the textbook; marches are approximate
 
 ### License
 - Code (`tools/`, HTML/JS): **MIT**, see [`LICENSE`](LICENSE).

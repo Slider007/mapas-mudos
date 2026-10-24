@@ -7,7 +7,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor, white, black
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-import bizancio, visigodos
+import bizancio, visigodos, carolingios
 
 FD = '/usr/share/fonts/truetype/dejavu/'
 pdfmetrics.registerFont(TTFont('DV', FD + 'DejaVuSans.ttf'))
@@ -133,7 +133,7 @@ def maps_pdf(out):
              show_regions=False, tasks=['Colorea con los colores de tu leyenda. Marca también los territorios actuales de España que fueron bizantinos.'])
     ma, mr, mt = visigodos.MAPS
     map_page(c, W, H, ma, 'Mapa mudo · Rutas de las invasiones germanas', 'Tema 1 · como el mapa 1 del libro (p. 14)',
-             ['Imperio romano de Occidente', 'Imperio romano de Oriente'], show_regions=False, draw_lines=[[[19.2, 47.5], [19.2, 30.6]]],
+             ['Imperio romano de Occidente', 'Imperio romano de Oriente'], show_regions=False, draw_lines=[ma['regions']['teo'][0]['pts']],
              tasks=['La línea discontinua es el límite de Teodosio (395).', 'Dibuja con flechas de colores la ruta de: visigodos, vándalos, suevos, alanos, ostrogodos, francos, anglos y sajones, y hunos. Añade cada color a la leyenda.', 'Marca con una X la batalla de los Campos Cataláunicos (451).'])
     nums = [(-4.3, 38.9), (-8.0, 42.4), (2.2, 49.3), (5.6, 46.4), (9.0, 48.4), (11.3, 51.0), (9.4, 53.4), (-0.7, 52.4), (12.6, 43.3), (8.5, 34.9), (32, 39.2)]
     map_page(c, W, H, mr, 'Mapa mudo · Los reinos germanos a finales del siglo V', 'Tema 1 · como el mapa 5 del libro (p. 16)',
@@ -143,6 +143,15 @@ def maps_pdf(out):
              ['Reino de los visigodos de Toledo', 'Conquistas de Leovigildo (568–586)', 'Posesiones bizantinas', 'Pueblos no sometidos (astures, cántabros, vascones)'],
              numbered_regions=[(-3.5, 40.6), (-8.1, 42.3), (-4.9, 37.75), (-3.6, 36.95), (-4.5, 43.25)],
              tasks=['Dibuja con una flecha el itinerario de los visigodos desde la Galia hasta Toledo.'])
+    mi, mv = carolingios.MAPS
+    map_page(c, W, H, mi, 'Mapa mudo · La expansión del Imperio carolingio', 'Tema 1 · como el mapa 12 del libro (p. 21)',
+             ['Reino franco en el 768', 'Conquistas de Carlomagno (hasta el 814)', 'Marcas (territorios fronterizos)', 'Estados de la Iglesia', 'Reinos cristianos', 'Al-Ándalus', 'Imperio islámico', 'Imperio bizantino'],
+             numbered_regions=[(2.0, 47.6), (9.6, 52.4), (9.6, 45.1), (12.3, 48.2), (1.6, 41.9), (12.8, 42.6), (-4.5, 39.2), (-6.2, 42.8), (22.5, 39.6)],
+             tasks=['Colorea con los colores de tu leyenda.', 'Escribe el nombre de las marcas: Hispánica, Bretona, Danesa, Soraba, del Este, Panónica y del Friuli.', 'Marca con una X la batalla de Poitiers (732).'])
+    map_page(c, W, H, mv, 'Mapa mudo · El Tratado de Verdún', 'Tema 1 · como el mapa 14 del libro (p. 21)',
+             ['Parte de Carlos el Calvo', 'Parte de Lotario', 'Parte de Luis el Germánico', 'Estados de la Iglesia'],
+             numbered_regions=[(0.6, 46.9), (5.9, 47.8), (11.6, 50.6), (12.8, 42.3)],
+             tasks=['¿En qué año se firmó el tratado?', '¿Qué estado actual surgió de la parte de Carlos el Calvo? ¿Y de la de Luis el Germánico?'])
     c.save()
 
 def timeline_pdf(out):
