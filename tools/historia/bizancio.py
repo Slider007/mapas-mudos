@@ -350,9 +350,7 @@ MAPS = [{
 
 # ---------- mini-mapas de «Aprender»: qué pasa y dónde en cada apartado ----------
 import visigodos as _V
-def _vb(lon0, lat0, lon1, lat1):  # proyección del sitio: x=(lon+14)*C*K, y=(60-lat)*K
-    C, K = 0.7193398, 20
-    return [round((lon0 + 14) * C * K, 1), round((60 - lat1) * K, 1), round((lon1 - lon0) * C * K, 1), round((lat1 - lat0) * K, 1)]
+from mm import vb as _vb
 _R = MAPS[0]["regions"]
 _CPL = ["Constantinopla", 28.98, 41.01]
 MINIMAPS = {
