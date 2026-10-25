@@ -3,7 +3,7 @@
 META = {
  "title": "Germanos y visigodos — preparar la prueba", "h1": "⚔️ Los pueblos germanos y los visigodos",
  "sub": "Tema 1 · parte 1 · aprender → repasar → examen", "lsp": "h1_vis_",
- "footer": "Fuentes: libro de texto (Tema 1, p. 14–19, 36 y 38) y resumen del profesor. Mapas: dibujados según los mapas 1, 5 y 6 del libro (p. 14, 16 y 17), territorios y rutas aproximados; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector).",
+ "footer": "Fuentes: libro de texto (Tema 1, p. 14–19, 36 y 38) y resumen del profesor. Mapas: dibujados según los mapas 1, 5 y 6 del libro (p. 14, 16 y 17), territorios y rutas aproximados; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector); fotos: Wikimedia Commons (autor y licencia en cada foto).",
 }
 TOPICS = {"edadmedia": "La Edad Media", "germanos": "Pueblos e invasiones", "reinos": "Reinos germanos", "visigodos": "Reino visigodo",
           "sociedad": "Sociedad y economía", "cultura": "Cultura y arte"}
@@ -485,3 +485,31 @@ MINIMAPS = {
 }
 for _s in SECTIONS:
     if _s["id"] in MINIMAPS: _s["map"] = MINIMAPS[_s["id"]]
+
+# ---------- fotos y esquemas de «Aprender» ----------
+from mm import photo as _ph
+MEDIA = {
+ "edadmedia": [{"dia": "phases", "title": ["Las fases de la Edad Media", "Периоды Средних веков"], "from": 476, "to": 1453,
+   "items": [[["Alta Edad Media", "раннее"], 476, 1000, "#7e57c2"], [["Plena", "высокое"], 1000, 1250, "#43a047"], [["Baja", "позднее"], 1250, 1453, "#e65100"]],
+   "marks": [[476, "476"], [1000, "s. XI"], [1250, "s. XIII"], [1453, "1453"]],
+   "note": ["Alta: siglos V–XI · Plena: XI–XIII · Baja: XIII–XV. Empieza con la caída de Roma (476) y termina con la de Constantinopla (1453).", "Раннее: V–XI вв. · высокое: XI–XIII · позднее: XIII–XV. С падения Рима (476) до падения Константинополя (1453)."]}],
+ "reinos": [{"dia": "org", "title": ["Cómo se gobernaban los reinos germanos", "Как управлялись германские королевства"],
+   "rows": [[["Rey (al principio elegido por los nobles, luego hereditario)", "Король (сначала выборный, потом наследственный)"]],
+            [["Consejo: asesora al rey y le ayuda en la justicia", "Совет: помогает королю и судит"]],
+            [["Duques: jefes militares", "Герцоги: военачальники"], ["Condes: en las ciudades", "Графы: в городах"], ["Obispos", "Епископы"]]],
+   "note": ["Las leyes no estaban escritas: se transmitían de palabra.", "Законы не записывались — передавались устно."]}],
+ "visigodos": [{"dia": "org", "title": ["El gobierno del reino visigodo", "Управление вестготским королевством"],
+   "rows": [[["Rey (monarquía electiva)", "Король (выборная монархия)"]],
+            [["Aula Regia: nobles y clérigos que aconsejan al rey", "Aula Regia: знать и духовенство, советники короля"], ["Concilios de Toledo: asambleas religiosas y civiles", "Толедские соборы: церковные и гражданские собрания"]],
+            [["Duques (provincias)", "Герцоги (провинции)"], ["Condes (ciudades)", "Графы (города)"]]]}],
+ "sociedad": [{"dia": "pyr", "title": ["La pirámide de la sociedad visigoda (resumen del profesor)", "Пирамида вестготского общества (резюме учителя)"],
+   "levels": [["1º Rey, nobles y altos cargos de la Iglesia: sin impuestos, con privilegios", "1) Король, знать, высшее духовенство: без налогов, с привилегиями"],
+              ["2º Hombres libres sin privilegios y colonos (pagan un alquiler)", "2) Свободные без привилегий и колоны (платят аренду)"],
+              ["3º Siervos que dependen de un señor", "3) Сервы, зависимые от сеньора"]]}],
+ "cultura": [_ph("vis/san-juan-de-banos", "<b>San Juan de Baños</b> (Palencia, s. VII): iglesia pequeña de piedra con <b>arco de herradura</b> en la puerta.", "Сан-Хуан-де-Баньос (Паленсия, VII в.): маленькая каменная церковь с подковообразной аркой у входа."),
+             _ph("vis/corona-recesvinto", "<b>Corona votiva de Recesvinto</b>, del tesoro de <b>Guarrazar</b> (Toledo): oro y piedras preciosas.", "Вотивная корона Реккесвинта из клада Гуарразар (Толедо): золото и драгоценные камни.", tall=True),
+             _ph("vis/fibulas", "<b>Fíbulas</b> con forma de águila: broches para sujetar la ropa (orfebrería visigoda).", "Фибулы в форме орла — застёжки для одежды (вестготское ювелирное дело)."),
+             _ph("vis/etimologias", "Página de las <b>Etimologías</b> de san Isidoro de Sevilla, la primera enciclopedia.", "Страница «Этимологий» Исидора Севильского — первой энциклопедии.", tall=True)],
+}
+for _s in SECTIONS:
+    if _s["id"] in MEDIA: _s["media"] = MEDIA[_s["id"]]

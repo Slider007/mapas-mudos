@@ -301,7 +301,7 @@ OPEN = [
 META = {
  "title": "Bizancio — preparar la prueba", "h1": "⛪ El Imperio bizantino",
  "sub": "Tema 1 · parte 2 · aprender → repasar → examen", "lsp": "h1_biz_",
- "footer": "Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: 527 y conquistas de Justiniano — Cliopatria (Seshat Global History Databank, CC BY 4.0); 1025, 1204 y 1453 — según el mapa 18 del libro (p. 23); territorios aproximados; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector).",
+ "footer": "Fuentes: libro de texto (Tema 1, p. 22–25) y resumen del profesor. Mapa: 527 y conquistas de Justiniano — Cliopatria (Seshat Global History Databank, CC BY 4.0); 1025, 1204 y 1453 — según el mapa 18 del libro (p. 23); territorios aproximados; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector); fotos: Wikimedia Commons (autor y licencia en cada foto).",
 }
 TOPICS = {"origen": "Origen", "gobierno": "Gobierno", "justiniano": "Justiniano", "territorios": "Territorios y declive", "sociedad": "Sociedad y ciudades",
           "constantinopla": "Constantinopla", "religion": "Religión", "arte": "Cultura y arte", "economia": "Economía"}
@@ -434,3 +434,30 @@ MINIMAPS = {
 }
 for _s in SECTIONS:
     if _s["id"] in MINIMAPS: _s["map"] = MINIMAPS[_s["id"]]
+
+# ---------- fotos y esquemas de «Aprender» (para lo que no se ve en un mapa) ----------
+from mm import photo as _ph
+MEDIA = {
+ "gobierno": [{"dia": "org", "title": ["Cómo se gobernaba el Imperio bizantino", "Как управлялась Византия"],
+   "rows": [[["Basileus (emperador)", "Базилевс (император)"]],
+            [["Funcionarios", "Чиновники"], ["Diplomáticos", "Дипломаты"], ["Ejército", "Армия"], ["Código de Justiniano (leyes)", "Кодекс Юстиниана (законы)"]],
+            [["Themas (provincias) con un estratega", "Фемы (провинции) во главе со стратегом"]]],
+   "note": ["El basileus tenía todos los poderes: ejército, Administración y jefe religioso.", "У базилевса вся власть: армия, управление и церковь."]}],
+ "justiniano": [_ph("biz/mosaico-justiniano", "Justiniano (en el centro, con corona) y su corte. Mosaico de <b>San Vital</b> (Rávena), año 547.", "Юстиниан (в центре, в короне) и его двор. Мозаика Сан-Витале (Равенна), 547 г."),
+                _ph("biz/solido", "<b>Sólido</b> de oro de Justiniano: la moneda del Imperio, usada en todo el Mediterráneo.", "Золотой солид Юстиниана — монета империи, ходила по всему Средиземноморью.", tall=True)],
+ "sociedad": [{"dia": "pyr", "title": ["La pirámide de la sociedad bizantina (resumen del profesor)", "Пирамида византийского общества (резюме учителя)"],
+   "apex": ["Basileus", "Базилевс"],
+   "levels": [["1º Nobleza terrateniente: latifundios y altos cargos", "1) Знать: латифундии и высшие должности"],
+              ["2º Campesinos con tierras (soldados)", "2) Крестьяне с землёй (солдаты)"],
+              ["3º Colonos: libres que trabajan tierras ajenas", "3) Колоны: свободные, работают на чужой земле"]],
+   "note": ["En las ciudades: funcionarios, comerciantes y artesanos organizados en gremios.", "В городах: чиновники, торговцы и ремесленники в цехах."]}],
+ "constantinopla": [_ph("biz/santa-sofia", "<b>Santa Sofía</b> (537), en Constantinopla. Los minaretes se añadieron cuando se convirtió en mezquita (1453).", "Святая София (537 г.) в Константинополе. Минареты пристроили, когда храм стал мечетью (1453)."),
+                    _ph("biz/murallas", "Restos de la <b>doble muralla</b> de Teodosio, que protegía la ciudad por tierra.", "Остатки двойной стены Феодосия, защищавшей город с суши.")],
+ "religion": [_ph("biz/icono-sinai", "<b>Icono</b> de Cristo (s. VI), monasterio de Santa Catalina del Sinaí. Los iconoclastas querían prohibir imágenes como esta.", "Икона Христа (VI в.), монастырь Святой Екатерины на Синае. Иконоборцы хотели запретить такие изображения.", tall=True)],
+ "arte": [_ph("biz/santa-sofia-dentro", "Interior de <b>Santa Sofía</b>: una enorme <b>cúpula</b> sobre la planta.", "Внутри Святой Софии: огромный купол."),
+          _ph("biz/mosaico-justiniano", "<b>Mosaico</b> de teselas con fondo dorado: figuras rígidas, frontales y sin volumen.", "Мозаика из смальты на золотом фоне: фигуры застывшие, фронтальные, плоские."),
+          _ph("biz/icono-sinai", "<b>Icono</b>: pintura sobre madera con fondo dorado.", "Икона: живопись на дереве, золотой фон.", tall=True)],
+ "economia": [_ph("biz/solido", "El <b>sólido</b> de oro, la moneda que daba confianza al comercio bizantino.", "Золотой солид — монета, которой доверяли торговцы.", tall=True)],
+}
+for _s in SECTIONS:
+    if _s["id"] in MEDIA: _s["media"] = MEDIA[_s["id"]]

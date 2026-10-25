@@ -5,7 +5,7 @@ import json, os
 META = {
  "title": "Carolingios — preparar la prueba", "h1": "👑 El Imperio carolingio",
  "sub": "Tema 1 · parte 3 · aprender → repasar → examen", "lsp": "h1_car_",
- "footer": "Fuentes: libro de texto (Tema 1, p. 20–21) y resumen del profesor (puntos 17–22). Mapas: fronteras de Cliopatria (Seshat Global History Databank, CC BY 4.0; github.com/Seshat-Global-History-Databank/cliopatria) organizadas como los mapas 12 y 14 del libro (p. 21); las marcas están dibujadas de forma aproximada; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector).",
+ "footer": "Fuentes: libro de texto (Tema 1, p. 20–21) y resumen del profesor (puntos 17–22). Mapas: fronteras de Cliopatria (Seshat Global History Databank, CC BY 4.0; github.com/Seshat-Global-History-Databank/cliopatria) organizadas como los mapas 12 y 14 del libro (p. 21); las marcas están dibujadas de forma aproximada; costas, lagos y ríos: Natural Earth 1:10m (github.com/nvkelso/natural-earth-vector); fotos: Wikimedia Commons (autor y licencia en cada foto).",
 }
 TOPICS = {"francos": "Los francos", "carlomagno": "Carlomagno", "organizacion": "Organización", "division": "División y fin",
           "sociedad": "Economía y sociedad", "cultura": "Cultura y arte"}
@@ -410,3 +410,24 @@ MINIMAPS = {
 }
 for _s in SECTIONS:
     if _s["id"] in MINIMAPS: _s["map"] = MINIMAPS[_s["id"]]
+
+# ---------- fotos y esquemas de «Aprender» ----------
+from mm import photo as _ph
+MEDIA = {
+ "carlomagno": [_ph("car/coronacion", "La <b>coronación de Carlomagno</b> por el papa León III en Roma (800), pintada por Jean Fouquet en el siglo XV.", "Коронация Карла Великого папой Львом III в Риме (800). Миниатюра Жана Фуке, XV в.")],
+ "organizacion": [{"dia": "org", "title": ["La organización del Imperio carolingio", "Устройство Каролингской империи"],
+   "rows": [[["Emperador (Aquisgrán)", "Император (Ахен)"]],
+            [["Chambelán: dirige el palacio", "Камергер: руководит дворцом"], ["Mariscal: ejército", "Маршал: войско"], ["Canciller: documentos", "Канцлер: документы"], ["Conde de palacio: funcionarios", "Пфальцграф: чиновники"], ["Tribunal palatino: justicia", "Дворцовый суд"]],
+            [["Condados → condes", "Графства → графы"], ["Marcas (fronteras) → marqueses", "Марки (границы) → маркграфы"]],
+            [["Missi dominici: vigilan a condes, marqueses y obispos", "Missi dominici: проверяют графов, маркграфов и епископов"]]]}],
+ "sociedad": [{"dia": "pyr", "title": ["La pirámide feudal (resumen del profesor)", "Феодальная пирамида (резюме учителя)"],
+   "apex": ["Emperador", "Император"],
+   "levels": [["1º Nobles, vasallos del emperador (reciben tierras)", "1) Знать — вассалы императора (получают землю)"],
+              ["2º Vasallos de menor rango", "2) Вассалы рангом ниже"],
+              ["3º Campesinos siervos: trabajan para el señor", "3) Крестьяне-сервы: работают на сеньора"]],
+   "note": ["Feudo = tierra a cambio de fidelidad, ayuda en la guerra y apoyo político.", "Феод = земля в обмен на верность, помощь в войне и поддержку."]}],
+ "cultura": [_ph("car/capilla-palatina", "<b>Capilla palatina de Aquisgrán</b>: cúpula octogonal con mosaicos, arcos de medio punto. Arte carolingio.", "Палатинская капелла в Ахене: восьмиугольный купол с мозаиками, полукруглые арки."),
+             _ph("car/minuscula", "<b>Escritura carolingia</b>: letra redonda y fácil de leer creada por los copistas.", "Каролингский минускул: круглый и понятный почерк переписчиков.", tall=True)],
+}
+for _s in SECTIONS:
+    if _s["id"] in MEDIA: _s["media"] = MEDIA[_s["id"]]

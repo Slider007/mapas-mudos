@@ -81,7 +81,21 @@ input.yr{width:110px;font-size:1.2rem;padding:8px 10px;border-radius:12px;border
 .mapwrap{position:relative;border-radius:16px;overflow:hidden;background:#cfe1e8;border:1.5px solid var(--line);touch-action:manipulation}
 svg#map{display:block;width:100%;height:auto;cursor:crosshair}
 .mm{margin:12px 0 6px}.mmw{border-radius:12px;overflow:hidden;background:#cfe1e8;border:1.5px solid var(--line)}
-svg.mini{display:block;width:100%;height:auto}.mm figcaption{font-size:.88rem;color:var(--ink2);margin-top:6px}
+svg.mini{display:block;width:100%;height:auto}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:12px 0 6px}.media figure{max-width:420px}
+.media figure{margin:0}.media img{display:block;width:100%;height:220px;object-fit:cover;border-radius:12px;border:1.5px solid var(--line);background:#eee}
+.media figure.tall img{height:300px;object-fit:contain;background:#f6f1e6}
+.media figcaption{font-size:.86rem;color:var(--ink2);margin-top:5px}.media .cr{display:block;font-size:.72rem;color:#8a8a8a;margin-top:2px}.media .cr a{color:inherit}
+.ru.rt{display:block;background:none;border:0;padding:0;margin:2px 0 0;font-size:.78rem}body.noru .ru.rt{display:none}
+.dia{grid-column:1/-1;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.dia h4{margin:0 0 8px;font-size:.92rem}
+.dpyr{display:grid;gap:4px;justify-items:center}.dpyr div{color:#fff;font-weight:700;font-size:.88rem;text-align:center;padding:8px 6px;clip-path:polygon(6% 0,94% 0,100% 100%,0 100%)}
+.dpyr .ap{clip-path:none;border-radius:99px;background:#3d2a6b!important}
+.dorg{display:grid;gap:8px;justify-items:center}.dorg .r{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.dorg .b{border:1.5px solid #b9a3e3;background:#f4effc;border-radius:10px;padding:6px 9px;font-size:.84rem;font-weight:600;text-align:center;max-width:220px}
+.dorg .b.t{background:#5e35b1;color:#fff;border-color:#5e35b1}.dorg .ar{color:#9b86c8;font-size:1.1rem;line-height:1}
+.dph{position:relative;height:46px;border-radius:10px;overflow:hidden;display:flex}.dph div{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.8rem;text-align:center;line-height:1.1}
+.dphm{position:relative;height:30px;font-size:.78rem;font-weight:700}.dphm span{position:absolute;transform:translateX(-50%);white-space:nowrap}.mm figcaption{font-size:.88rem;color:var(--ink2);margin-top:6px}
 .mm .mleg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.8rem;margin-top:4px}.mm .mleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px;border:1px solid #999}
 @media(max-width:640px){.mapwrap{margin:0 -31px;border-radius:0;border-left:0;border-right:0}}
 .land{fill:#f3eee0;stroke:#c9bfa6;stroke-width:.6;vector-effect:non-scaling-stroke}
@@ -184,13 +198,21 @@ const nextBtn=(s,lab)=>`<div class="row"><button class="btn" onclick="go('${s}')
 function learn(){
  const r=D.sections.filter(s=>P.read[s.id]).length;
  $('#main').innerHTML=(D.sections.some(s=>s.map)?`<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="LANDP" d="${G.land}" vector-effect="non-scaling-stroke"/><clipPath id="LANDC"><use href="#LANDP"/></clipPath></defs></svg>`:'')+`<div class="card"><h2>📖 Aprender</h2><p class="muted">Lee cada apartado, mira la línea «Recuerda» y marca «Lo he leído». Leído: <b>${r} / ${D.sections.length}</b>.</p><div class="ru">Прочитай каждый раздел (по-испански; перевод — фиолетовым), запомни строку «Recuerda» и нажми «Lo he leído».</div></div>`+
- D.sections.map((s,i)=>`<details class="sec" ${!P.read[s.id]&&i===D.sections.findIndex(x=>!P.read[x.id])?'open':''}><summary>${s.t}<span class="st ${P.read[s.id]?'ok':''}">${P.read[s.id]?'✓ leído':'por leer'}</span></summary><div class="body"><div class="ru" style="margin:0 0 6px">${s.tr}</div><ul class="pts">${s.pts.map(p=>`<li>${p}</li>`).join('')}</ul>${s.map?miniFig(s.map,i):''}<div class="key"><b>Recuerda:</b> ${s.key}</div><div class="ru">${s.ru}</div><div class="row"><button class="btn ${P.read[s.id]?'ghost':''}" data-read="${s.id}">${P.read[s.id]?'Leído ✓':'Lo he leído'}</button></div></div></details>`).join('')+
+ D.sections.map((s,i)=>`<details class="sec" ${!P.read[s.id]&&i===D.sections.findIndex(x=>!P.read[x.id])?'open':''}><summary>${s.t}<span class="st ${P.read[s.id]?'ok':''}">${P.read[s.id]?'✓ leído':'por leer'}</span></summary><div class="body"><div class="ru" style="margin:0 0 6px">${s.tr}</div><ul class="pts">${s.pts.map(p=>`<li>${p}</li>`).join('')}</ul>${s.map?miniFig(s.map,i):''}${s.media?mediaHTML(s.media):''}<div class="key"><b>Recuerda:</b> ${s.key}</div><div class="ru">${s.ru}</div><div class="row"><button class="btn ${P.read[s.id]?'ghost':''}" data-read="${s.id}">${P.read[s.id]?'Leído ✓':'Lo he leído'}</button></div></div></details>`).join('')+
  nextBtn('tl','Siguiente: línea del tiempo');
  $('#main').querySelectorAll('[data-read]').forEach(b=>b.onclick=()=>{P.read[b.dataset.read]=true;save();learn()});
  $('#main').querySelectorAll('details.sec').forEach(d=>d.addEventListener('toggle',sizeMinis));sizeMinis();
 }
 
 /* mini-mapas de cada apartado: qué pasa y dónde */
+// фото и схемы в «Aprender»
+const rt=t=>Array.isArray(t)?`${t[0]}${t[1]?`<span class="ru rt">${t[1]}</span>`:''}`:t;
+function mediaHTML(list){return `<div class="media">${list.map(m=>{
+ if(m.img)return `<figure class="${m.tall?'tall':''}"><img src="${m.img}" alt="${m.cap.replace(/<[^>]+>/g,'').replace(/"/g,'')}" loading="lazy" width="${m.w||900}" height="${m.h||600}"><figcaption>${m.cap}${m.cap_ru?`<span class="ru rt">${m.cap_ru}</span>`:''}<span class="cr"><a href="${m.url}" target="_blank" rel="noopener">${m.credit}</a></span></figcaption></figure>`;
+ if(m.dia==='pyr'){const n=m.levels.length,cols=['#5e35b1','#7e57c2','#9f84d6','#b39ddb'];return `<div class="dia"><h4>${rt(m.title)}</h4><div class="dpyr">${m.apex?`<div class="ap" style="width:${30}%">${rt(m.apex)}</div>`:''}${m.levels.map((l,i)=>`<div style="width:${40+60*(i+1)/n}%;background:${cols[i%4]}">${rt(l)}</div>`).join('')}</div>${m.note?`<p class="muted" style="margin:8px 0 0;font-size:.82rem">${rt(m.note)}</p>`:''}</div>`}
+ if(m.dia==='org')return `<div class="dia"><h4>${rt(m.title)}</h4><div class="dorg">${m.rows.map((r,i)=>(i?'<div class="ar">▼</div>':'')+`<div class="r">${r.map(b=>`<div class="b ${i===0?'t':''}">${rt(b)}</div>`).join('')}</div>`).join('')}</div>${m.note?`<p class="muted" style="margin:8px 0 0;font-size:.82rem">${rt(m.note)}</p>`:''}</div>`;
+ if(m.dia==='phases'){const a=m.from,b=m.to,pc=y=>(y-a)/(b-a)*100;return `<div class="dia"><h4>${rt(m.title)}</h4><div class="dph">${m.items.map(([t,y0,y1,c])=>`<div style="width:${pc(y1)-pc(y0)}%;background:${c}">${rt(t)}</div>`).join('')}</div><div class="dphm">${m.marks.map(([y,t])=>`<span style="left:${Math.min(96,Math.max(4,pc(y)))}%">${t}</span>`).join('')}</div>${m.note?`<p class="muted" style="margin:4px 0 0;font-size:.82rem">${rt(m.note)}</p>`:''}</div>`}
+ return ''}).join('')}</div>`}
 function miniFig(mm,uid){
  const sw=(fill)=>fill==='#hd'?'repeating-linear-gradient(135deg,#333 0 1px,#fff 1px 5px)':fill;
  return `<figure class="mm"><div class="mmw">${miniMap(mm,uid)}</div><figcaption>${mm.leg?`<div class="mleg">${mm.leg.map(([f,t])=>`<span><i style="background:${sw(f)}"></i>${t}</span>`).join('')}</div>`:''}<div style="margin-top:4px">${mm.cap}</div>${mm.cap_ru?`<div class="ru">${mm.cap_ru}</div>`:''}</figcaption></figure>`}
@@ -201,7 +223,7 @@ function miniMap(mm,uid){
  <use href="#LANDP" class="land"/><g clip-path="url(#LANDC)">`;
  for(const [rings,fill,op] of mm.regs||[])for(const pl of rings)h+=`<path d="${poly(pl)}" fill="${fill==='#hd'?`url(#hd${uid})`:fill}" fill-opacity="${op==null?.8:op}" stroke="${fill==='#hd'?'none':'#9a8a6a'}" stroke-width=".6" vector-effect="non-scaling-stroke"/>`;
  h+=`</g><path d="${G.rivers}" fill="none" stroke="#4f8fb8" stroke-width=".9" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`;
- for(const r of mm.lines||[]){const d=line(r.pts),col=r.col||'#c62828';
+ for(const r of mm.lines||[]){const d=curve(r.pts),col=r.col||'#c62828';
   h+=`<path d="${d}" fill="none" stroke="#fff" data-lw="5.5" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/><path d="${d}" fill="none" stroke="${col}" data-lw="2.4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" ${r.dash?'data-dash="6 4" stroke-dasharray="6 4"':''}/>`;
   if(!r.noarrow){const n=r.pts.length,a=P(...r.pts[n-2]),b=P(...r.pts[n-1]),ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
    h+=`<path data-as="1" data-tx="${f(b[0])}" data-ty="${f(b[1])}" data-rot="${f(ang)}" d="M-4.5,-4.6 L3.2,0 L-4.5,4.6 L-2.6,0Z" fill="${col}" stroke="#fff" stroke-width=".25" transform="translate(${f(b[0])},${f(b[1])}) rotate(${f(ang)})"/>`}
@@ -251,6 +273,10 @@ const mapOnAll=LS.get('maplayers',{});const mapOn=id=>{const m=mapOnAll[M().id]|
 let mapQ=null,mapStats={ok:0,n:0},mapMode='ver';
 const poly=pl=>'M'+pl.map(([lo,la])=>prj(lo,la).map(v=>v.toFixed(1)).join(',')).join('L')+'Z';
 const line=pl=>'M'+pl.map(([lo,la])=>prj(lo,la).map(v=>v.toFixed(1)).join(',')).join('L');
+// плавная кривая через те же точки (Catmull–Rom → кубические Безье), для стрелок и маршрутов
+const curve=pl=>{const p=pl.map(([lo,la])=>prj(lo,la)),f1=q=>q.map(v=>v.toFixed(2)).join(',');if(p.length<3)return 'M'+p.map(f1).join('L');
+ let d='M'+f1(p[0]);for(let i=0;i<p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;
+  d+='C'+f1([b[0]+(c[0]-a[0])/8,b[1]+(c[1]-a[1])/8])+' '+f1([c[0]-(e[0]-b[0])/8,c[1]-(e[1]-b[1])/8])+' '+f1(c)}return d};
 const inPoly=(pt,pl)=>{let c=false;for(let i=0,j=pl.length-1;i<pl.length;j=i++){const [xi,yi]=prj(...pl[i]),[xj,yj]=prj(...pl[j]);if((yi>pt[1])!==(yj>pt[1])&&pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi)+xi)c=!c}return c};
 const regHit=(ids,p)=>ids.some(id=>(M().regions[id]||[]).some(pl=>inPoly(p,pl)));
 function tqOk(tq,p){if(tq.near){const c=prj(tq.near[0],tq.near[1]);if(Math.hypot(p[0]-c[0],p[1]-c[1])<tq.near[2])return true}return regHit(tq.in||[],p)&&!regHit(tq.notin||[],p)}
@@ -289,7 +315,7 @@ function drawMap(names,quiz){
  h+='</g>';
  h+=`<path d="${G.rivers}" fill="none" stroke="#4f8fb8" stroke-width="1" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>`;
  for(const [t,lo,la,rot] of m.rivl||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9" x="${x}" y="${y}" transform="rotate(${rot||0} ${x} ${y})" text-anchor="middle" style="font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
- for(const [id,name,col,kind] of m.layers){if(kind!=='route'||!mapOn(id))continue;for(const r of m.regions[id]||[]){const pl=r.pts||r;h+=`<path d="${line(pl)}" fill="none" stroke="${col}" stroke-width="2.4" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" ${r.dash?'stroke-dasharray="6 4"':''}/>`+(r.noarrow?'':arrowHead(pl,col));
+ for(const [id,name,col,kind] of m.layers){if(kind!=='route'||!mapOn(id))continue;for(const r of m.regions[id]||[]){const pl=r.pts||r;h+=`<path d="${curve(pl)}" fill="none" stroke="${col}" stroke-width="2.4" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" ${r.dash?'stroke-dasharray="6 4"':''}/>`+(r.noarrow?'':arrowHead(pl,col));
    if(r.label){const [x,y]=prj(...(r.lab||pl[Math.floor(pl.length/2)]));h+=`<text data-fs="10" x="${x}" y="${y-4}" text-anchor="middle" style="font-weight:800;fill:${col};paint-order:stroke;stroke:#fff;stroke-width:3px">${r.label}</text>`}}}
  if(!quiz)for(const [t,lo,la] of m.klabels||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-weight:800;fill:#3b3b3b;paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:2.5px">${t}</text>`}
  for(const [t,lo,la] of m.peoples||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="10" x="${x}" y="${y}" text-anchor="middle" style="font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}

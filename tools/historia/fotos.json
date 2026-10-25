@@ -1,0 +1,106 @@
+{
+ "biz/murallas": {
+  "file": "murallas.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Theodosian_Walls_of_Constantinople,_Istanbul_(24053561188).jpg",
+  "author": "Carole Raddato",
+  "license": "CC BY-SA 2.0",
+  "w": 900,
+  "h": 596
+ },
+ "vis/corona-recesvinto": {
+  "file": "corona-recesvinto.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Corona_de_Recesvinto,_Museo_Arqueológico_Nacional_(34584239454).jpg",
+  "author": "Emilio J. Rodríguez Posada",
+  "license": "CC BY-SA 2.0",
+  "w": 600,
+  "h": 900
+ },
+ "vis/fibulas": {
+  "file": "fibulas.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Visigothic_-_Pair_of_Eagle_Fibula_-_Walters_54421,_54422_-_Group.jpg",
+  "author": "Walters Art Museum",
+  "license": "dominio público",
+  "w": 900,
+  "h": 736
+ },
+ "vis/etimologias": {
+  "file": "etimologias.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Etymologiae_Codex_Toletanus_f1r.jpeg",
+  "author": "Biblioteca Nacional de España (códice toledano)",
+  "license": "dominio público",
+  "w": 627,
+  "h": 900
+ },
+ "car/coronacion": {
+  "file": "coronacion.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Sacre_de_Charlemagne.jpg",
+  "author": "Jean Fouquet (s. XV)",
+  "license": "dominio público",
+  "w": 900,
+  "h": 831
+ },
+ "car/capilla-palatina": {
+  "file": "capilla-palatina.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Aachen_Kaiserdom_Innen_Kuppel_1.JPG",
+  "author": "Zairon",
+  "license": "CC0",
+  "w": 900,
+  "h": 675
+ },
+ "car/minuscula": {
+  "file": "minuscula.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Minuscule_caroline.jpg",
+  "author": "manuscrito del s. IX",
+  "license": "dominio público",
+  "w": 687,
+  "h": 900
+ },
+ "biz/santa-sofia": {
+  "file": "santa-sofia.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Hagia_Sophia_Mars_2013.jpg",
+  "author": "Arild Vågen",
+  "license": "CC BY-SA 3.0",
+  "w": 900,
+  "h": 601
+ },
+ "biz/santa-sofia-dentro": {
+  "file": "santa-sofia-dentro.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Interior_of_Hagia_Sophia_(7)_-_Istanbul_(2022).jpg",
+  "author": "ImanFakhri",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 675
+ },
+ "biz/mosaico-justiniano": {
+  "file": "mosaico-justiniano.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Mosaic_of_Emperor_Justinian,_Basilica_of_San_Vitale,_Ravenna_(6098678686).jpg",
+  "author": "Sharon Mollerus",
+  "license": "CC BY 2.0",
+  "w": 900,
+  "h": 600
+ },
+ "biz/icono-sinai": {
+  "file": "icono-sinai.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Christ_Icon_Sinai_6th_century.jpg",
+  "author": "autor desconocido (s. VI)",
+  "license": "dominio público",
+  "w": 472,
+  "h": 900
+ },
+ "biz/solido": {
+  "file": "solido.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Gold_Solidus_of_Justinian_I_(527–65)_MET_DP100644.jpg",
+  "author": "Metropolitan Museum of Art",
+  "license": "CC0",
+  "w": 900,
+  "h": 859
+ },
+ "vis/san-juan-de-banos": {
+  "file": "san-juan-de-banos.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:SAN_JUAN_DE_BAÑOS.JPG",
+  "author": "Roinpa",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 578
+ }
+}

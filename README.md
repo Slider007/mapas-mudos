@@ -35,6 +35,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Fronteras históricas de `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), licencia GPL-3.0 (fronteras aproximadas)
 - Mapa de Bizancio (527 y conquistas de Justiniano): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, licencia CC BY 4.0; 1025, 1204 y 1453: según el mapa 18 del libro de texto
 - Mapas de los carolingios (reino franco en 768, Imperio en 814, Tratado de Verdún): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), CC BY 4.0, organizados como los mapas 12 y 14 del libro; marcas aproximadas
+- Fotos de los entrenadores de historia: Wikimedia Commons (dominio público, CC0, CC BY o CC BY-SA); autor y licencia bajo cada foto y en `tools/historia/fotos.json`
 
 ### Licencia
 - Código (`tools/`, HTML/JS): **MIT**, véase [`LICENSE`](LICENSE).
@@ -71,6 +72,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Исторические границы в `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), лицензия GPL-3.0 (границы приблизительные)
 - Карта Византии (527 г. и завоевания Юстиниана): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, лицензия CC BY 4.0; 1025, 1204 и 1453 гг. — по карте 18 учебника
 - Карты Каролингов (королевство франков в 768 г., империя в 814 г., Верденский договор): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), CC BY 4.0, устроены как карты 12 и 14 учебника; марки приблизительные
+- Фото в тренажёрах по истории: Wikimedia Commons (общественное достояние, CC0, CC BY или CC BY-SA); автор и лицензия под каждым фото и в `tools/historia/fotos.json`
 
 ### Лицензия
 - Код (`tools/`, HTML/JS): **MIT**, см. [`LICENSE`](LICENSE).
@@ -107,6 +109,7 @@ Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank ma
 - Historical borders in `historia-tema1/`: [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps), GPL-3.0 licence (borders are approximate)
 - Byzantium map (527 and Justinian's conquests): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), Seshat Global History Databank, CC BY 4.0 licence; 1025, 1204 and 1453 follow map 18 of the textbook
 - Carolingian maps (Frankish kingdom in 768, Empire in 814, Treaty of Verdun): [Cliopatria](https://github.com/Seshat-Global-History-Databank/cliopatria), CC BY 4.0, laid out like maps 12 and 14 of the textbook; marches are approximate
+- Photos in the history trainers: Wikimedia Commons (public domain, CC0, CC BY or CC BY-SA); author and licence under each photo and in `tools/historia/fotos.json`
 
 ### License
 - Code (`tools/`, HTML/JS): **MIT**, see [`LICENSE`](LICENSE).
