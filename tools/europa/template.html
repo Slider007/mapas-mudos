@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="es" data-theme="light" style="color-scheme:light">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapa político de Europa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--sea:#cfe1e8;--sea2:#bcd5df;--land:#fffefb;--other:#e4e2dc;--ink:#1f3a4d;--ink2:#5b7282;--line:#2c4c63;
+--bg:#f6f8f9;--panel:#ffffff;--soft:#eef2f4;--hi:#f2a516;--ok:#2f8f5b;--bad:#d1432f;color-scheme:light}
+html{height:100%}*{box-sizing:border-box}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.4;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit}
+.app{display:grid;min-height:100%;grid-template-rows:auto auto auto auto;max-width:1400px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px 6px}
+h1{order:3;flex:0 0 100%;margin:0;font-size:1.35rem;font-weight:800;letter-spacing:-.01em}
+.home{order:1;flex:none;color:var(--ink2);text-decoration:none;font-size:.85rem;font-weight:600;border:1.5px solid var(--ink2);border-radius:99px;padding:3px 10px}
+.lang{order:2;margin-left:auto;display:flex;border:1.5px solid var(--ink2);border-radius:99px;overflow:hidden;flex:none}
+.lang button{border:0;background:none;padding:3px 10px;font-size:.8rem;cursor:pointer}
+.lang button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.controls{padding:0 16px 8px;display:grid;gap:8px;min-width:0}
+.dl{display:inline-flex;align-items:center;gap:6px;justify-self:start;text-decoration:none;border-radius:12px;padding:7px 12px;font-size:.85rem;font-weight:600;background:var(--soft);color:var(--ink)}
+.secs{display:flex;gap:6px}
+.secs button{flex:1;min-width:0;border:1.5px solid var(--ink);background:none;border-radius:12px;padding:7px 4px;font-weight:700;cursor:pointer;font-size:.9rem}
+.secs button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.modes{display:flex;flex-wrap:wrap;gap:4px;background:var(--soft);padding:4px;border-radius:14px}
+.modes button{flex:1 1 auto;border:0;background:none;padding:8px 2px;border-radius:10px;font-size:.82rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.modes button[aria-pressed=true]{background:var(--panel);box-shadow:0 0 0 1px var(--sea2)}
+.cats{display:flex;flex-wrap:wrap;gap:6px}
+.chip{flex:none;border:1.5px solid var(--ink2);background:none;border-radius:99px;padding:4px 11px;font-size:.82rem;cursor:pointer;color:var(--ink2)}
+.chip[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.mapwrap{order:4;position:relative;height:min(58vh,560px);margin:0 8px;border-radius:18px;overflow:hidden;background:var(--sea);touch-action:none}
+svg#map{width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none;cursor:crosshair}
+.zoom{position:absolute;right:10px;top:10px;display:grid;gap:6px}
+.zoom button{width:38px;height:38px;border-radius:12px;border:0;background:var(--panel);color:var(--ink);font-size:1.2rem;cursor:pointer;box-shadow:0 0 0 1px var(--sea2)}
+.attr{position:absolute;right:8px;bottom:6px;font-size:.66rem;color:var(--ink2);background:rgba(255,255,255,.8);padding:2px 6px;border-radius:6px}
+.panel{order:3;padding:6px 16px 10px;min-height:0}
+.app{display:flex;flex-direction:column}
+@media (max-width:899px){.cats{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}.cats::-webkit-scrollbar{display:none}.src{display:none}}
+.prompt{font-size:.82rem;color:var(--ink2);margin:0 0 2px}
+.target{font-size:1.6rem;font-weight:800;letter-spacing:-.015em;margin:0;line-height:1.15}
+.sub{color:var(--ink2);font-size:.92rem;margin:4px 0 0}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.btn{border:0;border-radius:12px;padding:10px 16px;font-weight:600;cursor:pointer;background:var(--ink);color:var(--bg)}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.opts button{border:1.5px solid var(--sea2);background:var(--panel);border-radius:12px;padding:10px 8px;cursor:pointer;font-weight:600;text-align:left}
+.opts button.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--panel))}
+.opts button.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--panel))}
+input.ans{flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:10px 12px;border-radius:12px;border:1.5px solid var(--sea2);background:var(--panel);color:var(--ink)}
+.fb{font-weight:700;margin:8px 0 0}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.score{font-variant-numeric:tabular-nums;color:var(--ink2);font-size:.85rem}
+.bar{height:8px;border-radius:9px;background:var(--soft);overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--ok);border-radius:9px}
+.prog{display:grid;gap:10px;margin-top:8px}.prog .h{display:flex;justify-content:space-between;font-size:.9rem}
+.card{width:100%;min-height:96px;margin-top:8px;border:1.5px solid var(--sea2);border-radius:16px;background:var(--panel);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;padding:12px}
+.cq{font-size:2.4rem;font-weight:800;color:var(--ink2);line-height:1}
+.info{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin-top:8px;font-size:.95rem}.info b{color:var(--ink2);font-weight:600}
+.note{font-size:.88rem;margin:8px 0 0;padding:6px 10px;border-radius:10px;background:color-mix(in srgb,var(--hi) 16%,var(--panel))}
+.ru{color:#6a4fa3}
+.toggle{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--ink2);cursor:pointer}
+.src{font-size:.74rem;color:var(--ink2);margin:14px 0 0;line-height:1.35}
+.errs{margin:8px 0 0;padding-left:18px;font-size:.9rem}
+:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+/* map */
+.sea{fill:var(--sea)}
+.grat{fill:none;stroke:var(--ink2);stroke-opacity:.16;stroke-width:.6;vector-effect:non-scaling-stroke}
+.oth{fill:var(--other);stroke:#c9c6bd;stroke-width:.6;vector-effect:non-scaling-stroke}
+.c{fill:var(--land);stroke:var(--line);stroke-width:.9;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.c.dim{fill:#f1efe9}
+.c.hi{fill:var(--hi)}.c.ok{fill:#9fd3b2}.c.bad{fill:#f2b0a6}.c.sel{fill:#cdbdff}
+.lake{fill:var(--sea);stroke:var(--line);stroke-width:.4;vector-effect:non-scaling-stroke}
+.micro{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:2 2;vector-effect:non-scaling-stroke}
+.micro.hi{stroke:var(--hi);stroke-width:3;stroke-dasharray:none}.micro.ok{stroke:var(--ok);stroke-width:3;stroke-dasharray:none}
+.cap{fill:var(--line);stroke:#fff;vector-effect:non-scaling-stroke}
+.cap.dim{fill:#9aa9b4}
+.ring{fill:none;stroke:var(--hi);stroke-width:3;vector-effect:non-scaling-stroke}.ring.ok{stroke:var(--ok)}
+@media (prefers-reduced-motion:no-preference){.ring.pulse{animation:pulse 1.3s ease-out infinite}}
+@keyframes pulse{0%{stroke-opacity:1}100%{stroke-opacity:.25}}
+.tap{fill:var(--bad)}.tapline{stroke:var(--bad);stroke-width:1.5;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
+.lbl{fill:var(--line);paint-order:stroke;stroke:#fff;stroke-linejoin:round;font-weight:700;pointer-events:none}
+.lbl.capl{font-weight:600;fill:#7a2e2e}
+.lbl.sealbl{fill:#3d6f94;font-style:italic;font-weight:400;stroke:var(--sea)}
+.lbl.tag{fill:#1f2a33;font-weight:800}
+@media (min-width:900px){
+ .app{display:grid;grid-template-columns:390px 1fr;grid-template-rows:auto auto 1fr;column-gap:8px;height:100%}
+ header{grid-column:1}.controls{grid-column:1}.panel{grid-column:1;grid-row:3;overflow:auto}
+ .mapwrap{grid-column:2;grid-row:1/4;margin:12px 12px 12px 0;height:auto;min-height:0}
+ .target{font-size:2rem}
+}
+</style>
+</head>
+<body>
+<div class="app">
+ <header><a class="home" id="home" href="../"></a><h1 id="ttl"></h1><div class="lang" role="group"><button data-l="ru">RU</button><button data-l="es">ES</button></div></header>
+ <div class="controls">
+  <a class="dl" id="dl" href="pdf/mapa-mudo-europa-politica.pdf" download>📥 <span id="dlt"></span></a>
+  <div class="secs" id="secs" role="group"></div>
+  <div class="modes" id="modes" role="group"></div>
+  <div class="cats" id="cats" role="group"></div>
+ </div>
+ <div class="mapwrap" id="wrap">
+  <svg id="map" role="img" aria-label="Mapa político de Europa"><g id="vp"></g></svg>
+  <div class="zoom"><button id="zin" aria-label="Acercar">+</button><button id="zout" aria-label="Alejar">−</button><button id="zre" aria-label="Ver todo">⤢</button></div>
+  <div class="attr">© Natural Earth</div>
+ </div>
+ <section class="panel" id="panel" aria-live="polite"></section>
+</div>
+<script>
+const G=__GEO__;
+const D=__DATA__;
+const $=s=>document.querySelector(s);
+const LS={get(k,d){try{const v=localStorage.getItem('mme_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('mme_'+k,JSON.stringify(v))}catch(e){}}};
+const IDS=Object.keys(D.P);
+const C=Object.fromEntries(IDS.map(id=>{const v=D.P[id],g=G.countries[id];return[id,{id,es:v[0],ru:v[1],capEs:v[2],capRu:v[3],reg:v[6],note:D.NOTE[id],d:g.d,lab:g.lab,cap:g.cap,area:g.area,c:g.c,
+ micro:g.area<14,capq:v[6]!=='otros'}]}));
+const T={
+ es:{ttl:'Mapa político de Europa',home:'← Lecciones',dl:'Mapas mudos para imprimir (PDF)',secs:['Países','Capitales','País y capital'],
+  modes:{study:'Estudiar',cards:'Tarjetas',find:'Localizar',what:'¿Qué es?',exam:'Examen',prog:'Progreso'},
+  study:'Toca un país o una capital del mapa.',labels:'Nombres',capital:'Capital',country:'País',region:'Zona',
+  findP:'Toca el país:',findC:'Toca la capital:',findPC:'Toca la capital de',whatP:'¿Qué país es?',whatC:'¿Qué capital es?',qCap:'¿Cuál es la capital de',qCountry:'¿De qué país es capital',
+  ok:'¡Correcto!',bad:'No. Has tocado: ',far:'No. Mira dónde está.',sea:'Ahí no hay ningún país de la lista.',next:'Siguiente',type:'Escribir la respuesta',check:'Comprobar',ans:'Respuesta',almost:'Casi: revisa las tildes. Es ',
+  cardP:'¿Qué país está marcado?',cardC:'¿Qué capital está marcada?',cardPC:'¿Cuál es su capital?',flip:'Toca para ver la respuesta',knew:'Lo sabía',didnt:'No lo sabía',
+  exam:'20 preguntas sin nombres en el mapa. Al final verás tu nota y tus errores.',start:'Empezar',q:'Pregunta',of:'de',grade:'Tu nota',errs:'Repasa:',again:'Otra vez',
+  prog:'Lo que ya sabes (acertado 3 veces seguidas o más):',reset:'Borrar mi progreso',sure:'¿Seguro que quieres borrar tu progreso?',none:'Elige al menos una zona.',
+  round:'Ronda',src:'Lista de países y capitales del profesor. Mapa: Natural Earth 1:10m; fronteras según el punto de vista de España (Crimea, en Ucrania); Kosovo aparece porque está en la lista del profesor. Proyección acimutal equivalente de Lambert.',say:'Escuchar',
+  otherNote:'Sin capital en la lista del profesor: solo se practica el país.'},
+ ru:{ttl:'Политическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (PDF)',secs:['Страны','Столицы','Страна и столица'],
+  modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',exam:'Экзамен',prog:'Прогресс'},
+  study:'Нажми на страну или столицу на карте.',labels:'Названия',capital:'Столица',country:'Страна',region:'Регион',
+  findP:'Нажми на страну:',findC:'Нажми на столицу:',findPC:'Нажми на столицу страны',whatP:'Что это за страна?',whatC:'Что это за столица?',qCap:'Какая столица у страны',qCountry:'Столица какой страны —',
+  ok:'Верно!',bad:'Нет. Ты нажал(а): ',far:'Нет. Посмотри, где это.',sea:'Там нет страны из списка.',next:'Дальше',type:'Писать ответ',check:'Проверить',ans:'Ответ',almost:'Почти: проверь ударения (тильды). Правильно: ',
+  cardP:'Какая страна отмечена?',cardC:'Какая столица отмечена?',cardPC:'Какая у неё столица?',flip:'Нажми, чтобы увидеть ответ',knew:'Знал(а)',didnt:'Не знал(а)',
+  exam:'20 вопросов, на карте без названий. В конце — оценка и ошибки.',start:'Начать',q:'Вопрос',of:'из',grade:'Оценка',errs:'Повтори:',again:'Ещё раз',
+  prog:'Что ты уже знаешь (3 верных ответа подряд и больше):',reset:'Сбросить прогресс',sure:'Точно сбросить прогресс?',none:'Выбери хотя бы один регион.',
+  round:'Круг',src:'Список стран и столиц — от учителя. Карта: Natural Earth 1:10m; границы с точки зрения Испании (Крым — в составе Украины); Косово есть, потому что оно в списке учителя. Равновеликая азимутальная проекция Ламберта.',say:'Слушать',
+  otherNote:'В списке учителя без столицы: тренируется только страна.'}};
+const S={lang:LS.get('lang','es'),sec:LS.get('eup_sec','pais'),mode:'study',cats:LS.get('eup_cats',Object.keys(D.REG)),labels:true,typing:LS.get('eup_typing',false)};
+if(!['es','ru'].includes(S.lang))S.lang='es';
+const t=k=>T[S.lang][k];
+const nm=c=>c.es, capn=c=>c.capEs;            // los nombres que se aprenden son en español
+const tr2=(es,ru)=>S.lang==='ru'?`${es} <span class="ru">· ${ru}</span>`:es;
+let box=LS.get('eup_box',{});
+const key=(sec,id)=>sec+':'+id;
+
+/* ---------- SVG ---------- */
+const NS='http://www.w3.org/2000/svg';const svg=$('#map'),vp=$('#vp'),wrap=$('#wrap');
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+el('rect',{class:'sea',x:-3000,y:-3000,width:8000,height:8000},vp);
+el('path',{class:'grat',d:G.grat},vp);el('path',{class:'oth',d:G.other},vp);
+const CP={};const gC=el('g',{},vp);for(const id of IDS)CP[id]=el('path',{class:'c',d:C[id].d,'data-id':id},gC);
+el('path',{class:'lake',d:G.lakes},vp);
+const gMicro=el('g',{},vp),gCap=el('g',{},vp),gLab=el('g',{},vp),gFx=el('g',{},vp);
+const MR={};for(const id of IDS)if(C[id].micro){const[x,y]=C[id].c;MR[id]=el('circle',{class:'micro',cx:x,cy:y,'data-r':9},gMicro)}
+const CD={};for(const id of IDS)if(C[id].capq){const[x,y]=C[id].cap;CD[id]=el('circle',{class:'cap',cx:x,cy:y,'data-r':3.4,'data-sw':1.2},gCap)}
+
+/* ---------- zoom & pan ---------- */
+const HOME={x:-4,y:-4,w:G.W+8,h:G.H+8};let vb={...HOME},homeW=HOME.w;
+function fitHome(){const r=wrap.getBoundingClientRect();if(!r.width)return;const ar=r.width/r.height,mar=HOME.w/HOME.h;
+ if(ar>mar){const w=HOME.h*ar;vb={x:HOME.x-(w-HOME.w)/2,y:HOME.y,w,h:HOME.h}}else{const h=HOME.w/ar;vb={x:HOME.x,y:HOME.y-(h-HOME.h)/2,w:HOME.w,h}
+  // en el móvil (pantalla alta) acercamos al centro de Europa para que se vea bien
+  if(ar<0.95){const w=Math.max(HOME.w*0.62,HOME.w*ar*0.95);const h2=w/ar;vb={x:455-w/2,y:Math.max(-4,450-h2/2),w,h:h2}}}
+ homeW=vb.w;apply()}
+function apply(){svg.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);scaleUI()}
+const ppu=()=>wrap.getBoundingClientRect().width/vb.w,u=px=>px/ppu();
+function zoomAt(f,cx,cy){const nw=Math.max(40,Math.min(vb.w*f,HOME.w*1.4));const k=nw/vb.w;vb.x=cx-(cx-vb.x)*k;vb.y=cy-(cy-vb.y)*k;vb.h*=k;vb.w=nw;apply()}
+function toMap(cx,cy){const r=wrap.getBoundingClientRect();return[vb.x+(cx-r.left)/r.width*vb.w,vb.y+(cy-r.top)/r.height*vb.h]}
+const ptrs=new Map();let drag=null,moved=0,pinch=null;
+svg.addEventListener('pointerdown',e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=0;
+ if(ptrs.size===1)drag={x:e.clientX,y:e.clientY,vx:vb.x,vy:vb.y};
+ if(ptrs.size===2){const[a,b]=[...ptrs.values()];pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1]),w:vb.w,c:toMap((a[0]+b[0])/2,(a[1]+b[1])/2)};drag=null;moved=99}});
+svg.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+ if(pinch&&ptrs.size===2){const[a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);const nw=Math.max(40,Math.min(pinch.w*pinch.d/d,HOME.w*1.4));const k=nw/vb.w;const[cx,cy]=pinch.c;vb.x=cx-(cx-vb.x)*k;vb.y=cy-(cy-vb.y)*k;vb.h*=k;vb.w=nw;apply();return}
+ if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;moved=Math.max(moved,Math.abs(dx)+Math.abs(dy));if(moved>6){const k=vb.w/wrap.getBoundingClientRect().width;vb.x=drag.vx-dx*k;vb.y=drag.vy-dy*k;apply()}}});
+const up=e=>{const was=ptrs.size;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;if(was===1&&drag&&moved<=6){const[x,y]=toMap(e.clientX,e.clientY);onTap(x,y)}if(!ptrs.size)drag=null};
+svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',e=>{ptrs.delete(e.pointerId);pinch=null;drag=null});
+svg.addEventListener('wheel',e=>{e.preventDefault();const[x,y]=toMap(e.clientX,e.clientY);zoomAt(e.deltaY>0?1.2:1/1.2,x,y)},{passive:false});
+$('#zin').onclick=()=>zoomAt(1/1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zout').onclick=()=>zoomAt(1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zre').onclick=fitHome;
+addEventListener('resize',()=>fitHome());
+function scaleUI(){const k=u(1);
+ svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',c.dataset.r*k));
+ svg.querySelectorAll('[data-sw]').forEach(c=>c.setAttribute('stroke-width',c.dataset.sw));
+ svg.querySelectorAll('text[data-fs]').forEach(tx=>{tx.setAttribute('font-size',tx.dataset.fs*k);tx.setAttribute('stroke-width',3*k);if(tx.dataset.dy)tx.setAttribute('dy',tx.dataset.dy*k)});
+ layoutLabels()}
+
+/* ---------- labels ---------- */
+function drawLabels(){gLab.innerHTML='';const showC=S.sec!=='pais'||S.mode==='study';
+ for(const[es,ru,x,y]of G.seas){const tx=el('text',{x,y,class:'lbl sealbl','text-anchor':'middle','data-fs':11,'data-pr':0},gLab);tx.textContent=S.lang==='ru'?ru:es}
+ if(!(S.mode==='study'&&S.labels))return;
+ const act=new Set(active());
+ for(const id of IDS){if(!act.has(id))continue;const c=C[id];const[x,y]=c.lab;const tx=el('text',{x,y,class:'lbl','text-anchor':'middle','data-fs':c.area>900?13:11.5,'data-pr':3+Math.log10(c.area+1)},gLab);tx.textContent=nm(c);
+  if(showC&&c.capq&&S.sec!=='pais'){const[a,b]=c.cap;const tc=el('text',{x:a,y:b,class:'lbl capl','text-anchor':'middle','data-fs':10.5,'data-dy':-6,'data-pr':2.5+Math.log10(c.area+1)},gLab);tc.textContent=capn(c)}}}
+function layoutLabels(){const T=[...gLab.querySelectorAll('text')].sort((a,b)=>b.dataset.pr-a.dataset.pr);const placed=[];
+ for(const tx of T){tx.style.display='';let bb;try{bb=tx.getBBox()}catch(e){continue}const pad=u(2);
+  const r={x:bb.x-pad,y:bb.y-pad,w:bb.width+2*pad,h:bb.height+2*pad};
+  if(placed.some(p=>r.x<p.x+p.w&&p.x<r.x+r.w&&r.y<p.y+p.h&&p.y<r.y+r.h))tx.style.display='none';else placed.push(r)}}
+
+/* ---------- hit tests ---------- */
+function inPath(p,x,y){try{return p.isPointInFill(new DOMPoint(x,y))}catch(e){const q=svg.createSVGPoint();q.x=x;q.y=y;return p.isPointInFill(q)}}
+function countryAt(x,y){let best=null,bd=1e9;for(const id of IDS)if(C[id].micro){const[a,b]=C[id].c;const d=Math.hypot(a-x,b-y);if(d<u(13)&&d<bd){bd=d;best=id}}
+ if(best)return best;for(const id of IDS)if(inPath(CP[id],x,y))return id;return null}
+function capAt(x,y,pool){let best=null,bd=1e9;for(const id of pool){if(!C[id].capq)continue;const[a,b]=C[id].cap;const d=Math.hypot(a-x,b-y);if(d<bd){bd=d;best=id}}return bd<u(24)?best:null}
+function capOk(id,x,y){const[a,b]=C[id].cap;return Math.hypot(a-x,b-y)<u(18)}
+
+/* ---------- effects ---------- */
+function clearFx(){gFx.innerHTML='';for(const id of IDS){CP[id].classList.remove('hi','ok','bad','sel');if(MR[id])MR[id].classList.remove('hi','ok')}}
+function hiCountry(id,cls='hi'){CP[id].classList.add(cls);if(MR[id])MR[id].classList.add(cls==='ok'?'ok':'hi');if(C[id].micro||C[id].area<60){const[x,y]=C[id].c;el('circle',{cx:x,cy:y,class:'ring '+(cls==='ok'?'ok':'pulse'),'data-r':20},gFx)}scaleUI()}
+function hiCap(id,cls='pulse'){const[x,y]=C[id].cap;el('circle',{cx:x,cy:y,class:'ring '+cls,'data-r':12},gFx);scaleUI()}
+function tag(x,y,txt){const tx=el('text',{x,y,class:'lbl tag','text-anchor':'middle','data-fs':13,'data-dy':-10},gFx);tx.textContent=txt;scaleUI()}
+function tapMark(x,y,ax,ay){el('line',{x1:x,y1:y,x2:ax,y2:ay,class:'tapline'},gFx);el('circle',{cx:x,cy:y,class:'tap','data-r':5},gFx);scaleUI()}
+function showWhere(id,asCap){if(asCap){hiCap(id,'ok');const[x,y]=C[id].cap;tag(x,y,capn(C[id]))}else{hiCountry(id,'ok');const[x,y]=C[id].lab;tag(x,y+u(4),nm(C[id]))}}
+function setDim(){const act=new Set(active());for(const id of IDS){CP[id].classList.toggle('dim',!act.has(id));if(CD[id])CD[id].classList.toggle('dim',!act.has(id))}
+ gCap.style.display=S.sec==='pais'?'none':'';gMicro.style.display=S.sec==='pais'||S.mode==='study'?'':'none'}
+
+/* ---------- learning model ---------- */
+function active(){return IDS.filter(id=>S.cats.includes(C[id].reg))}
+function pool(){return S.sec==='pais'?active():active().filter(id=>C[id].capq)}
+let deck=null;
+function pick(p,avoid){const k=S.mode+'|'+S.sec+'|'+p.join(',');
+ if(!deck||deck.key!==k||!deck.q.length){const ids=p.slice();for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
+  ids.sort((a,b)=>Math.min(box[key(S.sec,a)]||0,3)-Math.min(box[key(S.sec,b)]||0,3));if(ids.length>1&&ids[0]===avoid)ids.push(ids.shift());
+  deck={key:k,q:ids,total:ids.length,seen:new Set(),round:deck&&deck.key===k?deck.round+1:1}}
+ const id=deck.q.shift();deck.seen.add(id);return id}
+function grade(id,ok){const k=key(S.sec,id);if(!ok&&deck&&S.mode!=='exam'&&!deck.q.includes(id))deck.q.splice(Math.min(3,deck.q.length),0,id);
+ box[k]=ok?Math.min(5,(box[k]||0)+1):Math.max(0,(box[k]||0)-2);LS.set('eup_box',box)}
+let streak={n:0,ok:0};
+const scoreLine=()=>`<span class="score" id="sc">${streak.ok} / ${streak.n}</span> ${deck?`<span class="score">· ${t('round')} ${deck.round}: ${deck.seen.size} / ${deck.total}</span>`:''}`;
+const updScore=()=>{const s=$('#sc');if(s)s.textContent=`${streak.ok} / ${streak.n}`};
+const norm=s=>s.toLowerCase().trim().replace(/\s+/g,' '),strip=s=>norm(s).normalize('NFD').replace(/[̀-ͯ]/g,'');
+const ALT={kiev:['kiev','kyiv','kíiv','kiiv'],vaticano:['ciudad del vaticano','vaticano'],macedonia:['macedonia','macedonia del norte'],chequia:['chequia','república checa','republica checa'],paisesbajos:['países bajos','holanda'],bosnia:['bosnia y herzegovina','bosnia'],valeta:['la valeta','la valletta','valeta','valletta'],chisinau:['chisinau','chisináu','kishinev']};
+function answers(id,asCap){const c=C[id];const a=[asCap?capn(c):nm(c)];
+ if(!asCap&&ALT[id])a.push(...ALT[id]);if(asCap&&id==='ucrania')a.push(...ALT.kiev);if(asCap&&id==='vaticano')a.push(...ALT.vaticano);if(asCap&&id==='malta')a.push(...ALT.valeta);if(asCap&&id==='moldavia')a.push(...ALT.chisinau);return a}
+function check(id,asCap,v){const n=norm(v);if(!n)return 'empty';const ok=answers(id,asCap).map(norm);if(ok.includes(n))return 'ok';if(ok.map(strip).includes(strip(n)))return 'almost';return 'bad'}
+function speak(txt){try{const s=new SpeechSynthesisUtterance(txt);s.lang='es-ES';s.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(s)}catch(e){}}
+function distract(id,n,asCap){const c=C[id];let same=IDS.filter(o=>o!==id&&C[o].reg===c.reg&&(!asCap||C[o].capq));let rest=IDS.filter(o=>o!==id&&C[o].reg!==c.reg&&(!asCap||C[o].capq));
+ if(asCap){const bad=new Set(['italia','vaticano']);if(bad.has(id)){same=same.filter(o=>!bad.has(o));rest=rest.filter(o=>!bad.has(o))}}
+ const sh=a=>a.sort(()=>Math.random()-.5);return[...sh(same),...sh(rest)].slice(0,n)}
+
+/* ---------- UI ---------- */
+const panel=$('#panel');const h=html=>{panel.innerHTML=html};
+const MODES=['study','cards','find','what','exam','prog'];
+function renderChrome(){document.documentElement.lang=S.lang;$('#ttl').textContent=t('ttl');$('#home').textContent=t('home');$('#dlt').textContent=t('dl');document.title=t('ttl');
+ document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===S.lang));
+ $('#secs').innerHTML=['pais','cap','par'].map((x,i)=>`<button data-s="${x}" aria-pressed="${S.sec===x}">${t('secs')[i]}</button>`).join('');
+ $('#modes').innerHTML=MODES.map(m=>`<button data-m="${m}" aria-pressed="${S.mode===m}">${t('modes')[m]}</button>`).join('');
+ $('#cats').innerHTML=Object.entries(D.REG).filter(([k])=>S.sec==='pais'||k!=='otros').map(([k,v])=>`<button class="chip" data-c="${k}" aria-pressed="${S.cats.includes(k)}">${S.lang==='ru'?v[1]:v[0]}</button>`).join('')}
+document.querySelector('.lang').onclick=e=>{const l=e.target.dataset.l;if(l){S.lang=l;LS.set('lang',l);go(S.mode)}};
+$('#modes').onclick=e=>{const m=e.target.dataset.m;if(m)go(m)};
+$('#secs').onclick=e=>{const x=e.target.dataset.s;if(x&&x!==S.sec){S.sec=x;LS.set('eup_sec',x);deck=null;go(S.mode)}};
+$('#cats').onclick=e=>{const c=e.target.dataset.c;if(!c)return;S.cats=S.cats.includes(c)?S.cats.filter(x=>x!==c):[...S.cats,c];LS.set('eup_cats',S.cats);go(S.mode)};
+let tapHandler=null,cur=null,exam=null;
+function onTap(x,y){tapHandler&&tapHandler(x,y)}
+function go(m){if(m!==S.mode)streak={n:0,ok:0};S.mode=m;clearFx();tapHandler=null;if(m!=='exam')exam=null;renderChrome();setDim();drawLabels();scaleUI();
+ if(!pool().length&&m!=='prog'){h(`<p class="sub">${t('none')}</p>`);return}
+ ({study,cards,find,what,exam:examIntro,prog})[m]()}
+const srcLine=()=>`<p class="src">${t('src')}</p>`;
+
+function infoHtml(id){const c=C[id];const r=D.REG[c.reg];
+ return `<p class="target">${nm(c)}</p>${S.lang==='ru'?`<p class="sub ru">${c.ru}</p>`:''}<div class="info"><b>${t('capital')}</b><span>${tr2(capn(c),c.capRu)}</span><b>${t('region')}</b><span>${S.lang==='ru'?r[1]:r[0]}</span></div>
+ ${c.note?`<p class="note">${S.lang==='ru'?c.note[1]:c.note[0]}</p>`:''}${!c.capq?`<p class="sub">${t('otherNote')}</p>`:''}`}
+function study(){const lb=()=>`<label class="toggle"><input type="checkbox" id="lb" ${S.labels?'checked':''}> ${t('labels')}</label>`;
+ h(`<p class="prompt">${t('study')}</p><div class="row">${lb()}</div>${srcLine()}`);
+ const bindLb=()=>{$('#lb').onchange=e=>{S.labels=e.target.checked;drawLabels();scaleUI()}};bindLb();
+ tapHandler=(x,y)=>{let id=S.sec!=='pais'?capAt(x,y,active()):null;const asCap=!!id;if(!id)id=countryAt(x,y);if(!id||!active().includes(id))return;
+  clearFx();if(asCap)hiCap(id,'ok');hiCountry(id,'sel');
+  h(`${infoHtml(id)}<div class="row"><button class="btn ghost" id="say">🔊 ${t('say')}</button>${lb()}</div>${srcLine()}`);bindLb();
+  const said=asCap?capn(C[id]):nm(C[id]);$('#say').onclick=()=>speak(said);speak(said)}}
+
+function cards(){clearFx();const p=pool();cur=pick(p,cur);const c=C[cur];let shown=false;
+ const q=S.sec==='pais'?t('cardP'):S.sec==='cap'?t('cardC'):t('cardPC');
+ if(S.sec==='pais')hiCountry(cur);else if(S.sec==='cap')hiCap(cur);else hiCountry(cur,'sel');
+ h(`<p class="prompt">${q} ${scoreLine()}</p>${S.sec==='par'?`<p class="target">${nm(c)}</p>`:''}<button class="card" id="cd"><span class="cq">?</span><span class="sub">${t('flip')}</span></button><div class="row" id="cr"></div>`);
+ $('#cd').onclick=()=>{if(shown)return;shown=true;const main=S.sec==='pais'?nm(c):capn(c);const extra=S.sec==='pais'?(c.capq?`${t('capital')}: ${capn(c)}`:''):`${t('country')}: ${nm(c)}`;
+  $('#cd').innerHTML=`<span class="target">${main}</span><span class="sub">${extra}</span>`;speak(main);if(S.sec!=='pais')hiCap(cur,'ok');
+  $('#cr').innerHTML=`<button class="btn" id="kn">✓ ${t('knew')}</button><button class="btn ghost" id="nk">✗ ${t('didnt')}</button>`;
+  $('#kn').onclick=()=>{streak.n++;streak.ok++;grade(cur,true);cards()};$('#nk').onclick=()=>{streak.n++;grade(cur,false);cards()}}}
+
+function judgeTap(id,x,y){// devuelve [ok, lo tocado]
+ if(S.sec==='pais'){let hit=countryAt(x,y);if(hit!==id&&!C[id].micro&&inPath(CP[id],x,y))hit=id;return[hit===id,hit]}
+ const hit=capAt(x,y,IDS);return[capOk(id,x,y)||hit===id,hit]}
+function find(){clearFx();const p=pool();cur=pick(p,cur);const c=C[cur];let done=false;
+ const q=S.sec==='pais'?`${t('findP')}</p><p class="target">${nm(c)}`:S.sec==='cap'?`${t('findC')}</p><p class="target">${capn(c)}`:`${t('findPC')}</p><p class="target">${nm(c)}`;
+ h(`<p class="prompt">${scoreLine()}</p><p class="prompt">${q}</p><div id="fb"></div>`);
+ tapHandler=(x,y)=>{if(done)return;done=true;const[ok,hit]=judgeTap(cur,x,y);streak.n++;if(ok)streak.ok++;grade(cur,ok);updScore();
+  const asCap=S.sec!=='pais';if(!ok&&hit&&!asCap)hiCountry(hit,'bad');showWhere(cur,asCap);
+  if(!ok){const[ax,ay]=asCap?C[cur].cap:C[cur].c;tapMark(x,y,ax,ay)}
+  const hitName=hit?(asCap?capn(C[hit]):nm(C[hit])):null;
+  $('#fb').innerHTML=ok?`<p class="fb ok">${t('ok')}${S.sec==='par'?' '+capn(c):''}</p>`:`<p class="fb bad">${hitName?t('bad')+hitName:(asCap?t('far'):t('sea'))}</p>${S.sec==='par'?`<p class="sub">${t('capital')}: <b>${capn(c)}</b></p>`:''}<div class="row"><button class="btn" id="nx">${t('next')}</button></div>`;
+  speak(asCap?capn(c):nm(c));if(ok)setTimeout(()=>S.mode==='find'&&find(),1100);else $('#nx').onclick=find}}
+
+function what(){clearFx();const p=pool();cur=pick(p,cur);const c=C[cur];let done=false;
+ // en «País y capital» alternamos: capital de un país / país de una capital
+ const rev=S.sec==='par'&&Math.random()<.4;const asCap=S.sec==='cap'||(S.sec==='par'&&!rev);
+ let q;if(S.sec==='pais'){hiCountry(cur);q=`<p class="prompt">${t('whatP')} ${scoreLine()}</p>`}
+ else if(S.sec==='cap'){hiCap(cur);q=`<p class="prompt">${t('whatC')} ${scoreLine()}</p>`}
+ else{if(!rev)hiCountry(cur,'sel');q=`<p class="prompt">${scoreLine()}</p><p class="target" style="font-size:1.3rem">${rev?`${t('qCountry')} ${capn(c)}?`:`${t('qCap')} ${nm(c)}?`}</p>`}
+ const finish=ok=>{streak.n++;if(ok)streak.ok++;grade(cur,ok);updScore();clearFx();showWhere(cur,asCap);if(S.sec==='par')hiCountry(cur,'ok');speak(asCap?capn(c):nm(c))};
+ const tog=`<label class="toggle"><input type="checkbox" id="ty" ${S.typing?'checked':''}> ${t('type')}</label>`;
+ if(S.typing){h(`${q}<div class="row"><input class="ans" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" lang="es" placeholder="${t('ans')}"><button class="btn" id="ck">${t('check')}</button></div><div id="fb"></div><div class="row">${tog}</div>`);
+  const sub=()=>{if(done){what();return}const r=check(cur,asCap,$('#ans').value);if(r==='empty')return;const right=asCap?capn(c):nm(c);
+   if(r==='almost'){$('#fb').innerHTML=`<p class="fb bad">${t('almost')}${right}</p>`;return}
+   done=true;const ok=r==='ok';finish(ok);$('#fb').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?t('ok'):t('ans')+': '+right}</p>`;$('#ck').textContent=t('next');if(ok)setTimeout(()=>S.mode==='what'&&done&&what(),1200)};
+  $('#ck').onclick=sub;$('#ans').onkeydown=e=>{if(e.key==='Enter')sub()};setTimeout(()=>$('#ans')&&$('#ans').focus({preventScroll:true}),50)}
+ else{const opts=[cur,...distract(cur,3,asCap)].sort(()=>Math.random()-.5);
+  h(`${q}<div class="opts">${opts.map(o=>`<button data-id="${o}">${asCap?capn(C[o]):nm(C[o])}</button>`).join('')}</div><div class="row">${tog}</div>`);
+  panel.querySelector('.opts').onclick=e=>{const id=e.target.dataset.id;if(!id||done)return;done=true;const ok=id===cur;finish(ok);
+   panel.querySelectorAll('.opts button').forEach(b=>{if(b.dataset.id===cur)b.classList.add('ok');else if(b.dataset.id===id)b.classList.add('bad')});
+   setTimeout(()=>S.mode==='what'&&what(),ok?900:2200)}}
+ $('#ty').onchange=e=>{S.typing=e.target.checked;LS.set('eup_typing',S.typing);what()}}
+
+function examIntro(){exam=null;h(`<p class="sub">${t('exam')}</p><div class="row"><button class="btn" id="st">${t('start')}</button></div>`);$('#st').onclick=examStart}
+function examStart(){const p=pool().slice().sort(()=>Math.random()-.5);exam={qs:p.slice(0,Math.min(20,p.length)),i:0,res:[]};examQ()}
+function examQ(){clearFx();const id=exam.qs[exam.i],c=C[id];const head=`<p class="prompt">${t('q')} ${exam.i+1} ${t('of')} ${exam.qs.length}</p>`;const bar=`<div class="bar"><i style="width:${exam.i/exam.qs.length*100}%"></i></div>`;
+ const next=ok=>{exam.res.push({id,ok});grade(id,ok);exam.i++;exam.i<exam.qs.length?examQ():examEnd()};
+ if(S.sec==='par'){const opts=[id,...distract(id,3,true)].sort(()=>Math.random()-.5);hiCountry(id,'sel');
+  h(`${head}<p class="target" style="font-size:1.3rem">${t('qCap')} ${nm(c)}?</p><div class="opts">${opts.map(o=>`<button data-id="${o}">${capn(C[o])}</button>`).join('')}</div>${bar}`);
+  panel.querySelector('.opts').onclick=e=>{const o=e.target.dataset.id;if(o)next(o===id)};return}
+ h(`${head}<p class="prompt">${S.sec==='pais'?t('findP'):t('findC')}</p><p class="target">${S.sec==='pais'?nm(c):capn(c)}</p>${bar}`);
+ tapHandler=(x,y)=>{tapHandler=null;const[ok]=judgeTap(id,x,y);next(ok)}}
+function examEnd(){tapHandler=null;clearFx();const n=exam.res.filter(r=>r.ok).length,tot=exam.res.length,g=Math.round(n/tot*100)/10;const errs=exam.res.filter(r=>!r.ok);
+ errs.forEach(r=>{S.sec==='pais'?hiCountry(r.id,'bad'):hiCap(r.id,'ok')});
+ h(`<p class="prompt">${t('grade')}</p><p class="target">${g.toLocaleString(S.lang)} / 10</p><p class="sub">${n} / ${tot}</p>
+ ${errs.length?`<p class="sub">${t('errs')}</p><ul class="errs">${errs.map(r=>`<li>${nm(C[r.id])}${S.sec!=='pais'?' — <b>'+capn(C[r.id])+'</b>':''}</li>`).join('')}</ul>`:''}<div class="row"><button class="btn" id="ag">${t('again')}</button></div>`);
+ $('#ag').onclick=examStart}
+
+function prog(){const act=active();const rows=Object.entries(D.REG).filter(([k])=>S.sec==='pais'||k!=='otros').map(([k,v])=>{const ids=IDS.filter(id=>C[id].reg===k&&(S.sec==='pais'||C[id].capq));
+  const kn=ids.filter(id=>(box[key(S.sec,id)]||0)>=3).length;return `<div><div class="h"><span>${S.lang==='ru'?v[1]:v[0]}</span><span class="score">${kn} / ${ids.length}</span></div><div class="bar"><i style="width:${ids.length?kn/ids.length*100:0}%"></i></div></div>`}).join('');
+ for(const id of act)if((box[key(S.sec,id)]||0)>=3)CP[id].classList.add('ok');
+ h(`<p class="prompt">${t('prog')}</p><div class="prog">${rows}</div><div class="row"><button class="btn ghost" id="rs">${t('reset')}</button></div>`);
+ $('#rs').onclick=()=>{if(confirm(t('sure'))){box={};LS.set('eup_box',box);go('prog')}}}
+
+go('study');requestAnimationFrame(fitHome);
+</script>
+</body>
+</html>

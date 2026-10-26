@@ -5,7 +5,8 @@
 ## Структура
 - `index.html`: стартовая страница со списком уроков
 - `espana-fisica/`: урок 2, готов (`index.html`, `img/`, `pdf/`)
-- `espana-administrativa/`, `europa-politica/`, `europa-fisica/`: уроки 1, 3, 4, пока заглушки на стартовой странице
+- `europa-politica/`: урок 3, готов: страны и столицы по списку учителя (51 страна, у 46 — столицы). Собирается из `tools/europa/`: `build_geo.py` (Natural Earth 1:10m, точка зрения Испании: Крым в Украине; Косово из общей версии) → `geo.json`, `build.py` → `index.html`, `mkpdf.py` → `pdf/`. Список — `paises.py`. Прогресс в `localStorage`: `mme_eup_`
+- `espana-administrativa/`, `europa-fisica/`: уроки 1, 4, пока заглушки на стартовой странице
 - `historia-tema1/`: история, тема 1, готов. Один файл `index.html` со встроенными данными: события, личности, понятия, исторические границы. Три части по проверочным: p1 германцы и вестготы, p2 Византия, p3 Каролинги
 - Тема 1 по истории — большая тема из трёх частей (проверочные): `historia-visigodos/` (часть 1, германцы и вестготы), `historia-bizancio/` (часть 2, Византия), `historia-carolingios/` (часть 3, Каролинги). Тренажёры по 8 шагов от материала до экзамена; собираются одним движком из `tools/historia/`: `python3 build.py <visigodos|bizancio|carolingios> <out.html>`, содержание и карты — в `tools/historia/<тема>.py`, общий шаблон `template.html`, береговая линия Natural Earth 1:10m в `geo.json`. Границы карт Каролингов — `carolingios_geo.json`, собирается `carolingios_geo.py` из GeoJSON Cliopatria. Прогресс в `localStorage`: `h1_vis_`, `h1_biz_`, `h1_car_`
 - `historia-recursos/`: PDF для печати без ответов (контурные карты, линия времени, шаблоны тетради и работы); собираются `python3 tools/historia/mkrecursos.py historia-recursos/pdf`

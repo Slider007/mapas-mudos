@@ -14,7 +14,7 @@ Mapas mudos interactivos para las clases de geografía: localizar, nombrar, repe
 |---|---|---|---|
 | 1 | `espana-administrativa/` | División administrativa de España | en preparación |
 | 2 | `espana-fisica/` | España física: costa, ríos, relieve (178 objetos) | listo |
-| 3 | `europa-politica/` | Europa política | en preparación |
+| 3 | `europa-politica/` | Europa política: países y capitales (prueba 4 nov) | listo |
 | 4 | `europa-fisica/` | Europa física | en preparación |
 | Historia T1 | `historia-tema1/` | Fin de la Edad Antigua e inicio de la Edad Media: germanos y visigodos, bizantinos, carolingios (3 pruebas) | listo |
 | Historia T1 · parte 1 | `historia-visigodos/` | Entrenador: pueblos germanos y visigodos (teoría, fechas, 3 mapas del libro, pirámide, tarjetas, test, examen) | listo |
@@ -51,7 +51,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 |---|---|---|---|
 | 1 | `espana-administrativa/` | Административное деление Испании | в работе |
 | 2 | `espana-fisica/` | Физическая карта Испании: побережье, реки, рельеф (178 объектов) | готово |
-| 3 | `europa-politica/` | Политическая карта Европы | в работе |
+| 3 | `europa-politica/` | Политическая карта Европы: страны и столицы (проверочная 4 нояб) | готов |
 | 4 | `europa-fisica/` | Физическая карта Европы | в работе |
 | История, тема 1 | `historia-tema1/` | Конец Античности и начало Средневековья: германцы и вестготы, Византия, Каролинги (3 проверочные) | готово |
 | История, тема 1 · часть 1 | `historia-visigodos/` | Тренажёр: германцы и вестготы (материал, даты, 3 карты из учебника, пирамида, карточки, тест, экзамен) | готово |
@@ -88,7 +88,7 @@ Interactive blank (outline) maps for school geography lessons: locate, name, rev
 |---|---|---|---|
 | 1 | `espana-administrativa/` | Administrative divisions of Spain | in progress |
 | 2 | `espana-fisica/` | Physical map of Spain: coast, rivers, relief (178 objects) | ready |
-| 3 | `europa-politica/` | Political map of Europe | in progress |
+| 3 | `europa-politica/` | Political map of Europe: countries and capitals (quiz 4 Nov) | ready |
 | 4 | `europa-fisica/` | Physical map of Europe | in progress |
 | History, topic 1 | `historia-tema1/` | End of Antiquity and start of the Middle Ages: Germanic peoples and Visigoths, Byzantium, Carolingians (3 quizzes) | ready |
 | History T1 · part 1 | `historia-visigodos/` | Trainer: Germanic peoples and Visigoths (theory, dates, 3 textbook maps, pyramid, flashcards, test, exam) | ready |
