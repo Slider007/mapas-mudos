@@ -73,6 +73,7 @@ input.ans{flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:10px 12px;bor
 .c.dim{fill:#f1efe9}
 .c.hi{fill:var(--hi)}.c.ok{fill:#4cb878}.c.bad{fill:#e8604a}.c.sel{fill:#9b7cff}
 .lake{fill:var(--sea);stroke:var(--line);stroke-width:.4;vector-effect:non-scaling-stroke}
+.callln{stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}.callc{fill:var(--fc,#fff);stroke:var(--line);stroke-width:1.3;vector-effect:non-scaling-stroke;cursor:pointer}.callc.hi{fill:var(--hi)}.callc.ok{fill:#4cb878}.callc.bad{fill:#e8604a}.callc.sel{fill:#9b7cff}
 .micro{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:2 2;vector-effect:non-scaling-stroke}
 .micro.hi{stroke:var(--hi);stroke-width:3;stroke-dasharray:none}.micro.ok{stroke:var(--ok);stroke-width:3;stroke-dasharray:none}
 .cap{fill:var(--line);stroke:#fff;vector-effect:non-scaling-stroke}
@@ -158,6 +159,10 @@ const CP={};const gC=el('g',{},vp);for(const id of IDS)CP[id]=el('path',{class:'
 el('path',{class:'lake',d:G.lakes},vp);
 const gMicro=el('g',{},vp),gCap=el('g',{},vp),gLab=el('g',{},vp),gFx=el('g',{},vp);
 const MR={};for(const id of IDS)if(C[id].micro){const[x,y]=C[id].c;MR[id]=el('circle',{class:'micro',cx:x,cy:y,'data-r':9},gMicro)}
+// выноски микрогосударств: линия от места до кружка рядом (в море, где возможно); кружок — то же, что сама страна
+const CALL={andorra:[29,16],monaco:[6,18],sanmarino:[13,-7],vaticano:[-18,14],liechtenstein:[-2,-22],malta:[16,10]};
+const CO={};const gCall=el('g',{},vp);vp.insertBefore(gCall,gCap);
+for(const[id,[dx,dy]]of Object.entries(CALL))if(C[id]){const[x,y]=C[id].c,tx=x+dx,ty=y+dy;el('line',{x1:x,y1:y,x2:tx,y2:ty,class:'callln'},gCall);CO[id]={x:tx,y:ty,el:el('circle',{cx:tx,cy:ty,class:'callc','data-r':7,style:D.COL[id]?`--fc:${D.COL[id]}`:''},gCall)}}
 const CD={};for(const id of IDS)if(C[id].capq){const[x,y]=C[id].cap;CD[id]=el('circle',{class:'cap',cx:x,cy:y,'data-r':3.4,'data-sw':1.2},gCap)}
 
 /* ---------- zoom & pan ---------- */
@@ -196,7 +201,7 @@ function drawLabels(){gLab.innerHTML='';const showC=S.sec!=='pais'||S.mode==='st
  for(const[es,ru,x,y]of G.seas){const tx=el('text',{x,y,class:'lbl sealbl','text-anchor':'middle','data-fs':11,'data-pr':0},gLab);tx.textContent=S.lang==='ru'?ru:es}
  if(!(S.mode==='study'&&S.labels))return;
  const act=new Set(active());
- for(const id of IDS){if(!act.has(id))continue;const c=C[id];const[x,y]=c.lab;const tx=el('text',{x,y,class:'lbl','text-anchor':'middle','data-fs':c.area>900?13:11.5,'data-pr':3+Math.log10(c.area+1)},gLab);tx.textContent=nm(c);
+ for(const id of IDS){if(!act.has(id))continue;const c=C[id];const[x,y]=CO[id]?[CO[id].x,CO[id].y-11]:c.lab;const tx=el('text',{x,y,class:'lbl','text-anchor':'middle','data-fs':c.area>900?13:11.5,'data-pr':3+Math.log10(c.area+1)},gLab);tx.textContent=nm(c);
   if(showC&&c.capq&&S.sec!=='pais'){const[a,b]=c.cap;const tc=el('text',{x:a,y:b,class:'lbl capl','text-anchor':'middle','data-fs':10.5,'data-dy':-6,'data-pr':2.5+Math.log10(c.area+1)},gLab);tc.textContent=capn(c)}}}
 function layoutLabels(){const T=[...gLab.querySelectorAll('text')].sort((a,b)=>b.dataset.pr-a.dataset.pr);const placed=[];
  for(const tx of T){tx.style.display='';let bb;try{bb=tx.getBBox()}catch(e){continue}const pad=u(2);
@@ -205,14 +210,15 @@ function layoutLabels(){const T=[...gLab.querySelectorAll('text')].sort((a,b)=>b
 
 /* ---------- hit tests ---------- */
 function inPath(p,x,y){try{return p.isPointInFill(new DOMPoint(x,y))}catch(e){const q=svg.createSVGPoint();q.x=x;q.y=y;return p.isPointInFill(q)}}
-function countryAt(x,y){let best=null,bd=1e9;for(const id of IDS)if(C[id].micro){const[a,b]=C[id].c;const d=Math.hypot(a-x,b-y);if(d<u(13)&&d<bd){bd=d;best=id}}
+function countryAt(x,y){let best=null,bd=1e9;for(const[id,o]of Object.entries(CO)){const d=Math.hypot(o.x-x,o.y-y);if(d<u(14)&&d<bd){bd=d;best=id}}
+ for(const id of IDS)if(C[id].micro){const[a,b]=C[id].c;const d=Math.hypot(a-x,b-y);if(d<u(13)&&d<bd){bd=d;best=id}}
  if(best)return best;for(const id of IDS)if(inPath(CP[id],x,y))return id;return null}
 function capAt(x,y,pool){let best=null,bd=1e9;for(const id of pool){if(!C[id].capq)continue;const[a,b]=C[id].cap;const d=Math.hypot(a-x,b-y);if(d<bd){bd=d;best=id}}return bd<u(24)?best:null}
 function capOk(id,x,y){const[a,b]=C[id].cap;return Math.hypot(a-x,b-y)<u(18)}
 
 /* ---------- effects ---------- */
-function clearFx(){gFx.innerHTML='';for(const id of IDS){CP[id].classList.remove('hi','ok','bad','sel');if(MR[id])MR[id].classList.remove('hi','ok')}}
-function hiCountry(id,cls='hi'){CP[id].classList.add(cls);if(MR[id])MR[id].classList.add(cls==='ok'?'ok':'hi');if(C[id].micro||C[id].area<60){const[x,y]=C[id].c;el('circle',{cx:x,cy:y,class:'ring '+(cls==='ok'?'ok':'pulse'),'data-r':20},gFx)}scaleUI()}
+function clearFx(){gFx.innerHTML='';for(const id of IDS){CP[id].classList.remove('hi','ok','bad','sel');if(MR[id])MR[id].classList.remove('hi','ok');if(CO[id])CO[id].el.classList.remove('hi','ok','bad','sel')}}
+function hiCountry(id,cls='hi'){CP[id].classList.add(cls);if(CO[id])CO[id].el.classList.add(cls);if(MR[id])MR[id].classList.add(cls==='ok'?'ok':'hi');if(C[id].micro||C[id].area<60){const[x,y]=C[id].c;el('circle',{cx:x,cy:y,class:'ring '+(cls==='ok'?'ok':'pulse'),'data-r':20},gFx)}scaleUI()}
 function hiCap(id,cls='pulse'){const[x,y]=C[id].cap;el('circle',{cx:x,cy:y,class:'ring '+cls,'data-r':12},gFx);scaleUI()}
 function tag(x,y,txt){const tx=el('text',{x,y,class:'lbl tag','text-anchor':'middle','data-fs':13,'data-dy':-10},gFx);tx.textContent=txt;scaleUI()}
 function tapMark(x,y,ax,ay){el('line',{x1:x,y1:y,x2:ax,y2:ay,class:'tapline'},gFx);el('circle',{cx:x,cy:y,class:'tap','data-r':5},gFx);scaleUI()}
