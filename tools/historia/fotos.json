@@ -174,5 +174,61 @@
   "license": "CC BY-SA 2.0",
   "w": 500,
   "h": 770
+ },
+ "isl/kaaba": {
+  "file": "kaaba.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:The_Kaaba_during_Hajj_-_edited.jpg",
+  "author": "Adli Wahid",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 631
+ },
+ "isl/cupula-roca": {
+  "file": "cupula-roca.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Jerusalem-2013(2)-Temple_Mount-Dome_of_the_Rock_(SE_exposure).jpg",
+  "author": "Godot13",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 651
+ },
+ "isl/kairuan": {
+  "file": "kairuan.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:The_Minaret_of_the_Great_Mosque_Okba_of_Kairouan,_Tunisia.jpg",
+  "author": "Monaam Ben Fredj",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 600
+ },
+ "isl/mihrab": {
+  "file": "mihrab.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Fachada_del_mihrab_de_la_Mezquita_de_Córdoba,_España.jpg",
+  "author": "Jl FilpoC",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 675
+ },
+ "isl/coran-azul": {
+  "file": "coran-azul.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Folio_from_the_Blue_Qur'an_(CBL_Is_1405A,_f._1b).jpg",
+  "author": "anónimo (siglos IX–X)",
+  "license": "Dominio público",
+  "w": 900,
+  "h": 683
+ },
+ "isl/astrolabio": {
+  "file": "astrolabio.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Astrolabe,_c._1601,_Isa_ibn_Allahdad,_Indo-Persian,_brass_-_Art_Institute_of_Chicago_-_DSC09729.JPG",
+  "author": "Daderot",
+  "license": "CC0",
+  "w": 641,
+  "h": 900
+ },
+ "isl/noria": {
+  "file": "noria.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Molino_de_la_Albolafia_(Córdoba,_España).jpg",
+  "author": "Jim (Flickr)",
+  "license": "CC BY 2.0",
+  "w": 575,
+  "h": 900
  }
 }

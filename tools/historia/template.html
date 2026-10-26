@@ -102,7 +102,7 @@ svg.mini{display:block;width:100%;height:auto}
 .biz{fill:#7e57c2;fill-opacity:.42;stroke:#5e35b1;stroke-width:1}
 .oto{fill:#00897b;fill-opacity:.35;stroke:#00695c;stroke-width:1}
 .city circle{fill:#7a2e2e;stroke:#fff;stroke-width:1.2}
-.city text{font-size:11px;font-weight:700;fill:#2b2b2b;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+.city text{font-size:13.5px;font-weight:700;fill:#2b2b2b;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
 .zb{position:absolute;right:8px;top:8px;display:grid;gap:5px}.zb button{width:34px;height:34px;border-radius:10px;border:0;background:#fff;box-shadow:0 0 0 1px #c9bfa6;font-size:1.1rem;cursor:pointer}
 .leg{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem;margin-top:6px}
 .leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
@@ -135,6 +135,7 @@ textarea{width:100%;min-height:120px;border:1.5px solid var(--line);border-radiu
 .toast.on{transform:translateX(-50%) translateY(0)}
 footer{margin-top:20px;font-size:.75rem;color:var(--ink2)}
 :focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+.dsvg svg{width:100%;height:auto;display:block;max-width:560px;margin:0 auto}.dleg{margin:8px 0 0;padding-left:1.4em;font-size:.88rem;columns:2;column-gap:18px}.dleg li{break-inside:avoid;margin:0 0 3px}@media(max-width:560px){.dleg{columns:1}}
 </style>
 </head>
 <body>
@@ -212,6 +213,7 @@ function mediaHTML(list){return `<div class="media">${list.map(m=>{
  if(m.dia==='pyr'){const n=m.levels.length,cols=['#5e35b1','#7e57c2','#9f84d6','#b39ddb'];return `<div class="dia"><h4>${rt(m.title)}</h4><div class="dpyr">${m.apex?`<div class="ap" style="width:${30}%">${rt(m.apex)}</div>`:''}${m.levels.map((l,i)=>`<div style="width:${40+60*(i+1)/n}%;background:${cols[i%4]}">${rt(l)}</div>`).join('')}</div>${m.note?`<p class="muted" style="margin:8px 0 0;font-size:.82rem">${rt(m.note)}</p>`:''}</div>`}
  if(m.dia==='org')return `<div class="dia"><h4>${rt(m.title)}</h4><div class="dorg">${m.rows.map((r,i)=>(i?'<div class="ar">▼</div>':'')+`<div class="r">${r.map(b=>`<div class="b ${i===0?'t':''}">${rt(b)}</div>`).join('')}</div>`).join('')}</div>${m.note?`<p class="muted" style="margin:8px 0 0;font-size:.82rem">${rt(m.note)}</p>`:''}</div>`;
  if(m.dia==='phases'){const a=m.from,b=m.to,pc=y=>(y-a)/(b-a)*100;return `<div class="dia"><h4>${rt(m.title)}</h4><div class="dph">${m.items.map(([t,y0,y1,c])=>`<div style="width:${pc(y1)-pc(y0)}%;background:${c}">${rt(t)}</div>`).join('')}</div><div class="dphm">${m.marks.map(([y,t])=>`<span style="left:${Math.min(96,Math.max(4,pc(y)))}%">${t}</span>`).join('')}</div>${m.note?`<p class="muted" style="margin:4px 0 0;font-size:.82rem">${rt(m.note)}</p>`:''}</div>`}
+ if(m.dia==='svg')return `<div class="dia"><h4>${rt(m.title)}</h4><div class="dsvg">${m.svg}</div><ol class="dleg">${m.items.map(it=>`<li>${rt(it)}</li>`).join('')}</ol>${m.note?`<p class="muted" style="margin:6px 0 0;font-size:.82rem">${rt(m.note)}</p>`:''}</div>`;
  return ''}).join('')}</div>`}
 function miniFig(mm,uid){
  const sw=(fill)=>fill==='#hd'?'repeating-linear-gradient(135deg,#333 0 1px,#fff 1px 5px)':fill;
@@ -232,7 +234,7 @@ function miniMap(mm,uid){
   const S={sea:[9.5,'font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#cfe1e8'],big:[10.5,'font-weight:800;letter-spacing:.05em;fill:#444;paint-order:stroke;stroke:rgba(255,255,255,.9)'],note:[9,'fill:#333;paint-order:stroke;stroke:#fff']}[st]||[10,`font-weight:800;fill:${st||'#333'};paint-order:stroke;stroke:#fff`];
   h+=rot?`<g transform="rotate(${rot} ${f(x)} ${f(y)})">${T(x,y,t,S[0],S[1])}</g>`:T(x,y,t,S[0],S[1])}
  for(const [n,lo,la,side] of mm.pts||[]){const [x,y]=P(lo,la),[an,dx,dy]={w:['end',-5,-4],n:['middle',0,-7],s:['middle',0,15]}[side]||['start',5,-4];
-  h+=`<circle data-r="3.4" cx="${f(x)}" cy="${f(y)}" r="3.4" fill="#7a2e2e" stroke="#fff" data-lw="1.2" stroke-width="1.2"/>`+T(x,y,n,10.5,'font-weight:700;fill:#222;paint-order:stroke;stroke:#fff;stroke-linejoin:round',an,dx,dy)}
+  h+=`<circle data-r="3.8" cx="${f(x)}" cy="${f(y)}" r="3.8" fill="#7a2e2e" stroke="#fff" data-lw="1.2" stroke-width="1.2"/>`+T(x,y,n,12.5,'font-weight:700;fill:#222;paint-order:stroke;stroke:#fff;stroke-linejoin:round',an,dx,dy)}
  return h+'</svg>'}
 function sizeMinis(){document.querySelectorAll('svg.mini').forEach(s=>{const w=s.clientWidth;if(!w)return;const u=+s.dataset.w/w;
  s.querySelectorAll('[data-fs]').forEach(t=>{t.style.fontSize=(t.dataset.fs*u)+'px';t.style.strokeWidth=(t.dataset.sw*u)+'px';t.setAttribute('x',+t.dataset.x+t.dataset.dx*u);t.setAttribute('y',+t.dataset.y+t.dataset.dy*u)});
@@ -324,7 +326,7 @@ function drawMap(names,quiz){
   const [x,y]=prj(lo,la);h+=`<text data-fs="${fs}" x="${x}" y="${y}" ${op?.rot?`transform="rotate(${op.rot} ${x} ${y})"`:''} text-anchor="middle" style="${st}">${t}</text>`});
  for(const [t,lo,la] of m.peoples||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="10" x="${x}" y="${y}" text-anchor="middle" style="font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
  for(const [t,lo,la] of m.isles||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-style:italic;fill:#335;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
- for(const [n,c] of Object.entries(m.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle data-r="3.6" cx="${x}" cy="${y}" r="3.6"/>${names?`<text data-fs="11" data-dx="5" data-dy="-4" data-x="${x}" data-y="${y}" x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
+ for(const [n,c] of Object.entries(m.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle data-r="4.2" cx="${x}" cy="${y}" r="4.2"/>${names?`<text data-fs="13.5" data-dx="5" data-dy="-4" data-x="${x}" data-y="${y}" x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
  h+='<g id="mfx"></g>';svg.innerHTML=h;svg.onclick=null;initZoom();
 }
 let MV=null,MVdrag={moved:0};const zk=()=>MV?MV.w/VB[2]:1;
