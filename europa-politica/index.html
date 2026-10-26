@@ -98,6 +98,7 @@ input.ans{flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:10px 12px;bor
  <header><a class="home" id="home" href="../"></a><h1 id="ttl"></h1><div class="lang" role="group"><button data-l="ru">RU</button><button data-l="es">ES</button></div></header>
  <div class="controls">
   <a class="dl" id="dl" href="pdf/mapa-mudo-europa-politica.pdf" download>📥 <span id="dlt"></span></a>
+  <a class="dl" id="dl2" href="pdf/IGN_Mapa_politico_Europa_2025.pdf" download>🗺 <span id="dlt2"></span></a>
   <div class="secs" id="secs" role="group"></div>
   <div class="modes" id="modes" role="group"></div>
   <div class="cats" id="cats" role="group"></div>
@@ -118,7 +119,7 @@ const IDS=Object.keys(D.P);
 const C=Object.fromEntries(IDS.map(id=>{const v=D.P[id],g=G.countries[id];return[id,{id,es:v[0],ru:v[1],capEs:v[2],capRu:v[3],reg:v[6],note:D.NOTE[id],d:g.d,lab:g.lab,cap:g.cap,area:g.area,c:g.c,
  micro:g.area<14,capq:v[6]!=='otros'}]}));
 const T={
- es:{ttl:'Mapa político de Europa',home:'← Lecciones',dl:'Mapas mudos para imprimir (PDF)',secs:['Países','Capitales','País y capital'],
+ es:{ttl:'Mapa político de Europa',home:'← Lecciones',dl2:'Mapa político oficial IGN 2025 (PDF, 20 MB)',dl:'Mapas mudos para imprimir (PDF)',secs:['Países','Capitales','País y capital'],
   modes:{study:'Estudiar',cards:'Tarjetas',find:'Localizar',what:'¿Qué es?',exam:'Examen',prog:'Progreso'},
   study:'Toca un país o una capital del mapa.',labels:'Nombres',capital:'Capital',country:'País',region:'Zona',
   findP:'Toca el país:',findC:'Toca la capital:',findPC:'Toca la capital de',whatP:'¿Qué país es?',whatC:'¿Qué capital es?',qCap:'¿Cuál es la capital de',qCountry:'¿De qué país es capital',
@@ -128,7 +129,7 @@ const T={
   prog:'Lo que ya sabes (acertado 3 veces seguidas o más):',reset:'Borrar mi progreso',sure:'¿Seguro que quieres borrar tu progreso?',none:'Elige al menos una zona.',
   ign:'Mapa político de Europa del IGN/CNIG (2025), con nombres: solo en «Estudiar»',round:'Ronda',src:'Lista de países y capitales del profesor. Botón 🗺: «Mapa político de Europa» del Atlas Nacional de España, © IGN/CNIG (2025), georreferenciado con 32 capitales y reproyectado a este mapa. Mapa: Natural Earth 1:10m; fronteras según el punto de vista de España (Crimea, en Ucrania); Kosovo aparece porque está en la lista del profesor. Proyección acimutal equivalente de Lambert.',say:'Escuchar',
   otherNote:'Sin capital en la lista del profesor: solo se practica el país.'},
- ru:{ttl:'Политическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (PDF)',secs:['Страны','Столицы','Страна и столица'],
+ ru:{ttl:'Политическая карта Европы',home:'← Уроки',dl2:'Официальная политическая карта IGN 2025 (PDF, 20 МБ)',dl:'Контурные карты для печати (PDF)',secs:['Страны','Столицы','Страна и столица'],
   modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',exam:'Экзамен',prog:'Прогресс'},
   study:'Нажми на страну или столицу на карте.',labels:'Названия',capital:'Столица',country:'Страна',region:'Регион',
   findP:'Нажми на страну:',findC:'Нажми на столицу:',findPC:'Нажми на столицу страны',whatP:'Что это за страна?',whatC:'Что это за столица?',qCap:'Какая столица у страны',qCountry:'Столица какой страны —',
@@ -246,7 +247,7 @@ function distract(id,n,asCap){const c=C[id];let same=IDS.filter(o=>o!==id&&C[o].
 /* ---------- UI ---------- */
 const panel=$('#panel');const h=html=>{panel.innerHTML=html};
 const MODES=['study','cards','find','what','exam','prog'];
-function renderChrome(){document.documentElement.lang=S.lang;$('#ttl').textContent=t('ttl');$('#home').textContent=t('home');$('#dlt').textContent=t('dl');document.title=t('ttl');
+function renderChrome(){document.documentElement.lang=S.lang;$('#ttl').textContent=t('ttl');$('#home').textContent=t('home');$('#dlt').textContent=t('dl');$('#dlt2').textContent=t('dl2');document.title=t('ttl');
  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===S.lang));
  $('#secs').innerHTML=['pais','cap','par'].map((x,i)=>`<button data-s="${x}" aria-pressed="${S.sec===x}">${t('secs')[i]}</button>`).join('');
  $('#modes').innerHTML=MODES.map(m=>`<button data-m="${m}" aria-pressed="${S.mode===m}">${t('modes')[m]}</button>`).join('');

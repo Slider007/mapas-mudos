@@ -123,6 +123,7 @@ svg.study.sec-costa .zone.pen{stroke:#7a6a40;stroke-opacity:.35;stroke-width:.8;
  <header><a class="home" id="home" href="../"></a><h1 id="ttl"></h1><div class="lang" role="group"><button data-l="ru">RU</button><button data-l="es">ES</button></div></header>
  <div class="controls">
   <a class="dl" id="dl" href="pdf/mapa-mudo-europa-fisica.pdf" download>📥 <span id="dlt"></span></a>
+  <a class="dl" id="dl2" href="pdf/IGN_Mapa_fisico_Europa_2025.pdf" download>🗺 <span id="dlt2"></span></a>
   <div class="secs" id="secs" role="group"></div>
   <div class="modes" id="modes" role="group"></div>
   <div class="cats" id="cats" role="group"></div>
@@ -145,7 +146,7 @@ const O=D.O.filter(o=>G.O[o[0]]).map(([id,es,short,cat,,ru])=>({id,es,short,cat,
 const BY=Object.fromEntries(O.map(o=>[o.id,o]));
 const SEATYPES=new Set(['oc','mar','golfo','est']);
 const T={
- es:{ttl:'Mapa físico de Europa',home:'← Lecciones',dl:'Mapas mudos para imprimir (3 hojas)',secs:['Costas','Ríos y lagos','Relieve'],
+ es:{ttl:'Mapa físico de Europa',home:'← Lecciones',dl2:'Mapa físico oficial IGN 2025 (PDF, 20 MB)',dl:'Mapas mudos para imprimir (3 hojas)',secs:['Costas','Ríos y lagos','Relieve'],
   modes:{study:'Estudiar',cards:'Tarjetas',find:'Localizar',what:'¿Qué es?',chain:'Cadena',exam:'Examen',prog:'Progreso'},
   study:'Toca un elemento del mapa.',labels:'Nombres',find:'Toca en el mapa:',what:'¿Qué es lo que está marcado?',
   ok:'¡Correcto!',bad:'No. Has tocado: ',far:'No. Mira dónde está.',next:'Siguiente',type:'Escribir la respuesta',check:'Comprobar',ans:'Respuesta',almost:'Casi: revisa las tildes. Es ',
@@ -157,7 +158,7 @@ const T={
   phys:{gray:'Relieve gris',color:'Mapa físico en color (altitudes)',ign:'Mapa físico de Europa del IGN (con nombres; solo en «Estudiar»)',none:'Sin relieve'},
   src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Mapa 🗺: «Mapa físico de Europa» del Atlas Nacional de España, © IGN/CNIG (2025), georreferenciado con 32 capitales del mapa político gemelo. Golfos, estrechos, cabos y la península Itálica: OpenStreetMap. Meseta, Béticas, Bohemia y Gran Llanura Europea: calculadas a partir de las altitudes (cuencas y alturas; en «Estudiar» se ve la regla de cada una).',
   m:'m',legend:'Altitud'},
- ru:{ttl:'Физическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (3 листа)',secs:['Берега','Реки и озёра','Рельеф'],
+ ru:{ttl:'Физическая карта Европы',home:'← Уроки',dl2:'Официальная физическая карта IGN 2025 (PDF, 20 МБ)',dl:'Контурные карты для печати (3 листа)',secs:['Берега','Реки и озёра','Рельеф'],
   modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',chain:'Цепочка',exam:'Экзамен',prog:'Прогресс'},
   study:'Нажми на объект на карте.',labels:'Названия',find:'Нажми на карте:',what:'Что отмечено на карте?',
   ok:'Верно!',bad:'Нет. Ты нажал(а): ',far:'Нет. Посмотри, где это.',next:'Дальше',type:'Писать ответ',check:'Проверить',ans:'Ответ',almost:'Почти: проверь тильды. Правильно: ',
@@ -282,7 +283,7 @@ const catName=o=>{const c=CAT[o.cat];return S.lang==='ru'?c.ru:c.es};
 /* ---------- interfaz ---------- */
 const panel=$('#panel');const h=html=>{panel.innerHTML=html};
 const MODES=['study','cards','find','what','chain','exam','prog'];
-function renderChrome(){document.documentElement.lang=S.lang;$('#ttl').textContent=t('ttl');$('#home').textContent=t('home');$('#dlt').textContent=t('dl');document.title=t('ttl');
+function renderChrome(){document.documentElement.lang=S.lang;$('#ttl').textContent=t('ttl');$('#home').textContent=t('home');$('#dlt').textContent=t('dl');$('#dlt2').textContent=t('dl2');document.title=t('ttl');
  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===S.lang));
  $('#secs').innerHTML=D.SECS.map((x,i)=>`<button data-s="${x}" aria-pressed="${S.sec===x}">${t('secs')[i]}</button>`).join('');
  $('#modes').innerHTML=MODES.map(m=>`<button data-m="${m}" aria-pressed="${S.mode===m}">${t('modes')[m]}</button>`).join('');
