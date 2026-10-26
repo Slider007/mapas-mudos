@@ -69,9 +69,9 @@ input.ans{flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:10px 12px;bor
 .oth{fill:var(--other);stroke:#c9c6bd;stroke-width:.6;vector-effect:non-scaling-stroke}
 .ignon .c,.ignon .oth,.ignon .lake{fill-opacity:0}.ignon .grat{display:none}.ignon .c{stroke-opacity:.35}.ignon .c.hi,.ignon .c.ok,.ignon .c.bad,.ignon .c.sel{fill-opacity:.6}
 #zign[aria-pressed=true]{background:var(--ink);color:#fff}
-.c{fill:var(--land);stroke:var(--line);stroke-width:.9;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.c{fill:var(--fc,var(--land));stroke:var(--line);stroke-width:.9;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .c.dim{fill:#f1efe9}
-.c.hi{fill:var(--hi)}.c.ok{fill:#9fd3b2}.c.bad{fill:#f2b0a6}.c.sel{fill:#cdbdff}
+.c.hi{fill:var(--hi)}.c.ok{fill:#4cb878}.c.bad{fill:#e8604a}.c.sel{fill:#9b7cff}
 .lake{fill:var(--sea);stroke:var(--line);stroke-width:.4;vector-effect:non-scaling-stroke}
 .micro{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:2 2;vector-effect:non-scaling-stroke}
 .micro.hi{stroke:var(--hi);stroke-width:3;stroke-dasharray:none}.micro.ok{stroke:var(--ok);stroke-width:3;stroke-dasharray:none}
@@ -154,7 +154,7 @@ el('rect',{class:'sea',x:-3000,y:-3000,width:8000,height:8000},vp);
 // mapa político del IGN (lleva los nombres: solo en «Estudiar»)
 const IGN=el('image',{href:'img/ign.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none',style:'display:none'},vp);
 el('path',{class:'grat',d:G.grat},vp);el('path',{class:'oth',d:G.other},vp);
-const CP={};const gC=el('g',{},vp);for(const id of IDS)CP[id]=el('path',{class:'c',d:C[id].d,'data-id':id},gC);
+const CP={};const gC=el('g',{},vp);for(const id of IDS)CP[id]=el('path',{class:'c',d:C[id].d,'data-id':id,style:D.COL[id]?`--fc:${D.COL[id]}`:''},gC);
 el('path',{class:'lake',d:G.lakes},vp);
 const gMicro=el('g',{},vp),gCap=el('g',{},vp),gLab=el('g',{},vp),gFx=el('g',{},vp);
 const MR={};for(const id of IDS)if(C[id].micro){const[x,y]=C[id].c;MR[id]=el('circle',{class:'micro',cx:x,cy:y,'data-r':9},gMicro)}
