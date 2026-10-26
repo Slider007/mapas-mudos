@@ -27,29 +27,24 @@ for cid, c in G['countries'].items():
     out[cid] = '#%02x%02x%02x' % tuple(int(round(v)) for v in col)
 out.update({'andorra': '#d9c8ec', 'monaco': '#f5c6dd', 'sanmarino': '#c4e8ee', 'vaticano': '#ffe3a6', 'liechtenstein': '#fff1a0', 'malta': '#f8c4ae'})  # microestados (con su llamada)
 out['kosovo'] = '#d2f1c3'   # el IGN no lo separa de Serbia; aquí va con un color distinto de sus vecinos
-# cada país con un color propio: los que comparten color del IGN se separan un poco en tono y luminosidad
+# cada país con un color propio: de mayor a menor, cada uno toma la variante de su color del IGN más cercana
+# (tono ±, luminosidad ±) que quede a una distancia ≥ MIND de los colores ya asignados
 import colorsys
-groups = {}
-for cid in sorted(out, key=lambda c: -float(G['countries'][c]['area'])): groups.setdefault(out[cid], []).append(cid)
-OFF = [(0, 0), (14, -.045), (-14, .03), (26, .02), (-26, -.04), (8, .06), (-8, -.075), (36, -.02), (-36, .05), (20, .07)]
-for col, ids in groups.items():
-    r, g_, b_ = (int(col[i:i + 2], 16) / 255 for i in (1, 3, 5)); h, l, sat = colorsys.rgb_to_hls(r, g_, b_)
-    for i, cid in enumerate(ids):
-        dh, dl = OFF[i % len(OFF)]
-        rr, gg, bb = colorsys.hls_to_rgb((h + dh / 360) % 1, min(.93, max(.70, l + dl)), sat)
-        out[cid] = '#%02x%02x%02x' % tuple(int(round(v * 255)) for v in (rr, gg, bb))
-# ningún par demasiado parecido (distancia RGB < 14): se aclara u oscurece el más pequeño
+MIND = 18
 hx = lambda c: np.array([int(c[i:i + 2], 16) for i in (1, 3, 5)], float)
-for _ in range(400):
-    ids = list(out); bad = None
-    for i in range(len(ids)):
-        for j in range(i + 1, len(ids)):
-            if np.linalg.norm(hx(out[ids[i]]) - hx(out[ids[j]])) < 14: bad = (ids[i], ids[j]); break
-        if bad: break
-    if not bad: break
-    cid = min(bad, key=lambda c: float(G['countries'][c]['area']))
-    v = hx(out[cid]); v = v - 12 if v.mean() > 225 else np.minimum(v + 10, 255)
-    out[cid] = '#%02x%02x%02x' % tuple(int(x) for x in v)
+def variant(c, dh, dl):
+    r, g_, b_ = (int(c[i:i + 2], 16) / 255 for i in (1, 3, 5)); h, l, sa = colorsys.rgb_to_hls(r, g_, b_)
+    rr, gg, bb = colorsys.hls_to_rgb((h + dh / 360) % 1, min(.92, max(.68, l + dl)), sa)
+    return '#%02x%02x%02x' % tuple(int(round(v * 255)) for v in (rr, gg, bb))
+CAND = sorted([(dh, dl) for dh in range(-36, 37, 6) for dl in (-.08, -.06, -.04, -.02, 0, .02, .04)], key=lambda t: abs(t[0]) / 6 + abs(t[1]) / .02)
+ign, out, used = dict(out), {}, []
+for cid in sorted(ign, key=lambda c: -float(G['countries'][c]['area'])):
+    best, bd = None, -1
+    for dh, dl in CAND:
+        v = variant(ign[cid], dh, dl); d = min([np.linalg.norm(hx(v) - u) for u in used] or [999])
+        if d >= MIND: best = v; break
+        if d > bd: best, bd = v, d
+    out[cid] = best; used.append(hx(best))
 assert len(set(out.values())) == len(out), 'colores repetidos'
 json.dump(out, open(os.path.join(base, 'colores.json'), 'w'), indent=0, ensure_ascii=False)
 print(len(out), out)

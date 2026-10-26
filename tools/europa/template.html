@@ -160,9 +160,14 @@ el('path',{class:'lake',d:G.lakes},vp);
 const gMicro=el('g',{},vp),gCap=el('g',{},vp),gLab=el('g',{},vp),gFx=el('g',{},vp);
 const MR={};for(const id of IDS)if(C[id].micro){const[x,y]=C[id].c;MR[id]=el('circle',{class:'micro',cx:x,cy:y,'data-r':9},gMicro)}
 // выноски микрогосударств: линия от места до кружка рядом (в море, где возможно); кружок — то же, что сама страна
-const CALL={andorra:[29,16],monaco:[6,18],sanmarino:[13,-7],vaticano:[-18,14],liechtenstein:[-2,-22],malta:[16,10]};
+const CALL={andorra:[40,22],monaco:[6,18],sanmarino:[13,-7],vaticano:[-18,14],liechtenstein:[-2,-22],malta:[16,10]};
 const CO={};const gCall=el('g',{},vp);vp.insertBefore(gCall,gCap);
-for(const[id,[dx,dy]]of Object.entries(CALL))if(C[id]){const[x,y]=C[id].c,tx=x+dx,ty=y+dy;el('line',{x1:x,y1:y,x2:tx,y2:ty,class:'callln'},gCall);CO[id]={x:tx,y:ty,el:el('circle',{cx:tx,cy:ty,class:'callc','data-r':7,style:D.COL[id]?`--fc:${D.COL[id]}`:''},gCall)}}
+for(const[id,[dx,dy]]of Object.entries(CALL))if(C[id]){const[x,y]=C[id].c;CO[id]={ax:x,ay:y,dx,dy,x:x+dx,y:y+dy,line:el('line',{x1:x,y1:y,x2:x+dx,y2:y+dy,class:'callln'},gCall),el:el('circle',{cx:x+dx,cy:y+dy,class:'callc','data-r':7,style:D.COL[id]?`--fc:${D.COL[id]}`:''},gCall)}}
+// al acercar, la llamada se acorta: como mucho ~46 px de pantalla (y nunca más larga que en la vista general)
+const CALLMIN={andorra:30,sanmarino:4,vaticano:3};  // longitud mínima (unidades del mapa) para que el círculo no caiga en tierra
+function placeCallouts(){const k=u(1);for(const[id,o]of Object.entries(CO)){const L=Math.hypot(o.dx,o.dy),s=Math.min(1,Math.max((CALLMIN[id]||0)/L,46*k/L));o.x=o.ax+o.dx*s;o.y=o.ay+o.dy*s;
+  o.line.setAttribute('x2',o.x);o.line.setAttribute('y2',o.y);o.el.setAttribute('cx',o.x);o.el.setAttribute('cy',o.y)}
+ gLab.querySelectorAll('[data-call]').forEach(t=>{const o=CO[t.dataset.call];t.setAttribute('x',o.x);t.setAttribute('y',o.y-11*k)})}
 const CD={};for(const id of IDS)if(C[id].capq){const[x,y]=C[id].cap;CD[id]=el('circle',{class:'cap',cx:x,cy:y,'data-r':3.4,'data-sw':1.2},gCap)}
 
 /* ---------- zoom & pan ---------- */
@@ -194,14 +199,14 @@ function scaleUI(){const k=u(1);
  svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',c.dataset.r*k));
  svg.querySelectorAll('[data-sw]').forEach(c=>c.setAttribute('stroke-width',c.dataset.sw));
  svg.querySelectorAll('text[data-fs]').forEach(tx=>{tx.setAttribute('font-size',tx.dataset.fs*k);tx.setAttribute('stroke-width',3*k);if(tx.dataset.dy)tx.setAttribute('dy',tx.dataset.dy*k)});
- layoutLabels()}
+ placeCallouts();layoutLabels()}
 
 /* ---------- labels ---------- */
 function drawLabels(){gLab.innerHTML='';const showC=S.sec!=='pais'||S.mode==='study';
  for(const[es,ru,x,y]of G.seas){const tx=el('text',{x,y,class:'lbl sealbl','text-anchor':'middle','data-fs':11,'data-pr':0},gLab);tx.textContent=S.lang==='ru'?ru:es}
  if(!(S.mode==='study'&&S.labels))return;
  const act=new Set(active());
- for(const id of IDS){if(!act.has(id))continue;const c=C[id];const[x,y]=CO[id]?[CO[id].x,CO[id].y-11]:c.lab;const tx=el('text',{x,y,class:'lbl','text-anchor':'middle','data-fs':c.area>900?13:11.5,'data-pr':3+Math.log10(c.area+1)},gLab);tx.textContent=nm(c);
+ for(const id of IDS){if(!act.has(id))continue;const c=C[id];const[x,y]=CO[id]?[CO[id].x,CO[id].y-11]:c.lab;const tx=el('text',{x,y,class:'lbl','text-anchor':'middle','data-fs':c.area>900?13:11.5,'data-pr':3+Math.log10(c.area+1)},gLab);if(CO[id])tx.dataset.call=id;tx.textContent=nm(c);
   if(showC&&c.capq&&S.sec!=='pais'){const[a,b]=c.cap;const tc=el('text',{x:a,y:b,class:'lbl capl','text-anchor':'middle','data-fs':10.5,'data-dy':-6,'data-pr':2.5+Math.log10(c.area+1)},gLab);tc.textContent=capn(c)}}}
 function layoutLabels(){const T=[...gLab.querySelectorAll('text')].sort((a,b)=>b.dataset.pr-a.dataset.pr);const placed=[];
  for(const tx of T){tx.style.display='';let bb;try{bb=tx.getBBox()}catch(e){continue}const pad=u(2);
