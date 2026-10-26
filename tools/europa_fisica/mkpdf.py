@@ -21,7 +21,7 @@ def header(c, title, sub):
     c.setFont('DV', 9); c.setFillColor(INK)
     for i, l in enumerate(['Nombre:', 'Curso:', 'Fecha:']):
         y = H - 22 - i * 13; c.drawString(W - 250, y, l); c.setStrokeColor(GR); c.setLineWidth(.4); c.line(W - 205, y - 2, W - 28, y - 2)
-    c.setFont('DV', 6); c.setFillColor(GR); c.drawRightString(W - 28, 14, 'Mapas mudos · slider007.github.io/mapas-mudos/europa-fisica · Natural Earth · relieve: Mapzen/AWS Terrain Tiles')
+    c.setFont('DV', 6); c.setFillColor(GR); c.drawRightString(W - 28, 14, 'Mapas mudos · slider007.github.io/mapas-mudos/europa-fisica · © OpenStreetMap contributors · Natural Earth · relieve: Mapzen/AWS Terrain Tiles')
 def path(c, d, tr, close=True):
     p = c.beginPath()
     for sub in re.findall(r'M[^M]*', d):

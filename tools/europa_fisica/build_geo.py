@@ -57,11 +57,45 @@ def names(x): return x if isinstance(x, list) else [x]
 def gmarine(n): return unary_union([g for k in names(n) for g in marine[k]])
 def gregion(n): return unary_union([g for k in names(n) for g in regions[k]])
 out = {'W': proj.W, 'H': proj.H, 'O': {}}
+LANDM = P(LAND.intersection(ROI)).buffer(0); SEAM = FRAME.difference(LANDM)
+DEM = json.load(open(os.path.join(HERE, 'osm', 'dem_regions.json')))
+def osm(oid):
+    d = json.load(open(os.path.join(HERE, 'osm', oid + '.json')))['res']
+    for want in (('Polygon', 'MultiPolygon'), ('LineString', 'MultiLineString'), ('Point',)):
+        for r in d:
+            if r['geojson']['type'] in want: return shape(r['geojson']), r
+    raise ValueError('sin resultado OSM')
 KM = proj.S * 1 / 6371  # unidades de mapa por km (aprox. en el centro)
 for oid, es, short, cat, geo, ru in O:
     kind = geo[0]; o = {}
     try:
-        if kind in ('marine', 'region', 'poly'):
+        if kind == 'osm':
+            g, r = osm(geo[1])
+            if cat == 'cabo' and g.geom_type != 'Point':   # cabo dado como zona (Cap Corse): su extremo norte
+                pts = [c for p in polys(g) for c in p.exterior.coords]; g = Point(max(pts, key=lambda c: c[1]))
+            if g.geom_type == 'Point':
+                x, y = proj.prj(g.x, g.y); o = {'k': 'pt', 'xy': [round(x, 2), round(y, 2)], 'lab': [round(x, 2), round(y, 2)]}
+            else:
+                gp = P(g).buffer(0) if g.geom_type in ('Polygon', 'MultiPolygon') else P(g).buffer((geo[2] if len(geo) > 2 else 6) * KM).intersection(SEAM)
+                if cat not in ('pen', 'cabo'): gp = gp.intersection(SEAM.buffer(0.3))
+                gp = gp.intersection(FRAME); o = {'k': 'zone', 'd': dpath(gp, 0.15, 0.003)}
+                big = max(polys(gp), key=lambda p: p.area); lp = polylabel(big, 0.2) if big.area > 2 else big.centroid; o['lab'] = [round(lp.x, 1), round(lp.y, 1)]
+            o['src'] = f"OpenStreetMap {r['osm_type']} {r['osm_id']}"
+        elif kind == 'dem':
+            gp = P(shape(DEM[geo[1]]['geometry'])).buffer(0).intersection(LANDM).intersection(FRAME)
+            o = {'k': 'zone', 'd': dpath(gp, 0.3)}; big = max(polys(gp), key=lambda p: p.area); lp = polylabel(big, 0.5); o['lab'] = [round(lp.x, 1), round(lp.y, 1)]
+            o['src'] = 'altitudes: ' + DEM[geo[1]]['rule']
+        elif kind == 'closing':
+            (a, b), inland = geo[1], geo[2]
+            g = Polygon([tuple(a), tuple(b)] + [tuple(x) for x in inland]).buffer(0)
+            gp = P(g).buffer(0).intersection(SEAM); o = {'k': 'zone', 'd': dpath(gp, 0.15, 0.003)}
+            big = max(polys(gp), key=lambda p: p.area); lp = polylabel(big, 0.2); o['lab'] = [round(lp.x, 1), round(lp.y, 1)]
+            o['src'] = 'mar entre la costa y la línea que une los cabos que cierran el golfo'
+        elif kind == 'biscay_strip':
+            g = gmarine('Bay of Biscay').intersection(box(geo[1], 42, geo[2], geo[3]))
+            gp = P(g).buffer(0).intersection(FRAME); o = {'k': 'zone', 'd': dpath(gp, 0.3)}; big = max(polys(gp), key=lambda p: p.area); lp = polylabel(big, 0.3); o['lab'] = [round(lp.x, 1), round(lp.y, 1)]
+            o['src'] = 'parte sur del golfo de Vizcaya (Natural Earth) junto a la costa española, de Estaca de Bares a la desembocadura del Adour'
+        elif kind in ('marine', 'region', 'poly'):
             if kind == 'marine': g = gmarine(geo[1])
             elif kind == 'region': g = gregion(geo[1])
             else:
@@ -102,9 +136,10 @@ for oid, es, short, cat, geo, ru in O:
             o['len'] = round(sum(LineString(l).length for l in lines), 1)
     except Exception as e:
         print('ERROR', oid, e); continue
+    if 'src' not in o: o['src'] = {'marine': 'Natural Earth (geography_marine_polys)', 'region': 'Natural Earth (geography_regions_polys)', 'lake': 'Natural Earth (lakes)',
+                                   'isl': 'Natural Earth (land, minor_islands)', 'river': 'Natural Earth (rivers)'}.get(kind, '')
     out['O'][oid] = o
 # base: costa, fronteras, lagos de fondo
-LANDM = P(LAND.intersection(ROI)).buffer(0)
 out['land'] = dpath(LANDM.intersection(FRAME), 0.3, 0.05)
 cs = [shape(f['geometry']).buffer(0) for f in rd('ne_10m_admin_0_countries_esp')]
 bl = unary_union([P(g.intersection(ROI)).boundary for g in cs if g.intersects(ROI)]).intersection(LANDM.buffer(-0.6)).intersection(FRAME).simplify(0.4)

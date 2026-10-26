@@ -49,7 +49,7 @@ svg.study.sec-costa .zone.pen{stroke:#7a6a40;stroke-opacity:.35;stroke-width:.8;
   <svg id="map" role="img" aria-label="Mapa físico de Europa"><g id="vp"></g></svg>
   <div class="zoom"><button id="zin" aria-label="Acercar">+</button><button id="zout" aria-label="Alejar">−</button><button id="zre" aria-label="Ver todo">⤢</button><button id="zphys" aria-label="Relieve">⛰</button></div>
   <div class="hyleg" id="hyleg"></div>
-  <div class="attr">© Natural Earth · relieve: Mapzen/AWS Terrain Tiles</div>
+  <div class="attr">© OpenStreetMap contributors · Natural Earth · relieve: Mapzen/AWS Terrain Tiles</div>
  </div>
  <section class="panel" id="panel" aria-live="polite"></section>
 </div>
@@ -72,7 +72,7 @@ const T={
   exam:'20 preguntas: toca cada elemento en el mapa, sin nombres y con relieve gris. Al final verás tu nota y tus errores.',start:'Empezar',q:'Pregunta',of:'de',grade:'Tu nota',errs:'Repasa:',again:'Otra vez',
   prog:'Lo que ya sabes (acertado 3 veces seguidas o más):',reset:'Borrar mi progreso',sure:'¿Seguro que quieres borrar tu progreso?',none:'Elige al menos un grupo.',round:'Ronda',say:'Escuchar',
   phys:{gray:'Relieve gris',color:'Mapa físico en color (altitudes)',none:'Sin relieve'},
-  src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Golfos pequeños, estrechos, cabos y algunas zonas, dibujados de forma aproximada.',
+  src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Golfos, estrechos, cabos y la península Itálica: OpenStreetMap. Meseta, Béticas, Bohemia y Gran Llanura Europea: calculadas a partir de las altitudes (cuencas y alturas; en «Estudiar» se ve la regla de cada una).',
   m:'m',legend:'Altitud'},
  ru:{ttl:'Физическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (3 листа)',secs:['Берега','Реки и озёра','Рельеф'],
   modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',chain:'Цепочка',exam:'Экзамен',prog:'Прогресс'},
@@ -83,7 +83,7 @@ const T={
   exam:'20 вопросов: найди каждый объект на карте, без названий, на сером рельефе. В конце — оценка и ошибки.',start:'Начать',q:'Вопрос',of:'из',grade:'Оценка',errs:'Повтори:',again:'Ещё раз',
   prog:'Что ты уже знаешь (3 верных ответа подряд и больше):',reset:'Сбросить прогресс',sure:'Точно сбросить прогресс?',none:'Выбери хотя бы одну группу.',round:'Круг',say:'Слушать',
   phys:{gray:'Серый рельеф',color:'Цветная физическая карта (высоты)',none:'Без рельефа'},
-  src:'Список — лист учителя «Europa física». Берега, реки, озёра и области: Natural Earth 1:10m. Рельеф: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Небольшие заливы, проливы, мысы и некоторые области нарисованы приблизительно.',
+  src:'Список — лист учителя «Europa física». Берега, реки, озёра и области: Natural Earth 1:10m. Рельеф: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Заливы, проливы, мысы и Апеннинский полуостров — OpenStreetMap. Месета, Бетские горы, Богемия и Великая Европейская равнина рассчитаны по данным высот (бассейны рек и высоты; правило для каждой видно в «Изучать»).',
   m:'м',legend:'Высота'}};
 const S={lang:LS.get('lang','es'),sec:LS.get('euf_sec','costa'),mode:'study',cats:LS.get('euf_cats',D.CATS.map(c=>c[0])),labels:true,typing:LS.get('euf_typing',false),bg:LS.get('euf_bg','gray')};
 if(!['es','ru'].includes(S.lang))S.lang='es';
@@ -160,7 +160,7 @@ function dist(o,x,y){
  const[a,b,c,e]=o.bb;const pad=u(30);if(x<a-pad||x>c+pad||y<b-pad||y>e+pad)return 1e6;
  if(inPath(ZP[o.id],x,y))return 0;let m=1e9;for(const p of o.vx)m=Math.min(m,Math.hypot(p[0]-x,p[1]-y));return m}
 const TOL={pt:18,area:10,line:12,zone:6,isl:10,lake:10};
-function own(o,x,y){return dist(o,x,y)<u(TOL[o.k])}
+function own(o,x,y){return dist(o,x,y)<u(o.k==='zone'&&o.size<60?14:TOL[o.k])}
 function nearest(x,y,pool){let best=null,bd=1e9,bs=1e18;for(const o of pool){const d=dist(o,x,y);const sz=o.size||0;
   // a igual distancia (por ejemplo, dentro de dos zonas) gana la más pequeña: Peloponeso antes que la península Balcánica
   if(d<bd-1e-9||(Math.abs(d-bd)<1e-9&&sz<bs)){bd=d;best=o;bs=sz}}return[best,bd]}
@@ -218,7 +218,7 @@ function study(){const lb=()=>`<label class="toggle"><input type="checkbox" id="
  h(`<p class="prompt">${t('study')}</p><div class="row">${lb()}</div>${srcLine()}`);
  const bind=()=>{$('#lb').onchange=e=>{S.labels=e.target.checked;drawLabels();scaleUI()}};bind();
  tapHandler=(x,y)=>{const[o,d]=nearest(x,y,active());if(!o||!own(o,x,y)&&d>u(30))return;clearFx();hi(o,'sel');
-  h(`<p class="prompt">${catName(o)}</p><p class="target">${o.es}</p><p class="sub ru">${o.ru}</p><div class="row"><button class="btn ghost" id="say">🔊 ${t('say')}</button>${lb()}</div>${srcLine()}`);bind();
+  h(`<p class="prompt">${catName(o)}</p><p class="target">${o.es}</p><p class="sub ru">${o.ru}</p><p class="src" style="margin-top:6px">${S.lang==='ru'?'Источник':'Fuente'}: ${o.src||''}</p><div class="row"><button class="btn ghost" id="say">🔊 ${t('say')}</button>${lb()}</div>${srcLine()}`);bind();
   $('#say').onclick=()=>speak(o.es);speak(o.es)}}
 function cards(){clearFx();cur=pick(active(),cur&&cur.id);hi(cur);let shown=false;
  h(`<p class="prompt">${t('cardq')} ${scoreLine()}</p><button class="card" id="cd"><span class="cq">?</span><span class="sub">${t('flip')}</span></button><div class="row" id="cr"></div>`);

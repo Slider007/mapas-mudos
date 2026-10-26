@@ -1,5 +1,5 @@
 # Relieve: teselas «terrarium» (Mapzen/AWS, datos SRTM, GMTED, ETOPO…) → img/relief-gray.jpg, img/relief-color.jpg en la proyección del mapa.
-# Uso: python3 relief.py <carpeta con t6_x_y.png> <ne_10m_land.geojson> <salida img/>
+# Uso: python3 relief.py <carpeta con t6_x_y.png> <ne_10m_land.geojson> <salida img/> [elev.npy]
 import sys, os, json, math, numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 from shapely.geometry import shape, box
@@ -25,6 +25,7 @@ gy = (1 - np.log(np.tan(lat) + 1 / np.cos(lat)) / math.pi) / 2 * N - ys[0] * 256
 # interpolación bilineal
 x0 = np.clip(np.floor(gx).astype(int), 0, mos.shape[1] - 2); y0 = np.clip(np.floor(gy).astype(int), 0, mos.shape[0] - 2); fx = np.clip(gx - x0, 0, 1); fy = np.clip(gy - y0, 0, 1)
 E = (mos[y0, x0] * (1 - fx) * (1 - fy) + mos[y0, x0 + 1] * fx * (1 - fy) + mos[y0 + 1, x0] * (1 - fx) * fy + mos[y0 + 1, x0 + 1] * fx * fy)
+if len(sys.argv) > 4: np.save(sys.argv[4], E.astype(np.float32))  # rejilla de altitudes (para regions_dem.py)
 # máscara de tierra con la costa de Natural Earth
 mask = Image.new('L', (w, h), 0); dr = ImageDraw.Draw(mask)
 roi = box(-45, 25, 90, 86)
