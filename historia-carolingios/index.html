@@ -228,9 +228,9 @@ function miniMap(mm,uid){
   if(!r.noarrow){const n=r.pts.length,a=P(...r.pts[n-2]),b=P(...r.pts[n-1]),ang=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI;
    h+=`<path data-as="1" data-tx="${f(b[0])}" data-ty="${f(b[1])}" data-rot="${f(ang)}" d="M-4.5,-4.6 L3.2,0 L-4.5,4.6 L-2.6,0Z" fill="${col}" stroke="#fff" stroke-width=".25" transform="translate(${f(b[0])},${f(b[1])}) rotate(${f(ang)})"/>`}
   if(r.label){const [x,y]=P(...(r.lab||r.pts[Math.floor(r.pts.length/2)]));h+=T(x,y,r.label,10,`font-weight:800;fill:${col};paint-order:stroke;stroke:#fff`)}}
- for(const [t,lo,la,st] of mm.labels||[]){const [x,y]=P(lo,la);
+ for(const [t,lo,la,st,rot] of mm.labels||[]){const [x,y]=P(lo,la);
   const S={sea:[9.5,'font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#cfe1e8'],big:[10.5,'font-weight:800;letter-spacing:.05em;fill:#444;paint-order:stroke;stroke:rgba(255,255,255,.9)'],note:[9,'fill:#333;paint-order:stroke;stroke:#fff']}[st]||[10,`font-weight:800;fill:${st||'#333'};paint-order:stroke;stroke:#fff`];
-  h+=T(x,y,t,S[0],S[1])}
+  h+=rot?`<g transform="rotate(${rot} ${f(x)} ${f(y)})">${T(x,y,t,S[0],S[1])}</g>`:T(x,y,t,S[0],S[1])}
  for(const [n,lo,la,side] of mm.pts||[]){const [x,y]=P(lo,la),[an,dx,dy]={w:['end',-5,-4],n:['middle',0,-7],s:['middle',0,15]}[side]||['start',5,-4];
   h+=`<circle data-r="3.4" cx="${f(x)}" cy="${f(y)}" r="3.4" fill="#7a2e2e" stroke="#fff" data-lw="1.2" stroke-width="1.2"/>`+T(x,y,n,10.5,'font-weight:700;fill:#222;paint-order:stroke;stroke:#fff;stroke-linejoin:round',an,dx,dy)}
  return h+'</svg>'}
@@ -317,7 +317,11 @@ function drawMap(names,quiz){
  for(const [t,lo,la,rot] of m.rivl||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9" x="${x}" y="${y}" transform="rotate(${rot||0} ${x} ${y})" text-anchor="middle" style="font-style:italic;fill:#2f6f9a;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
  for(const [id,name,col,kind] of m.layers){if(kind!=='route'||!mapOn(id))continue;for(const r of m.regions[id]||[]){const pl=r.pts||r;h+=`<path d="${curve(pl)}" fill="none" stroke="${col}" stroke-width="2.4" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" ${r.dash?'stroke-dasharray="6 4"':''}/>`+(r.noarrow?'':arrowHead(pl,col));
    if(r.label){const [x,y]=prj(...(r.lab||pl[Math.floor(pl.length/2)]));h+=`<text data-fs="10" x="${x}" y="${y-4}" text-anchor="middle" style="font-weight:800;fill:${col};paint-order:stroke;stroke:#fff;stroke-width:3px">${r.label}</text>`}}}
- if(!quiz)for(const [t,lo,la] of m.klabels||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-weight:800;fill:#3b3b3b;paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:2.5px">${t}</text>`}
+ // подписи областей: [текст, lon, lat] или [текст, lon, lat, {path:[[lon,lat]…] (по дуге, как на географических картах), rot, fs, ls}]
+ for(const [t,lo,la,rot,fs] of m.seas||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="${fs||10}" x="${x}" y="${y}" ${rot?`transform="rotate(${rot} ${x} ${y})"`:''} text-anchor="middle" style="font-style:italic;letter-spacing:.18em;fill:#3f7aa3;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
+ if(!quiz)m.klabels?.forEach(([t,lo,la,o],i)=>{const op=o&&typeof o==='object'?o:null,st=`font-weight:800;fill:#3b3b3b;paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:2.5px${op?`;letter-spacing:${op.ls??.16}em`:''}`,fs=op?.fs||9.5;
+  if(op?.path){h+=`<path id="kp${i}" d="${curve(op.path)}" fill="none"/><text data-fs="${fs}" style="${st}"><textPath href="#kp${i}" startOffset="50%" text-anchor="middle">${t}</textPath></text>`;return}
+  const [x,y]=prj(lo,la);h+=`<text data-fs="${fs}" x="${x}" y="${y}" ${op?.rot?`transform="rotate(${op.rot} ${x} ${y})"`:''} text-anchor="middle" style="${st}">${t}</text>`});
  for(const [t,lo,la] of m.peoples||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="10" x="${x}" y="${y}" text-anchor="middle" style="font-weight:700;letter-spacing:.06em;fill:#555;paint-order:stroke;stroke:#fff;stroke-width:2.5px">${t}</text>`}
  for(const [t,lo,la] of m.isles||[]){const [x,y]=prj(lo,la);h+=`<text data-fs="9.5" x="${x}" y="${y}" text-anchor="middle" style="font-style:italic;fill:#335;paint-order:stroke;stroke:#cfe1e8;stroke-width:2.5px">${t}</text>`}
  for(const [n,c] of Object.entries(m.cities)){const [x,y]=prj(c[0],c[1]);h+=`<g class="city"><circle data-r="3.6" cx="${x}" cy="${y}" r="3.6"/>${names?`<text data-fs="11" data-dx="5" data-dy="-4" data-x="${x}" data-y="${y}" x="${x+5}" y="${y-4}">${n}</text>`:''}</g>`}
