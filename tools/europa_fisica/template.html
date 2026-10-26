@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="es" data-theme="light" style="color-scheme:light">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapa físico de Europa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+__CSS__
+/* físico */
+.coast{fill:none;stroke:#2c4c63;stroke-width:.8;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.landfill{fill:#fffefb}
+.bord{fill:none;stroke:#6f6a60;stroke-opacity:.35;stroke-width:.6;stroke-dasharray:3 2;vector-effect:non-scaling-stroke}
+.lakebg{fill:#bcd8e6;stroke:#3d86b8;stroke-width:.5;vector-effect:non-scaling-stroke}
+.riv{fill:none;stroke:#3d86b8;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+svg.sec-rios .riv{stroke-width:2.2}
+.zone{fill:none;stroke:none;vector-effect:non-scaling-stroke}
+svg.study.sec-costa .zone.sea{stroke:#2c6f9c;stroke-opacity:.35;stroke-width:.8;stroke-dasharray:4 3}
+svg.study.sec-rel .zone.rel{fill:#8a5a2b;fill-opacity:.12;stroke:#8a5a2b;stroke-opacity:.5;stroke-width:.8;stroke-dasharray:4 3}
+svg.study.sec-costa .zone.pen{stroke:#7a6a40;stroke-opacity:.35;stroke-width:.8;stroke-dasharray:2 3}
+.areac{fill:#3d86b8;fill-opacity:.08;stroke:#2c6f9c;stroke-opacity:.55;stroke-width:.8;stroke-dasharray:3 3;vector-effect:non-scaling-stroke}
+.pt{fill:#2c4c63;stroke:#fff;vector-effect:non-scaling-stroke}
+.hiz{fill:var(--hi);fill-opacity:.45;stroke:var(--hi);stroke-width:2;vector-effect:non-scaling-stroke}
+.hiz.ok{fill:var(--ok);stroke:var(--ok)}.hiz.bad{fill:var(--bad);stroke:var(--bad)}.hiz.sel{fill:#7b5cff;stroke:#7b5cff;fill-opacity:.3}
+.hil{fill:none;stroke:var(--hi);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:.9;vector-effect:non-scaling-stroke}
+.hil.ok{stroke:var(--ok)}.hil.bad{stroke:var(--bad)}.hil.sel{stroke:#7b5cff}
+.lbl.sea2{fill:#2a6f9e;font-style:italic;font-weight:600}
+.lbl.riv2{fill:#1f5f8c;font-style:italic;font-weight:600}
+.lbl.rel2{fill:#6b3f17;font-weight:800;letter-spacing:.04em}
+.lbl.pen2{fill:#5a4a20;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.hyleg{position:absolute;left:8px;bottom:6px;background:rgba(255,255,255,.88);border-radius:8px;padding:4px 6px;font-size:.66rem;color:var(--ink2);display:none}
+.hyleg i{display:inline-block;width:22px;height:9px;vertical-align:-1px}
+.hyleg.on{display:block}
+.zoom button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+</style>
+</head>
+<body>
+<div class="app">
+ <header><a class="home" id="home" href="../"></a><h1 id="ttl"></h1><div class="lang" role="group"><button data-l="ru">RU</button><button data-l="es">ES</button></div></header>
+ <div class="controls">
+  <a class="dl" id="dl" href="pdf/mapa-mudo-europa-fisica.pdf" download>📥 <span id="dlt"></span></a>
+  <div class="secs" id="secs" role="group"></div>
+  <div class="modes" id="modes" role="group"></div>
+  <div class="cats" id="cats" role="group"></div>
+ </div>
+ <div class="mapwrap" id="wrap">
+  <svg id="map" role="img" aria-label="Mapa físico de Europa"><g id="vp"></g></svg>
+  <div class="zoom"><button id="zin" aria-label="Acercar">+</button><button id="zout" aria-label="Alejar">−</button><button id="zre" aria-label="Ver todo">⤢</button><button id="zphys" aria-label="Relieve">⛰</button></div>
+  <div class="hyleg" id="hyleg"></div>
+  <div class="attr">© Natural Earth · relieve: Mapzen/AWS Terrain Tiles</div>
+ </div>
+ <section class="panel" id="panel" aria-live="polite"></section>
+</div>
+<script>
+const G=__GEO__;
+const D=__DATA__;
+const $=s=>document.querySelector(s);
+const LS={get(k,d){try{const v=localStorage.getItem('mme_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('mme_'+k,JSON.stringify(v))}catch(e){}}};
+const CAT=Object.fromEntries(D.CATS.map(([id,sec,es,ru])=>[id,{id,sec,es,ru}]));
+const O=D.O.filter(o=>G.O[o[0]]).map(([id,es,short,cat,,ru])=>({id,es,short,cat,ru,sec:CAT[cat].sec,...G.O[id]}));
+const BY=Object.fromEntries(O.map(o=>[o.id,o]));
+const SEATYPES=new Set(['oc','mar','golfo','est']);
+const T={
+ es:{ttl:'Mapa físico de Europa',home:'← Lecciones',dl:'Mapas mudos para imprimir (3 hojas)',secs:['Costas','Ríos y lagos','Relieve'],
+  modes:{study:'Estudiar',cards:'Tarjetas',find:'Localizar',what:'¿Qué es?',chain:'Cadena',exam:'Examen',prog:'Progreso'},
+  study:'Toca un elemento del mapa.',labels:'Nombres',find:'Toca en el mapa:',what:'¿Qué es lo que está marcado?',
+  ok:'¡Correcto!',bad:'No. Has tocado: ',far:'No. Mira dónde está.',next:'Siguiente',type:'Escribir la respuesta',check:'Comprobar',ans:'Respuesta',almost:'Casi: revisa las tildes. Es ',
+  cardq:'¿Qué es lo que está marcado?',flip:'Toca para ver la respuesta',knew:'Lo sabía',didnt:'No lo sabía',
+  chainq:'Cadena: toca en orden',chaindone:'¡Cadena completa!',restart:'Empezar de nuevo',
+  exam:'20 preguntas: toca cada elemento en el mapa, sin nombres y con relieve gris. Al final verás tu nota y tus errores.',start:'Empezar',q:'Pregunta',of:'de',grade:'Tu nota',errs:'Repasa:',again:'Otra vez',
+  prog:'Lo que ya sabes (acertado 3 veces seguidas o más):',reset:'Borrar mi progreso',sure:'¿Seguro que quieres borrar tu progreso?',none:'Elige al menos un grupo.',round:'Ronda',say:'Escuchar',
+  phys:{gray:'Relieve gris',color:'Mapa físico en color (altitudes)',none:'Sin relieve'},
+  src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Golfos pequeños, estrechos, cabos y algunas zonas, dibujados de forma aproximada.',
+  m:'m',legend:'Altitud'},
+ ru:{ttl:'Физическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (3 листа)',secs:['Берега','Реки и озёра','Рельеф'],
+  modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',chain:'Цепочка',exam:'Экзамен',prog:'Прогресс'},
+  study:'Нажми на объект на карте.',labels:'Названия',find:'Нажми на карте:',what:'Что отмечено на карте?',
+  ok:'Верно!',bad:'Нет. Ты нажал(а): ',far:'Нет. Посмотри, где это.',next:'Дальше',type:'Писать ответ',check:'Проверить',ans:'Ответ',almost:'Почти: проверь тильды. Правильно: ',
+  cardq:'Что отмечено на карте?',flip:'Нажми, чтобы увидеть ответ',knew:'Знал(а)',didnt:'Не знал(а)',
+  chainq:'Цепочка: нажимай по порядку',chaindone:'Цепочка пройдена!',restart:'Начать заново',
+  exam:'20 вопросов: найди каждый объект на карте, без названий, на сером рельефе. В конце — оценка и ошибки.',start:'Начать',q:'Вопрос',of:'из',grade:'Оценка',errs:'Повтори:',again:'Ещё раз',
+  prog:'Что ты уже знаешь (3 верных ответа подряд и больше):',reset:'Сбросить прогресс',sure:'Точно сбросить прогресс?',none:'Выбери хотя бы одну группу.',round:'Круг',say:'Слушать',
+  phys:{gray:'Серый рельеф',color:'Цветная физическая карта (высоты)',none:'Без рельефа'},
+  src:'Список — лист учителя «Europa física». Берега, реки, озёра и области: Natural Earth 1:10m. Рельеф: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Небольшие заливы, проливы, мысы и некоторые области нарисованы приблизительно.',
+  m:'м',legend:'Высота'}};
+const S={lang:LS.get('lang','es'),sec:LS.get('euf_sec','costa'),mode:'study',cats:LS.get('euf_cats',D.CATS.map(c=>c[0])),labels:true,typing:LS.get('euf_typing',false),bg:LS.get('euf_bg','gray')};
+if(!['es','ru'].includes(S.lang))S.lang='es';
+const t=k=>T[S.lang][k];
+let box=LS.get('euf_box',{});
+
+/* ---------- SVG ---------- */
+const NS='http://www.w3.org/2000/svg';const svg=$('#map'),vp=$('#vp'),wrap=$('#wrap');
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+el('rect',{class:'sea',x:-3000,y:-3000,width:8000,height:8000},vp);
+const landFill=el('path',{class:'landfill',d:G.land},vp);
+const IMG={gray:el('image',{href:'img/relief-gray.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none'},vp),color:el('image',{href:'img/relief-color.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none'},vp)};
+el('path',{class:'bord',d:G.borders},vp);el('path',{class:'lakebg',d:G.lakes},vp);el('path',{class:'coast',d:G.land},vp);
+const gZone=el('g',{},vp),gRiv=el('g',{},vp),gArea=el('g',{},vp),gPt=el('g',{},vp),gHi=el('g',{},vp),gLab=el('g',{},vp),gFx=el('g',{},vp);
+const ZP={};
+for(const o of O){
+ if(o.k==='lake')el('path',{d:o.d,class:'lakebg'},vp.insertBefore(el('g',{}),gZone));
+ if(o.k==='zone'||o.k==='isl'||o.k==='lake'){ZP[o.id]=el('path',{d:o.d,class:'zone '+(o.cat==='oc'?'':SEATYPES.has(o.cat)?'sea':o.sec==='rel'?'rel':o.cat==='pen'?'pen':''),'data-id':o.id},gZone)}
+ if(o.k==='line'){o.dl=o.lines.map(l=>'M'+l.map(p=>p.join(',')).join('L')).join('');el('path',{class:'riv',d:o.dl},gRiv)}
+ if(o.k==='area')o.el=el('circle',{class:'areac',cx:o.xy[0],cy:o.xy[1],r:o.r},gArea);
+ if(o.k==='pt')o.el=el('circle',{class:'pt',cx:o.xy[0],cy:o.xy[1],'data-r':3.6,'stroke-width':1.2},gPt);
+ // puntos de la geometría para medir distancias
+ if(o.d){o.vx=[];const n=o.d.match(/-?[\d.]+/g).map(Number);for(let i=0;i<n.length;i+=2)o.vx.push([n[i],n[i+1]]);let a=1e9,b=1e9,c=-1e9,e=-1e9;for(const[x,y]of o.vx){a=Math.min(a,x);b=Math.min(b,y);c=Math.max(c,x);e=Math.max(e,y)}o.bb=[a,b,c,e];o.size=(c-a)*(e-b)}}
+
+/* ---------- zoom & pan ---------- */
+const HOME={x:-4,y:-4,w:G.W+8,h:G.H+8};let vb={...HOME};
+function fitHome(){const r=wrap.getBoundingClientRect();if(!r.width)return;const ar=r.width/r.height,mar=HOME.w/HOME.h;
+ if(ar>mar){const w=HOME.h*ar;vb={x:HOME.x-(w-HOME.w)/2,y:HOME.y,w,h:HOME.h}}else{const h=HOME.w/ar;vb={x:HOME.x,y:HOME.y-(h-HOME.h)/2,w:HOME.w,h}
+  if(ar<0.95){const w=HOME.w*0.66,h2=w/ar;vb={x:300-w/2,y:Math.max(-4,590-h2/2),w,h:h2}}}
+ apply()}
+function apply(){svg.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);scaleUI()}
+const ppu=()=>wrap.getBoundingClientRect().width/vb.w,u=px=>px/ppu();
+function zoomAt(f,cx,cy){const nw=Math.max(25,Math.min(vb.w*f,HOME.w*1.4));const k=nw/vb.w;vb.x=cx-(cx-vb.x)*k;vb.y=cy-(cy-vb.y)*k;vb.h*=k;vb.w=nw;apply()}
+function toMap(cx,cy){const r=wrap.getBoundingClientRect();return[vb.x+(cx-r.left)/r.width*vb.w,vb.y+(cy-r.top)/r.height*vb.h]}
+const ptrs=new Map();let drag=null,moved=0,pinch=null;
+svg.addEventListener('pointerdown',e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=0;
+ if(ptrs.size===1)drag={x:e.clientX,y:e.clientY,vx:vb.x,vy:vb.y};
+ if(ptrs.size===2){const[a,b]=[...ptrs.values()];pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1]),w:vb.w,c:toMap((a[0]+b[0])/2,(a[1]+b[1])/2)};drag=null;moved=99}});
+svg.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+ if(pinch&&ptrs.size===2){const[a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);const nw=Math.max(25,Math.min(pinch.w*pinch.d/d,HOME.w*1.4));const k=nw/vb.w;const[cx,cy]=pinch.c;vb.x=cx-(cx-vb.x)*k;vb.y=cy-(cy-vb.y)*k;vb.h*=k;vb.w=nw;apply();return}
+ if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;moved=Math.max(moved,Math.abs(dx)+Math.abs(dy));if(moved>6){const k=vb.w/wrap.getBoundingClientRect().width;vb.x=drag.vx-dx*k;vb.y=drag.vy-dy*k;apply()}}});
+const up=e=>{const was=ptrs.size;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;if(was===1&&drag&&moved<=6){const[x,y]=toMap(e.clientX,e.clientY);onTap(x,y)}if(!ptrs.size)drag=null};
+svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',e=>{ptrs.delete(e.pointerId);pinch=null;drag=null});
+svg.addEventListener('wheel',e=>{e.preventDefault();const[x,y]=toMap(e.clientX,e.clientY);zoomAt(e.deltaY>0?1.2:1/1.2,x,y)},{passive:false});
+$('#zin').onclick=()=>zoomAt(1/1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zout').onclick=()=>zoomAt(1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zre').onclick=fitHome;
+$('#zphys').onclick=()=>{S.bg={gray:'color',color:'none',none:'gray'}[S.bg];LS.set('euf_bg',S.bg);updBg()};
+addEventListener('resize',()=>fitHome());
+function scaleUI(){const k=u(1);
+ svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',c.dataset.r*k));
+ svg.querySelectorAll('text[data-fs]').forEach(tx=>{tx.setAttribute('font-size',tx.dataset.fs*k);tx.setAttribute('stroke-width',3*k);if(tx.dataset.dy)tx.setAttribute('dy',tx.dataset.dy*k)});
+ layoutLabels()}
+function updBg(){let m=S.bg;if(S.mode==='exam'&&m==='color')m='gray';IMG.gray.style.display=m==='gray'?'':'none';IMG.color.style.display=m==='color'?'':'none';
+ const b=$('#zphys');b.setAttribute('aria-pressed',m!=='none');b.title=t('phys')[m];b.textContent=m==='color'?'🎨':'⛰';
+ const lg=$('#hyleg');lg.classList.toggle('on',m==='color');
+ lg.innerHTML=`${t('legend')}: `+[['#98c484','0'],['#bdd696','200'],['#ece4a0','500'],['#e2be78','1000'],['#cd965a','1500'],['#b07346','2000'],['#8c5a46','3000']].map(([c,v])=>`<i style="background:${c}"></i> ${v}`).join(' ')+` ${t('m')}`}
+
+/* ---------- labels ---------- */
+function lblClass(o){return SEATYPES.has(o.cat)?'sea2':o.k==='line'||o.k==='lake'?'riv2':o.sec==='rel'?'rel2':o.cat==='pen'?'pen2':''}
+function drawLabels(){gLab.innerHTML='';if(!(S.mode==='study'&&S.labels))return;
+ for(const o of active()){const[x,y]=o.lab;const big=o.cat==='oc'||o.cat==='mar'||o.cat==='pen'||o.cat==='m_jov'||o.cat==='llan';
+  const tx=el('text',{x,y,class:'lbl '+lblClass(o),'text-anchor':o.k==='pt'?'start':'middle','data-fs':big?11.5:10,'data-dy':o.k==='pt'?-5:0,'data-pr':big?3:o.k==='pt'?1:2},gLab);
+  if(o.k==='pt')tx.setAttribute('dx',0);tx.textContent=o.short}}
+function layoutLabels(){const T=[...gLab.querySelectorAll('text')].sort((a,b)=>b.dataset.pr-a.dataset.pr);const placed=[];
+ for(const tx of T){tx.style.display='';let bb;try{bb=tx.getBBox()}catch(e){continue}const pad=u(2);const r={x:bb.x-pad,y:bb.y-pad,w:bb.width+2*pad,h:bb.height+2*pad};
+  if(placed.some(p=>r.x<p.x+p.w&&p.x<r.x+r.w&&r.y<p.y+p.h&&p.y<r.y+r.h))tx.style.display='none';else placed.push(r)}}
+
+/* ---------- distancias ---------- */
+function inPath(p,x,y){try{return p.isPointInFill(new DOMPoint(x,y))}catch(e){const q=svg.createSVGPoint();q.x=x;q.y=y;return p.isPointInFill(q)}}
+function segD(x,y,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],L=dx*dx+dy*dy;let tt=L?((x-a[0])*dx+(y-a[1])*dy)/L:0;tt=Math.max(0,Math.min(1,tt));return Math.hypot(a[0]+tt*dx-x,a[1]+tt*dy-y)}
+function dist(o,x,y){
+ if(o.k==='pt')return Math.hypot(o.xy[0]-x,o.xy[1]-y);
+ if(o.k==='area')return Math.max(0,Math.hypot(o.xy[0]-x,o.xy[1]-y)-o.r);
+ if(o.k==='line'){let m=1e9;for(const l of o.lines)for(let i=1;i<l.length;i++)m=Math.min(m,segD(x,y,l[i-1],l[i]));return m}
+ const[a,b,c,e]=o.bb;const pad=u(30);if(x<a-pad||x>c+pad||y<b-pad||y>e+pad)return 1e6;
+ if(inPath(ZP[o.id],x,y))return 0;let m=1e9;for(const p of o.vx)m=Math.min(m,Math.hypot(p[0]-x,p[1]-y));return m}
+const TOL={pt:18,area:10,line:12,zone:6,isl:10,lake:10};
+function own(o,x,y){return dist(o,x,y)<u(TOL[o.k])}
+function nearest(x,y,pool){let best=null,bd=1e9,bs=1e18;for(const o of pool){const d=dist(o,x,y);const sz=o.size||0;
+  // a igual distancia (por ejemplo, dentro de dos zonas) gana la más pequeña: Peloponeso antes que la península Balcánica
+  if(d<bd-1e-9||(Math.abs(d-bd)<1e-9&&sz<bs)){bd=d;best=o;bs=sz}}return[best,bd]}
+const near=(o,x,y)=>dist(o,x,y)<u(40);
+
+/* ---------- efectos ---------- */
+function clearFx(){gHi.innerHTML='';gFx.innerHTML=''}
+function hi(o,cls=''){if(o.k==='line'){el('path',{d:o.dl,class:'hil '+cls},gHi);return}
+ if(o.k==='pt'){el('circle',{cx:o.xy[0],cy:o.xy[1],class:'ring '+(cls==='ok'?'ok':'pulse'),'data-r':12},gFx);scaleUI();return}
+ if(o.k==='area'){el('circle',{cx:o.xy[0],cy:o.xy[1],r:o.r,class:'hiz '+cls},gHi);el('circle',{cx:o.xy[0],cy:o.xy[1],class:'ring '+(cls==='ok'?'ok':'pulse'),'data-r':16},gFx);scaleUI();return}
+ el('path',{d:o.d,class:'hiz '+cls},gHi);if(o.size<300){const[x,y]=o.lab;el('circle',{cx:x,cy:y,class:'ring '+(cls==='ok'?'ok':'pulse'),'data-r':20},gFx);scaleUI()}}
+function tag(o){const[x,y]=o.lab;const tx=el('text',{x,y,class:'lbl tag','text-anchor':'middle','data-fs':13,'data-dy':-10},gFx);tx.textContent=o.es;scaleUI()}
+function nearPt(o,x,y){if(o.k==='pt'||o.k==='area')return o.xy;let best=o.lab,bd=1e9;const pts=o.k==='line'?o.lines.flat():o.vx;for(const p of pts){const d=Math.hypot(p[0]-x,p[1]-y);if(d<bd){bd=d;best=p}}return best}
+function tapMark(x,y,o){const[ax,ay]=nearPt(o,x,y);el('line',{x1:x,y1:y,x2:ax,y2:ay,class:'tapline'},gFx);el('circle',{cx:x,cy:y,class:'tap','data-r':5},gFx);scaleUI()}
+
+/* ---------- aprendizaje ---------- */
+const inSec=o=>o.sec===S.sec;
+function active(){return O.filter(o=>inSec(o)&&S.cats.includes(o.cat))}
+let deck=null;
+function pick(p,avoid){const k=S.mode+'|'+S.sec+'|'+p.map(o=>o.id).join(',');
+ if(!deck||deck.key!==k||!deck.q.length){const ids=p.map(o=>o.id);for(let i=ids.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
+  ids.sort((a,b)=>Math.min(box[a]||0,3)-Math.min(box[b]||0,3));if(ids.length>1&&ids[0]===avoid)ids.push(ids.shift());
+  deck={key:k,q:ids,total:ids.length,seen:new Set(),round:deck&&deck.key===k?deck.round+1:1}}
+ const id=deck.q.shift();deck.seen.add(id);return BY[id]}
+function grade(o,ok){if(!ok&&deck&&S.mode!=='exam'&&!deck.q.includes(o.id))deck.q.splice(Math.min(3,deck.q.length),0,o.id);box[o.id]=ok?Math.min(5,(box[o.id]||0)+1):Math.max(0,(box[o.id]||0)-2);LS.set('euf_box',box)}
+let streak={n:0,ok:0};
+const scoreLine=()=>`<span class="score" id="sc">${streak.ok} / ${streak.n}</span> ${deck?`<span class="score">· ${t('round')} ${deck.round}: ${deck.seen.size} / ${deck.total}</span>`:''}`;
+const updScore=()=>{const s=$('#sc');if(s)s.textContent=`${streak.ok} / ${streak.n}`};
+const norm=s=>s.toLowerCase().trim().replace(/\s+/g,' '),strip=s=>norm(s).normalize('NFD').replace(/[̀-ͯ]/g,'');
+function check(o,v){const n=norm(v);if(!n)return 'empty';const ok=[o.es,o.short].map(norm);if(ok.includes(n))return 'ok';if(ok.map(strip).includes(strip(n)))return 'almost';return 'bad'}
+function speak(txt){try{const s=new SpeechSynthesisUtterance(txt);s.lang='es-ES';s.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(s)}catch(e){}}
+const catName=o=>{const c=CAT[o.cat];return S.lang==='ru'?c.ru:c.es};
+
+/* ---------- interfaz ---------- */
+const panel=$('#panel');const h=html=>{panel.innerHTML=html};
+const MODES=['study','cards','find','what','chain','exam','prog'];
+function renderChrome(){document.documentElement.lang=S.lang;$('#ttl').textContent=t('ttl');$('#home').textContent=t('home');$('#dlt').textContent=t('dl');document.title=t('ttl');
+ document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===S.lang));
+ $('#secs').innerHTML=D.SECS.map((x,i)=>`<button data-s="${x}" aria-pressed="${S.sec===x}">${t('secs')[i]}</button>`).join('');
+ $('#modes').innerHTML=MODES.map(m=>`<button data-m="${m}" aria-pressed="${S.mode===m}">${t('modes')[m]}</button>`).join('');
+ $('#cats').innerHTML=D.CATS.filter(c=>c[1]===S.sec).map(([id,,es,ru])=>`<button class="chip" data-c="${id}" aria-pressed="${S.cats.includes(id)}">${S.lang==='ru'?ru:es}</button>`).join('');
+ svg.classList.toggle('study',S.mode==='study');for(const s of D.SECS)svg.classList.toggle('sec-'+s,S.sec===s);
+ gArea.style.display=gPt.style.display=S.sec==='costa'?'':'none'}
+document.querySelector('.lang').onclick=e=>{const l=e.target.dataset.l;if(l){S.lang=l;LS.set('lang',l);go(S.mode)}};
+$('#modes').onclick=e=>{const m=e.target.dataset.m;if(m)go(m)};
+$('#secs').onclick=e=>{const x=e.target.dataset.s;if(x&&x!==S.sec){S.sec=x;LS.set('euf_sec',x);deck=null;go(S.mode)}};
+$('#cats').onclick=e=>{const c=e.target.dataset.c;if(!c)return;S.cats=S.cats.includes(c)?S.cats.filter(x=>x!==c):[...S.cats,c];LS.set('euf_cats',S.cats);go(S.mode)};
+let tapHandler=null,cur=null,exam=null;
+function onTap(x,y){tapHandler&&tapHandler(x,y)}
+function go(m){if(m!==S.mode)streak={n:0,ok:0};S.mode=m;clearFx();tapHandler=null;if(m!=='exam')exam=null;renderChrome();updBg();drawLabels();scaleUI();
+ if(!active().length&&m!=='prog'){h(`<p class="sub">${t('none')}</p>`);return}
+ ({study,cards,find,what,chain,exam:examIntro,prog})[m]()}
+const srcLine=()=>`<p class="src">${t('src')}</p>`;
+function study(){const lb=()=>`<label class="toggle"><input type="checkbox" id="lb" ${S.labels?'checked':''}> ${t('labels')}</label>`;
+ h(`<p class="prompt">${t('study')}</p><div class="row">${lb()}</div>${srcLine()}`);
+ const bind=()=>{$('#lb').onchange=e=>{S.labels=e.target.checked;drawLabels();scaleUI()}};bind();
+ tapHandler=(x,y)=>{const[o,d]=nearest(x,y,active());if(!o||!own(o,x,y)&&d>u(30))return;clearFx();hi(o,'sel');
+  h(`<p class="prompt">${catName(o)}</p><p class="target">${o.es}</p><p class="sub ru">${o.ru}</p><div class="row"><button class="btn ghost" id="say">🔊 ${t('say')}</button>${lb()}</div>${srcLine()}`);bind();
+  $('#say').onclick=()=>speak(o.es);speak(o.es)}}
+function cards(){clearFx();cur=pick(active(),cur&&cur.id);hi(cur);let shown=false;
+ h(`<p class="prompt">${t('cardq')} ${scoreLine()}</p><button class="card" id="cd"><span class="cq">?</span><span class="sub">${t('flip')}</span></button><div class="row" id="cr"></div>`);
+ $('#cd').onclick=()=>{if(shown)return;shown=true;$('#cd').innerHTML=`<span class="target">${cur.es}</span><span class="sub">${catName(cur)}${S.lang==='ru'?' · '+cur.ru:''}</span>`;speak(cur.es);
+  $('#cr').innerHTML=`<button class="btn" id="kn">✓ ${t('knew')}</button><button class="btn ghost" id="nk">✗ ${t('didnt')}</button>`;
+  $('#kn').onclick=()=>{streak.n++;streak.ok++;grade(cur,true);cards()};$('#nk').onclick=()=>{streak.n++;grade(cur,false);cards()}}}
+function judge(q,x,y){const[o,d]=nearest(x,y,O.filter(inSec));const ok=own(q,x,y)||(o===q&&d<u(30));return[ok,o&&near(o,x,y)?o:null]}
+function find(){clearFx();cur=pick(active(),cur&&cur.id);let done=false;
+ h(`<p class="prompt">${t('find')} ${scoreLine()}</p><p class="target">${cur.es}</p><div id="fb"></div>`);
+ tapHandler=(x,y)=>{if(done)return;done=true;const[ok,hit]=judge(cur,x,y);streak.n++;if(ok)streak.ok++;grade(cur,ok);updScore();
+  if(!ok&&hit)hi(hit,'bad');hi(cur,'ok');tag(cur);if(!ok)tapMark(x,y,cur);
+  $('#fb').innerHTML=ok?`<p class="fb ok">${t('ok')}</p>`:`<p class="fb bad">${hit&&hit!==cur?t('bad')+hit.es:t('far')}</p><div class="row"><button class="btn" id="nx">${t('next')}</button></div>`;
+  speak(cur.es);if(ok)setTimeout(()=>S.mode==='find'&&find(),1100);else $('#nx').onclick=find}}
+function what(){clearFx();cur=pick(active(),cur&&cur.id);hi(cur);let done=false;
+ const fin=ok=>{streak.n++;if(ok)streak.ok++;grade(cur,ok);updScore();clearFx();hi(cur,'ok');tag(cur);speak(cur.es)};
+ const tog=`<label class="toggle"><input type="checkbox" id="ty" ${S.typing?'checked':''}> ${t('type')}</label>`;
+ if(S.typing){h(`<p class="prompt">${t('what')} ${scoreLine()}</p><div class="row"><input class="ans" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" lang="es" placeholder="${t('ans')}"><button class="btn" id="ck">${t('check')}</button></div><div id="fb"></div><div class="row">${tog}</div>`);
+  const sub=()=>{if(done){what();return}const r=check(cur,$('#ans').value);if(r==='empty')return;
+   if(r==='almost'){$('#fb').innerHTML=`<p class="fb bad">${t('almost')}${cur.es}</p>`;return}
+   done=true;const ok=r==='ok';fin(ok);$('#fb').innerHTML=`<p class="fb ${ok?'ok':'bad'}">${ok?t('ok'):t('ans')+': '+cur.es}</p>`;$('#ck').textContent=t('next');if(ok)setTimeout(()=>S.mode==='what'&&done&&what(),1200)};
+  $('#ck').onclick=sub;$('#ans').onkeydown=e=>{if(e.key==='Enter')sub()};setTimeout(()=>$('#ans')&&$('#ans').focus({preventScroll:true}),50)}
+ else{let same=O.filter(o=>o.cat===cur.cat&&o!==cur);if(same.length<3)same=same.concat(O.filter(o=>o.sec===cur.sec&&o.cat!==cur.cat&&o!==cur));
+  const opts=[cur,...same.sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
+  h(`<p class="prompt">${t('what')} ${scoreLine()}</p><div class="opts">${opts.map(o=>`<button data-id="${o.id}">${o.es}</button>`).join('')}</div><div class="row">${tog}</div>`);
+  panel.querySelector('.opts').onclick=e=>{const id=e.target.dataset.id;if(!id||done)return;done=true;const ok=id===cur.id;fin(ok);
+   panel.querySelectorAll('.opts button').forEach(b=>{if(b.dataset.id===cur.id)b.classList.add('ok');else if(b.dataset.id===id)b.classList.add('bad')});setTimeout(()=>S.mode==='what'&&what(),ok?900:2200)}}
+ $('#ty').onchange=e=>{S.typing=e.target.checked;LS.set('euf_typing',S.typing);what()}}
+let chainI={};
+function chain(){clearFx();const act=new Set(active().map(o=>o.id));const seq=(D.SEQ[S.sec]||[]).filter(id=>act.has(id));if(!seq.length){h(`<p class="sub">${t('none')}</p>`);return}
+ const k=S.sec+'|'+seq.join(',');let i=chainI[k]||0;
+ if(i>=seq.length){h(`<p class="target">${t('chaindone')}</p><div class="row"><button class="btn" id="rst">${t('restart')}</button></div>`);for(const id of seq)hi(BY[id],'ok');$('#rst').onclick=()=>{chainI[k]=0;chain()};return}
+ for(let j=0;j<i;j++)hi(BY[seq[j]],'ok');const q=BY[seq[i]];let done=false;
+ h(`<p class="prompt">${t('chainq')}: ${i+1} / ${seq.length} <span class="score" id="sc">${streak.ok} / ${streak.n}</span></p><p class="target">${q.es}</p><div id="fb"></div><div class="row"><button class="btn ghost" id="rst">${t('restart')}</button></div>`);
+ $('#rst').onclick=()=>{chainI[k]=0;chain()};
+ tapHandler=(x,y)=>{if(done)return;done=true;const[ok]=judge(q,x,y);streak.n++;if(ok)streak.ok++;grade(q,ok);
+  if(ok){chainI[k]=i+1;setTimeout(()=>S.mode==='chain'&&chain(),650)}
+  else{hi(q,'ok');tag(q);tapMark(x,y,q);$('#fb').innerHTML=`<p class="fb bad">${t('far')}</p><div class="row"><button class="btn" id="nx">${t('next')}</button></div>`;$('#nx').onclick=()=>{chainI[k]=i+1;chain()}}}}
+function examIntro(){exam=null;h(`<p class="sub">${t('exam')}</p><div class="row"><button class="btn" id="st">${t('start')}</button></div>`);$('#st').onclick=examStart}
+function examStart(){const p=active().slice().sort(()=>Math.random()-.5);exam={qs:p.slice(0,Math.min(20,p.length)),i:0,res:[]};examQ()}
+function examQ(){clearFx();const q=exam.qs[exam.i];
+ h(`<p class="prompt">${t('q')} ${exam.i+1} ${t('of')} ${exam.qs.length}</p><p class="target">${q.es}</p><div class="bar"><i style="width:${exam.i/exam.qs.length*100}%"></i></div>`);
+ tapHandler=(x,y)=>{tapHandler=null;const[ok]=judge(q,x,y);exam.res.push({q,ok});grade(q,ok);exam.i++;exam.i<exam.qs.length?examQ():examEnd()}}
+function examEnd(){tapHandler=null;clearFx();const n=exam.res.filter(r=>r.ok).length,tot=exam.res.length,g=Math.round(n/tot*100)/10;const errs=exam.res.filter(r=>!r.ok);
+ errs.forEach(r=>{hi(r.q,'ok');tag(r.q)});
+ h(`<p class="prompt">${t('grade')}</p><p class="target">${g.toLocaleString(S.lang)} / 10</p><p class="sub">${n} / ${tot}</p>${errs.length?`<p class="sub">${t('errs')}</p><ul class="errs">${errs.map(r=>`<li>${r.q.es}</li>`).join('')}</ul>`:''}<div class="row"><button class="btn" id="ag">${t('again')}</button></div>`);
+ $('#ag').onclick=examStart}
+function prog(){const rows=D.CATS.filter(c=>c[1]===S.sec).map(([id,,es,ru])=>{const os=O.filter(o=>o.cat===id);const kn=os.filter(o=>(box[o.id]||0)>=3).length;
+  return `<div><div class="h"><span>${S.lang==='ru'?ru:es}</span><span class="score">${kn} / ${os.length}</span></div><div class="bar"><i style="width:${os.length?kn/os.length*100:0}%"></i></div></div>`}).join('');
+ for(const o of active())if((box[o.id]||0)>=3)hi(o,'ok');
+ h(`<p class="prompt">${t('prog')}</p><div class="prog">${rows}</div><div class="row"><button class="btn ghost" id="rs">${t('reset')}</button></div>`);
+ $('#rs').onclick=()=>{if(confirm(t('sure'))){box={};LS.set('euf_box',box);go('prog')}}}
+go('study');requestAnimationFrame(fitHome);
+</script>
+</body>
+</html>

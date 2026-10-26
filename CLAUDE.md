@@ -6,7 +6,8 @@
 - `index.html`: стартовая страница со списком уроков
 - `espana-fisica/`: урок 2, готов (`index.html`, `img/`, `pdf/`)
 - `europa-politica/`: урок 3, готов: страны и столицы по списку учителя (51 страна, у 46 — столицы). Собирается из `tools/europa/`: `build_geo.py` (Natural Earth 1:10m, точка зрения Испании: Крым в Украине; Косово из общей версии) → `geo.json`, `build.py` → `index.html`, `mkpdf.py` → `pdf/`. Список — `paises.py`. Прогресс в `localStorage`: `mme_eup_`
-- `espana-administrativa/`, `europa-fisica/`: уроки 1, 4, пока заглушки на стартовой странице
+- `europa-fisica/`: урок 4, готов: всё из листа учителя «Europa física» (157 объектов: берега, реки по бассейнам, озёра, рельеф). Собирается из `tools/europa_fisica/`: `relief.py` (тайлы высот Mapzen/AWS → `img/relief-gray.jpg`, `relief-color.jpg`), `build_geo.py` (Natural Earth → `geo.json`), `build.py`, `mkpdf.py`. Список — `datos.py`. Прогресс: `mme_euf_`
+- `espana-administrativa/`: урок 1, пока заглушка на стартовой странице
 - `historia-tema1/`: история, тема 1, готов. Один файл `index.html` со встроенными данными: события, личности, понятия, исторические границы. Три части по проверочным: p1 германцы и вестготы, p2 Византия, p3 Каролинги
 - Тема 1 по истории — большая тема из трёх частей (проверочные): `historia-visigodos/` (часть 1, германцы и вестготы), `historia-bizancio/` (часть 2, Византия), `historia-carolingios/` (часть 3, Каролинги). Тренажёры по 8 шагов от материала до экзамена; собираются одним движком из `tools/historia/`: `python3 build.py <visigodos|bizancio|carolingios> <out.html>`, содержание и карты — в `tools/historia/<тема>.py`, общий шаблон `template.html`, береговая линия Natural Earth 1:10m в `geo.json`. Границы карт Каролингов — `carolingios_geo.json`, собирается `carolingios_geo.py` из GeoJSON Cliopatria. Прогресс в `localStorage`: `h1_vis_`, `h1_biz_`, `h1_car_`
 - `historia-recursos/`: PDF для печати без ответов (контурные карты, линия времени, шаблоны тетради и работы); собираются `python3 tools/historia/mkrecursos.py historia-recursos/pdf`
@@ -18,7 +19,7 @@
 - Общение с владельцем только по-русски, коротко и по делу. Действовать самостоятельно, без пошаговых объяснений.
 - Адреса уроков не менять: на них уже ссылаются. Новый урок это новая папка рядом с `espana-fisica/`, а на стартовой странице заглушка заменяется ссылкой.
 - Страницы статические: никаких серверов, ключей, токенов и приватных данных в репозитории.
-- В каждом уроке сохранять строку с источниками данных (OpenStreetMap, Natural Earth, Copernicus DEM, IGN/CNIG, historical-basemaps, Cliopatria, Wikimedia Commons для фото). Фото в тренажёрах — только свободные (PD, CC0, CC BY, CC BY-SA), автор и лицензия под каждым фото, список в `tools/historia/fotos.json`.
+- В каждом уроке сохранять строку с источниками данных (OpenStreetMap, Natural Earth, Copernicus DEM, IGN/CNIG, historical-basemaps, Cliopatria, Mapzen Terrain Tiles, Wikimedia Commons для фото). Фото в тренажёрах — только свободные (PD, CC0, CC BY, CC BY-SA), автор и лицензия под каждым фото, список в `tools/historia/fotos.json`.
 - Данные historical-basemaps распространяются по GPL-3.0: при выборе лицензии репозитория это учитывать, лицензию без согласования с владельцем не добавлять.
 - Тексты для учеников и страницы уроков двуязычные (ru/es), README и tools/README на es/ru/en. При изменениях обновлять все языки; язык хранится в `mme_lang`, общий для стартовой страницы и уроков.
 - Прогресс истории хранится в `localStorage` с ключами `h1_`.
