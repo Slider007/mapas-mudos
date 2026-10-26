@@ -153,8 +153,9 @@ const T={
   chainq:'Cadena: toca en orden',chaindone:'¡Cadena completa!',restart:'Empezar de nuevo',
   exam:'20 preguntas: toca cada elemento en el mapa, sin nombres y con relieve gris. Al final verás tu nota y tus errores.',start:'Empezar',q:'Pregunta',of:'de',grade:'Tu nota',errs:'Repasa:',again:'Otra vez',
   prog:'Lo que ya sabes (acertado 3 veces seguidas o más):',reset:'Borrar mi progreso',sure:'¿Seguro que quieres borrar tu progreso?',none:'Elige al menos un grupo.',round:'Ronda',say:'Escuchar',
-  phys:{gray:'Relieve gris',color:'Mapa físico en color (altitudes)',none:'Sin relieve'},
-  src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Golfos, estrechos, cabos y la península Itálica: OpenStreetMap. Meseta, Béticas, Bohemia y Gran Llanura Europea: calculadas a partir de las altitudes (cuencas y alturas; en «Estudiar» se ve la regla de cada una).',
+  ignleg:'🗺 Mapa: © IGN / CNIG (2016) · con nombres, solo en «Estudiar»',
+  phys:{gray:'Relieve gris',color:'Mapa físico en color (altitudes)',ign:'Mapa físico-político del IGN (con nombres; solo en «Estudiar»)',none:'Sin relieve'},
+  src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Mapa 🗺: «Mapa físico-político de Europa» del Atlas Nacional de España, © IGN/CNIG (2016), georreferenciado con 22 capitales. Golfos, estrechos, cabos y la península Itálica: OpenStreetMap. Meseta, Béticas, Bohemia y Gran Llanura Europea: calculadas a partir de las altitudes (cuencas y alturas; en «Estudiar» se ve la regla de cada una).',
   m:'m',legend:'Altitud'},
  ru:{ttl:'Физическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (3 листа)',secs:['Берега','Реки и озёра','Рельеф'],
   modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',chain:'Цепочка',exam:'Экзамен',prog:'Прогресс'},
@@ -164,8 +165,9 @@ const T={
   chainq:'Цепочка: нажимай по порядку',chaindone:'Цепочка пройдена!',restart:'Начать заново',
   exam:'20 вопросов: найди каждый объект на карте, без названий, на сером рельефе. В конце — оценка и ошибки.',start:'Начать',q:'Вопрос',of:'из',grade:'Оценка',errs:'Повтори:',again:'Ещё раз',
   prog:'Что ты уже знаешь (3 верных ответа подряд и больше):',reset:'Сбросить прогресс',sure:'Точно сбросить прогресс?',none:'Выбери хотя бы одну группу.',round:'Круг',say:'Слушать',
-  phys:{gray:'Серый рельеф',color:'Цветная физическая карта (высоты)',none:'Без рельефа'},
-  src:'Список — лист учителя «Europa física». Берега, реки, озёра и области: Natural Earth 1:10m. Рельеф: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Заливы, проливы, мысы и Апеннинский полуостров — OpenStreetMap. Месета, Бетские горы, Богемия и Великая Европейская равнина рассчитаны по данным высот (бассейны рек и высоты; правило для каждой видно в «Изучать»).',
+  ignleg:'🗺 Карта: © IGN / CNIG (2016) · с названиями, только в «Estudiar»',
+  phys:{gray:'Серый рельеф',color:'Цветная физическая карта (высоты)',ign:'Физико-политическая карта IGN (с названиями; только в «Estudiar»)',none:'Без рельефа'},
+  src:'Список — лист учителя «Europa física». Берега, реки, озёра и области: Natural Earth 1:10m. Рельеф: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Карта 🗺: «Mapa físico-político de Europa», Национальный атлас Испании, © IGN/CNIG (2016), привязана по 22 столицам. Заливы, проливы, мысы и Апеннинский полуостров — OpenStreetMap. Месета, Бетские горы, Богемия и Великая Европейская равнина рассчитаны по данным высот (бассейны рек и высоты; правило для каждой видно в «Изучать»).',
   m:'м',legend:'Высота'}};
 const S={lang:LS.get('lang','es'),sec:LS.get('euf_sec','costa'),mode:'study',cats:LS.get('euf_cats',D.CATS.map(c=>c[0])),labels:true,typing:LS.get('euf_typing',false),bg:LS.get('euf_bg','gray')};
 if(!['es','ru'].includes(S.lang))S.lang='es';
@@ -177,7 +179,7 @@ const NS='http://www.w3.org/2000/svg';const svg=$('#map'),vp=$('#vp'),wrap=$('#w
 function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 el('rect',{class:'sea',x:-3000,y:-3000,width:8000,height:8000},vp);
 const landFill=el('path',{class:'landfill',d:G.land},vp);
-const IMG={gray:el('image',{href:'img/relief-gray.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none'},vp),color:el('image',{href:'img/relief-color.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none'},vp)};
+const IMG={gray:el('image',{href:'img/relief-gray.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none'},vp),color:el('image',{href:'img/relief-color.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none'},vp),ign:el('image',{href:'img/ign.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none'},vp)};
 el('path',{class:'bord',d:G.borders},vp);el('path',{class:'lakebg',d:G.lakes},vp);el('path',{class:'coast',d:G.land},vp);
 const gZone=el('g',{},vp),gRiv=el('g',{},vp),gArea=el('g',{},vp),gPt=el('g',{},vp),gHi=el('g',{},vp),gLab=el('g',{},vp),gFx=el('g',{},vp);
 const ZP={};
@@ -211,16 +213,17 @@ const up=e=>{const was=ptrs.size;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=n
 svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',e=>{ptrs.delete(e.pointerId);pinch=null;drag=null});
 svg.addEventListener('wheel',e=>{e.preventDefault();const[x,y]=toMap(e.clientX,e.clientY);zoomAt(e.deltaY>0?1.2:1/1.2,x,y)},{passive:false});
 $('#zin').onclick=()=>zoomAt(1/1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zout').onclick=()=>zoomAt(1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zre').onclick=fitHome;
-$('#zphys').onclick=()=>{S.bg={gray:'color',color:'none',none:'gray'}[S.bg];LS.set('euf_bg',S.bg);updBg()};
+$('#zphys').onclick=()=>{S.bg={gray:'color',color:'ign',ign:'none',none:'gray'}[S.bg];LS.set('euf_bg',S.bg);updBg()};
 addEventListener('resize',()=>fitHome());
 function scaleUI(){const k=u(1);
  svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',c.dataset.r*k));
  svg.querySelectorAll('text[data-fs]').forEach(tx=>{tx.setAttribute('font-size',tx.dataset.fs*k);tx.setAttribute('stroke-width',3*k);if(tx.dataset.dy)tx.setAttribute('dy',tx.dataset.dy*k)});
  layoutLabels()}
-function updBg(){let m=S.bg;if(S.mode==='exam'&&m==='color')m='gray';IMG.gray.style.display=m==='gray'?'':'none';IMG.color.style.display=m==='color'?'':'none';
- const b=$('#zphys');b.setAttribute('aria-pressed',m!=='none');b.title=t('phys')[m];b.textContent=m==='color'?'🎨':'⛰';
- const lg=$('#hyleg');lg.classList.toggle('on',m==='color');
- lg.innerHTML=`${t('legend')}: `+[['#98c484','0'],['#bdd696','200'],['#ece4a0','500'],['#e2be78','1000'],['#cd965a','1500'],['#b07346','2000'],['#8c5a46','3000']].map(([c,v])=>`<i style="background:${c}"></i> ${v}`).join(' ')+` ${t('m')}`}
+// mapa del IGN: tiene todos los nombres escritos, así que solo se ve en «Estudiar»; en las pruebas se usa el relieve en color (en el examen, el gris)
+function updBg(){let m=S.bg;if(m==='ign'&&S.mode!=='study')m='color';if(S.mode==='exam'&&m==='color')m='gray';for(const k in IMG)IMG[k].style.display=m===k?'':'none';
+ const b=$('#zphys');b.setAttribute('aria-pressed',m!=='none');b.title=t('phys')[m];b.textContent=m==='color'?'🎨':m==='ign'?'🗺':'⛰';
+ const lg=$('#hyleg');lg.classList.toggle('on',m==='color'||m==='ign');
+ lg.innerHTML=m==='ign'?t('ignleg'):`${t('legend')}: `+[['#98c484','0'],['#bdd696','200'],['#ece4a0','500'],['#e2be78','1000'],['#cd965a','1500'],['#b07346','2000'],['#8c5a46','3000']].map(([c,v])=>`<i style="background:${c}"></i> ${v}`).join(' ')+` ${t('m')}`}
 
 /* ---------- labels ---------- */
 function lblClass(o){return SEATYPES.has(o.cat)?'sea2':o.k==='line'||o.k==='lake'?'riv2':o.sec==='rel'?'rel2':o.cat==='pen'?'pen2':''}
