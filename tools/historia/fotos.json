@@ -102,5 +102,77 @@
   "license": "CC BY-SA 4.0",
   "w": 900,
   "h": 578
+ },
+ "and/mezquita": {
+  "file": "mezquita.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Arcos_interiores_Mezquita_de_Córdoba_01.jpg",
+  "author": "Markanga",
+  "license": "CC BY-SA 3.0 ES",
+  "w": 900,
+  "h": 675
+ },
+ "and/medina-azahara": {
+  "file": "medina-azahara.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Medina_Azahara_2009-08-07a.jpg",
+  "author": "Rabe!",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 595
+ },
+ "and/aljaferia": {
+  "file": "aljaferia.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:The_southern_façade_of_the_Aljafería_Palace_in_Zaragoza,_Spain._(2026).jpg",
+  "author": "Stch2022",
+  "license": "CC0",
+  "w": 900,
+  "h": 675
+ },
+ "and/alcazaba-malaga": {
+  "file": "alcazaba-malaga.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Alcazaba,_Málaga,_España,_2023-05-20,_DD_98.jpg",
+  "author": "Diego Delso",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 600
+ },
+ "and/giralda": {
+  "file": "giralda.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Giralda_Sevilla.jpg",
+  "author": "Kiban",
+  "license": "CC BY-SA 3.0",
+  "w": 675,
+  "h": 900
+ },
+ "and/torre-del-oro": {
+  "file": "torre-del-oro.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Torre_del_Oro,_Guadalquivir,_Sevilla.jpg",
+  "author": "Martinvl",
+  "license": "CC BY-SA 4.0",
+  "w": 900,
+  "h": 676
+ },
+ "and/alhambra-leones": {
+  "file": "alhambra-leones.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Pavillon_Cour_des_Lions_Alhambra_Granada_Spain.jpg",
+  "author": "Jebulon",
+  "license": "CC0",
+  "w": 644,
+  "h": 900
+ },
+ "and/alhambra-cupula": {
+  "file": "alhambra-cupula.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Stucco_ceiling,_Patio_de_los_Leones,_Alhambra,_Granada,_Spain,_crop.jpg",
+  "author": "Jebulon",
+  "license": "CC0",
+  "w": 896,
+  "h": 900
+ },
+ "and/generalife": {
+  "file": "generalife.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Alhambra_Generalife_fountains.jpg",
+  "author": "Andrew Dunn",
+  "license": "CC BY-SA 2.0",
+  "w": 500,
+  "h": 770
  }
 }
