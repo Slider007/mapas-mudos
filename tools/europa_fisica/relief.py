@@ -52,20 +52,24 @@ g = (0.93 + 0.34 * (hs - np.sin(alt))) * 255; g = np.clip(g, 150, 255)
 land_gray = np.stack([g * .995, g * .99, g * .975], -1)
 gray = land_gray * M[..., None] + sea * (1 - M[..., None])
 Image.fromarray(np.clip(gray, 0, 255).astype(np.uint8)).save(os.path.join(OUT, 'relief-gray.jpg'), quality=82, optimize=True, progressive=True)
-# color hipsométrico (tintas de los atlas escolares) y batimetría
-ST = [(0, (152, 196, 132)), (200, (189, 214, 150)), (500, (236, 228, 160)), (1000, (226, 190, 120)), (1500, (205, 150, 90)), (2000, (176, 115, 70)), (3000, (140, 90, 70)), (4000, (238, 234, 230))]
-def ramp(v, stops):
+# color hipsométrico con las tintas del «Mapa físico de Europa» del IGN (2025): mismos escalones y colores de su leyenda
+# (muestreados del PDF), con un leve difuminado entre escalones y el sombreado encima
+LAND_T = [(-1e9, (141, 198, 117)), (0, (201, 227, 162)), (200, (250, 248, 187)), (500, (248, 208, 173)), (1000, (244, 185, 145)), (2000, (218, 179, 146)), (4000, (224, 216, 239))]
+SEA_T = [(-1e9, (158, 215, 242)), (-4000, (193, 230, 246)), (-2000, (221, 241, 250)), (-200, (240, 248, 251))]
+def steps(v, T):
     out = np.zeros(v.shape + (3,), np.float32)
-    for i in range(len(stops) - 1):
-        a, ca = stops[i]; b, cb = stops[i + 1]; t = np.clip((v - a) / (b - a), 0, 1)[..., None]; m = ((v >= a) & (v < b))[..., None] if i < len(stops) - 2 else (v >= a)[..., None]
-        out = np.where(m, np.array(ca) * (1 - t) + np.array(cb) * t, out)
-    out = np.where((v < stops[0][0])[..., None], np.array(stops[0][1], np.float32), out); return out
-hyp = ramp(El, ST)
-shade = (0.72 + 0.5 * (hs - np.sin(alt)))[..., None]
+    for lo, c in T: out = np.where((v >= lo)[..., None], np.array(c, np.float32), out)
+    return out
+Eland = np.where(M > .5, E, 0)
+hyp = gaussian_filter(steps(Eland, LAND_T), (1.0, 1.0, 0))
+# sombreado más marcado, como en la lámina del IGN (relieve exagerado ×14)
+dzdx2 = np.gradient(Es, axis=1) / cell * 14; dzdy2 = np.gradient(Es, axis=0) / cell * 14
+sl2 = np.arctan(np.hypot(dzdx2, dzdy2)); as2 = np.arctan2(-dzdx2, dzdy2)
+hs2 = np.clip(np.sin(alt) * np.cos(sl2) + np.cos(alt) * np.sin(sl2) * np.cos(az - as2), 0, 1)
+shade = np.clip(1 + 0.85 * (hs2 - np.sin(alt)), 0.42, 1.18)[..., None]   # llano = color de la leyenda tal cual
 landc = np.clip(hyp * shade, 0, 255)
-BT = [(-6000, (120, 165, 200)), (-3000, (150, 190, 215)), (-1000, (178, 208, 226)), (-200, (200, 224, 236)), (0, (214, 234, 242))]
 dep = np.where(M < .5, np.minimum(E, 0), 0)
-seac = ramp(dep, BT)
+seac = gaussian_filter(steps(dep, SEA_T), (1.2, 1.2, 0))
 color = landc * M[..., None] + seac * (1 - M[..., None])
 Image.fromarray(color.astype(np.uint8)).save(os.path.join(OUT, 'relief-color.jpg'), quality=82, optimize=True, progressive=True)
 print('ok', w, h, 'elev range', float(E.min()), float(E.max()))
