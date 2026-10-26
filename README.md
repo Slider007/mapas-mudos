@@ -40,7 +40,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Mapas del islam (Arabia hacia 630, expansión 632–750, abasíes hacia 800): Cliopatria, CC BY 4.0; base de costas y ríos de Natural Earth 1:10m en otra proyección (`tools/historia/geo_islam.py`, `islam_geo.py`)
 - Fotos de los entrenadores de historia: Wikimedia Commons (dominio público, CC0, CC BY o CC BY-SA); autor y licencia bajo cada foto y en `tools/historia/fotos.json`
 - Europa política y física: Natural Earth 1:10m (países desde el punto de vista de España; Kosovo de la versión general). Relieve de Europa: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Golfos, estrechos, cabos y península Itálica: © OpenStreetMap contributors (Nominatim, ODbL). Meseta, Béticas, Bohemia y Gran Llanura Europea: calculadas a partir de las altitudes (cuencas y alturas, `regions_dem.py`). Scripts en `tools/europa/` y `tools/europa_fisica/`
-- Fondo «Mapa físico-político de Europa» (Atlas Nacional de España, 2016) en Europa física, botón 🗺: © Instituto Geográfico Nacional / CNIG; georreferenciado (cónica de Lambert ajustada a 22 capitales) y reproyectado con `tools/europa_fisica/ign_warp.py`; solo se muestra en «Estudiar» porque lleva los nombres
+- Fondos 🗺 en Europa física y Europa política: «Mapa físico de Europa» y «Mapa político de Europa» (Atlas Nacional de España, 2025), © Instituto Geográfico Nacional / CNIG; georreferenciados (cónica de Lambert ajustada a 32 capitales del mapa político; los dos mapas tienen la misma maquetación) y reproyectados con `tools/ign/ign_warp.py`; solo se muestran en «Estudiar» porque llevan los nombres
 
 ### Licencia
 - Código (`tools/`, HTML/JS): **MIT**, véase [`LICENSE`](LICENSE).
@@ -82,7 +82,7 @@ Cada lección es una carpeta con `index.html`, `img/` y `pdf/` (mapa mudo para i
 - Карты ислама (Аравия ок. 630, расширение 632–750, Аббасиды ок. 800): Cliopatria, CC BY 4.0; основа (берега, реки) — Natural Earth 1:10m в своей проекции (`tools/historia/geo_islam.py`, `islam_geo.py`)
 - Фото в тренажёрах по истории: Wikimedia Commons (общественное достояние, CC0, CC BY или CC BY-SA); автор и лицензия под каждым фото и в `tools/historia/fotos.json`
 - Политическая и физическая карта Европы: Natural Earth 1:10m (страны с точки зрения Испании; Косово из общей версии). Рельеф Европы: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Заливы, проливы, мысы и Апеннинский полуостров: © OpenStreetMap contributors (Nominatim, ODbL). Месета, Бетские горы, Богемия и Великая Европейская равнина рассчитаны по данным высот (бассейны рек и высоты, `regions_dem.py`). Скрипты в `tools/europa/` и `tools/europa_fisica/`
-- Подложка «Mapa físico-político de Europa» (Национальный атлас Испании, 2016) в «Europa física», кнопка 🗺: © Instituto Geográfico Nacional / CNIG; привязана (коническая Ламберта по 22 столицам) и перепроецирована `tools/europa_fisica/ign_warp.py`; видна только в «Estudiar», потому что на ней подписаны названия
+- Подложки 🗺 в «Europa física» и «Europa política»: «Mapa físico de Europa» и «Mapa político de Europa» (Национальный атлас Испании, 2025), © Instituto Geográfico Nacional / CNIG; привязаны (коническая Ламберта по 32 столицам политического листа; оба листа свёрстаны одинаково) и перепроецированы `tools/ign/ign_warp.py`; видны только в «Estudiar», потому что на них подписаны названия
 
 ### Лицензия
 - Код (`tools/`, HTML/JS): **MIT**, см. [`LICENSE`](LICENSE).
@@ -124,7 +124,7 @@ Each lesson is a folder with `index.html`, `img/` and `pdf/` (printable blank ma
 - Islam maps (Arabia c. 630, expansion 632–750, Abbasids c. 800): Cliopatria, CC BY 4.0; coast and river base from Natural Earth 1:10m in its own projection (`tools/historia/geo_islam.py`, `islam_geo.py`)
 - Photos in the history trainers: Wikimedia Commons (public domain, CC0, CC BY or CC BY-SA); author and licence under each photo and in `tools/historia/fotos.json`
 - Political and physical maps of Europe: Natural Earth 1:10m (countries from Spain's point of view; Kosovo from the general version). Europe relief: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Gulfs, straits, capes and the Italian peninsula: © OpenStreetMap contributors (Nominatim, ODbL). Meseta, Baetic ranges, Bohemia and the Great European Plain: computed from elevation data (river basins and heights, `regions_dem.py`). Scripts in `tools/europa/` and `tools/europa_fisica/`
-- "Mapa físico-político de Europa" base (Spanish National Atlas, 2016) in Europa física, 🗺 button: © Instituto Geográfico Nacional / CNIG; georeferenced (Lambert conic fitted to 22 capitals) and reprojected with `tools/europa_fisica/ign_warp.py`; shown only in "Estudiar" because it carries the names
+- 🗺 bases in Europa física and Europa política: "Mapa físico de Europa" and "Mapa político de Europa" (Spanish National Atlas, 2025), © Instituto Geográfico Nacional / CNIG; georeferenced (Lambert conic fitted to 32 capitals of the political sheet; both sheets share the layout) and reprojected with `tools/ign/ign_warp.py`; shown only in "Estudiar" because they carry the names
 
 ### License
 - Code (`tools/`, HTML/JS): **MIT**, see [`LICENSE`](LICENSE).

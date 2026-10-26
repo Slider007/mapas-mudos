@@ -153,9 +153,9 @@ const T={
   chainq:'Cadena: toca en orden',chaindone:'¡Cadena completa!',restart:'Empezar de nuevo',
   exam:'20 preguntas: toca cada elemento en el mapa, sin nombres y con relieve gris. Al final verás tu nota y tus errores.',start:'Empezar',q:'Pregunta',of:'de',grade:'Tu nota',errs:'Repasa:',again:'Otra vez',
   prog:'Lo que ya sabes (acertado 3 veces seguidas o más):',reset:'Borrar mi progreso',sure:'¿Seguro que quieres borrar tu progreso?',none:'Elige al menos un grupo.',round:'Ronda',say:'Escuchar',
-  ignleg:'🗺 Mapa: © IGN / CNIG (2016) · con nombres, solo en «Estudiar»',
-  phys:{gray:'Relieve gris',color:'Mapa físico en color (altitudes)',ign:'Mapa físico-político del IGN (con nombres; solo en «Estudiar»)',none:'Sin relieve'},
-  src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Mapa 🗺: «Mapa físico-político de Europa» del Atlas Nacional de España, © IGN/CNIG (2016), georreferenciado con 22 capitales. Golfos, estrechos, cabos y la península Itálica: OpenStreetMap. Meseta, Béticas, Bohemia y Gran Llanura Europea: calculadas a partir de las altitudes (cuencas y alturas; en «Estudiar» se ve la regla de cada una).',
+  ignleg:'🗺 © IGN / CNIG (2025)',
+  phys:{gray:'Relieve gris',color:'Mapa físico en color (altitudes)',ign:'Mapa físico de Europa del IGN (con nombres; solo en «Estudiar»)',none:'Sin relieve'},
+  src:'Lista de la hoja «Europa física» del profesor. Costas, ríos, lagos y regiones: Natural Earth 1:10m. Relieve: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Mapa 🗺: «Mapa físico de Europa» del Atlas Nacional de España, © IGN/CNIG (2025), georreferenciado con 32 capitales del mapa político gemelo. Golfos, estrechos, cabos y la península Itálica: OpenStreetMap. Meseta, Béticas, Bohemia y Gran Llanura Europea: calculadas a partir de las altitudes (cuencas y alturas; en «Estudiar» se ve la regla de cada una).',
   m:'m',legend:'Altitud'},
  ru:{ttl:'Физическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (3 листа)',secs:['Берега','Реки и озёра','Рельеф'],
   modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',chain:'Цепочка',exam:'Экзамен',prog:'Прогресс'},
@@ -165,9 +165,9 @@ const T={
   chainq:'Цепочка: нажимай по порядку',chaindone:'Цепочка пройдена!',restart:'Начать заново',
   exam:'20 вопросов: найди каждый объект на карте, без названий, на сером рельефе. В конце — оценка и ошибки.',start:'Начать',q:'Вопрос',of:'из',grade:'Оценка',errs:'Повтори:',again:'Ещё раз',
   prog:'Что ты уже знаешь (3 верных ответа подряд и больше):',reset:'Сбросить прогресс',sure:'Точно сбросить прогресс?',none:'Выбери хотя бы одну группу.',round:'Круг',say:'Слушать',
-  ignleg:'🗺 Карта: © IGN / CNIG (2016) · с названиями, только в «Estudiar»',
-  phys:{gray:'Серый рельеф',color:'Цветная физическая карта (высоты)',ign:'Физико-политическая карта IGN (с названиями; только в «Estudiar»)',none:'Без рельефа'},
-  src:'Список — лист учителя «Europa física». Берега, реки, озёра и области: Natural Earth 1:10m. Рельеф: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Карта 🗺: «Mapa físico-político de Europa», Национальный атлас Испании, © IGN/CNIG (2016), привязана по 22 столицам. Заливы, проливы, мысы и Апеннинский полуостров — OpenStreetMap. Месета, Бетские горы, Богемия и Великая Европейская равнина рассчитаны по данным высот (бассейны рек и высоты; правило для каждой видно в «Изучать»).',
+  ignleg:'🗺 © IGN / CNIG (2025)',
+  phys:{gray:'Серый рельеф',color:'Цветная физическая карта (высоты)',ign:'Физическая карта Европы IGN (с названиями; только в «Estudiar»)',none:'Без рельефа'},
+  src:'Список — лист учителя «Europa física». Берега, реки, озёра и области: Natural Earth 1:10m. Рельеф: Mapzen/AWS Terrain Tiles (SRTM, GMTED, ETOPO). Карта 🗺: «Mapa físico de Europa», Национальный атлас Испании, © IGN/CNIG (2025), привязана по 32 столицам парного политического листа. Заливы, проливы, мысы и Апеннинский полуостров — OpenStreetMap. Месета, Бетские горы, Богемия и Великая Европейская равнина рассчитаны по данным высот (бассейны рек и высоты; правило для каждой видно в «Изучать»).',
   m:'м',legend:'Высота'}};
 const S={lang:LS.get('lang','es'),sec:LS.get('euf_sec','costa'),mode:'study',cats:LS.get('euf_cats',D.CATS.map(c=>c[0])),labels:true,typing:LS.get('euf_typing',false),bg:LS.get('euf_bg','gray')};
 if(!['es','ru'].includes(S.lang))S.lang='es';

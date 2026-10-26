@@ -67,6 +67,8 @@ input.ans{flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:10px 12px;bor
 .sea{fill:var(--sea)}
 .grat{fill:none;stroke:var(--ink2);stroke-opacity:.16;stroke-width:.6;vector-effect:non-scaling-stroke}
 .oth{fill:var(--other);stroke:#c9c6bd;stroke-width:.6;vector-effect:non-scaling-stroke}
+.ignon .c,.ignon .oth,.ignon .lake{fill-opacity:0}.ignon .grat{display:none}.ignon .c{stroke-opacity:.35}.ignon .c.hi,.ignon .c.ok,.ignon .c.bad,.ignon .c.sel{fill-opacity:.6}
+#zign[aria-pressed=true]{background:var(--ink);color:#fff}
 .c{fill:var(--land);stroke:var(--line);stroke-width:.9;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .c.dim{fill:#f1efe9}
 .c.hi{fill:var(--hi)}.c.ok{fill:#9fd3b2}.c.bad{fill:#f2b0a6}.c.sel{fill:#cdbdff}
@@ -102,8 +104,8 @@ input.ans{flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:10px 12px;bor
  </div>
  <div class="mapwrap" id="wrap">
   <svg id="map" role="img" aria-label="Mapa político de Europa"><g id="vp"></g></svg>
-  <div class="zoom"><button id="zin" aria-label="Acercar">+</button><button id="zout" aria-label="Alejar">−</button><button id="zre" aria-label="Ver todo">⤢</button></div>
-  <div class="attr">© Natural Earth</div>
+  <div class="zoom"><button id="zin" aria-label="Acercar">+</button><button id="zout" aria-label="Alejar">−</button><button id="zre" aria-label="Ver todo">⤢</button><button id="zign" aria-label="Mapa del IGN">🗺</button></div>
+  <div class="attr">© Natural Earth · 🗺 © IGN / CNIG</div>
  </div>
  <section class="panel" id="panel" aria-live="polite"></section>
 </div>
@@ -124,7 +126,7 @@ const T={
   cardP:'¿Qué país está marcado?',cardC:'¿Qué capital está marcada?',cardPC:'¿Cuál es su capital?',flip:'Toca para ver la respuesta',knew:'Lo sabía',didnt:'No lo sabía',
   exam:'20 preguntas sin nombres en el mapa. Al final verás tu nota y tus errores.',start:'Empezar',q:'Pregunta',of:'de',grade:'Tu nota',errs:'Repasa:',again:'Otra vez',
   prog:'Lo que ya sabes (acertado 3 veces seguidas o más):',reset:'Borrar mi progreso',sure:'¿Seguro que quieres borrar tu progreso?',none:'Elige al menos una zona.',
-  round:'Ronda',src:'Lista de países y capitales del profesor. Mapa: Natural Earth 1:10m; fronteras según el punto de vista de España (Crimea, en Ucrania); Kosovo aparece porque está en la lista del profesor. Proyección acimutal equivalente de Lambert.',say:'Escuchar',
+  ign:'Mapa político de Europa del IGN/CNIG (2025), con nombres: solo en «Estudiar»',round:'Ronda',src:'Lista de países y capitales del profesor. Botón 🗺: «Mapa político de Europa» del Atlas Nacional de España, © IGN/CNIG (2025), georreferenciado con 32 capitales y reproyectado a este mapa. Mapa: Natural Earth 1:10m; fronteras según el punto de vista de España (Crimea, en Ucrania); Kosovo aparece porque está en la lista del profesor. Proyección acimutal equivalente de Lambert.',say:'Escuchar',
   otherNote:'Sin capital en la lista del profesor: solo se practica el país.'},
  ru:{ttl:'Политическая карта Европы',home:'← Уроки',dl:'Контурные карты для печати (PDF)',secs:['Страны','Столицы','Страна и столица'],
   modes:{study:'Изучать',cards:'Карточки',find:'Найти',what:'Что это?',exam:'Экзамен',prog:'Прогресс'},
@@ -134,9 +136,9 @@ const T={
   cardP:'Какая страна отмечена?',cardC:'Какая столица отмечена?',cardPC:'Какая у неё столица?',flip:'Нажми, чтобы увидеть ответ',knew:'Знал(а)',didnt:'Не знал(а)',
   exam:'20 вопросов, на карте без названий. В конце — оценка и ошибки.',start:'Начать',q:'Вопрос',of:'из',grade:'Оценка',errs:'Повтори:',again:'Ещё раз',
   prog:'Что ты уже знаешь (3 верных ответа подряд и больше):',reset:'Сбросить прогресс',sure:'Точно сбросить прогресс?',none:'Выбери хотя бы один регион.',
-  round:'Круг',src:'Список стран и столиц — от учителя. Карта: Natural Earth 1:10m; границы с точки зрения Испании (Крым — в составе Украины); Косово есть, потому что оно в списке учителя. Равновеликая азимутальная проекция Ламберта.',say:'Слушать',
+  ign:'Политическая карта Европы IGN/CNIG (2025), с названиями: только в «Estudiar»',round:'Круг',src:'Список стран и столиц — от учителя. Кнопка 🗺: «Mapa político de Europa», Национальный атлас Испании, © IGN/CNIG (2025), привязана по 32 столицам и перепроецирована под эту карту. Карта: Natural Earth 1:10m; границы с точки зрения Испании (Крым — в составе Украины); Косово есть, потому что оно в списке учителя. Равновеликая азимутальная проекция Ламберта.',say:'Слушать',
   otherNote:'В списке учителя без столицы: тренируется только страна.'}};
-const S={lang:LS.get('lang','es'),sec:LS.get('eup_sec','pais'),mode:'study',cats:LS.get('eup_cats',Object.keys(D.REG)),labels:true,typing:LS.get('eup_typing',false)};
+const S={lang:LS.get('lang','es'),sec:LS.get('eup_sec','pais'),mode:'study',cats:LS.get('eup_cats',Object.keys(D.REG)),labels:true,typing:LS.get('eup_typing',false),ign:LS.get('eup_ign',false)};
 if(!['es','ru'].includes(S.lang))S.lang='es';
 const t=k=>T[S.lang][k];
 const nm=c=>c.es, capn=c=>c.capEs;            // los nombres que se aprenden son en español
@@ -148,6 +150,8 @@ const key=(sec,id)=>sec+':'+id;
 const NS='http://www.w3.org/2000/svg';const svg=$('#map'),vp=$('#vp'),wrap=$('#wrap');
 function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 el('rect',{class:'sea',x:-3000,y:-3000,width:8000,height:8000},vp);
+// mapa político del IGN (lleva los nombres: solo en «Estudiar»)
+const IGN=el('image',{href:'img/ign.jpg',x:0,y:0,width:G.W,height:G.H,preserveAspectRatio:'none',style:'display:none'},vp);
 el('path',{class:'grat',d:G.grat},vp);el('path',{class:'oth',d:G.other},vp);
 const CP={};const gC=el('g',{},vp);for(const id of IDS)CP[id]=el('path',{class:'c',d:C[id].d,'data-id':id},gC);
 el('path',{class:'lake',d:G.lakes},vp);
@@ -177,6 +181,8 @@ const up=e=>{const was=ptrs.size;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=n
 svg.addEventListener('pointerup',up);svg.addEventListener('pointercancel',e=>{ptrs.delete(e.pointerId);pinch=null;drag=null});
 svg.addEventListener('wheel',e=>{e.preventDefault();const[x,y]=toMap(e.clientX,e.clientY);zoomAt(e.deltaY>0?1.2:1/1.2,x,y)},{passive:false});
 $('#zin').onclick=()=>zoomAt(1/1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zout').onclick=()=>zoomAt(1.5,vb.x+vb.w/2,vb.y+vb.h/2);$('#zre').onclick=fitHome;
+$('#zign').onclick=()=>{S.ign=!S.ign;LS.set('eup_ign',S.ign);updIgn()};
+function updIgn(){const on=S.ign&&S.mode==='study';IGN.style.display=on?'':'none';svg.classList.toggle('ignon',on);const b=$('#zign');b.setAttribute('aria-pressed',S.ign);b.title=t('ign')}
 addEventListener('resize',()=>fitHome());
 function scaleUI(){const k=u(1);
  svg.querySelectorAll('[data-r]').forEach(c=>c.setAttribute('r',c.dataset.r*k));
@@ -251,7 +257,7 @@ $('#secs').onclick=e=>{const x=e.target.dataset.s;if(x&&x!==S.sec){S.sec=x;LS.se
 $('#cats').onclick=e=>{const c=e.target.dataset.c;if(!c)return;S.cats=S.cats.includes(c)?S.cats.filter(x=>x!==c):[...S.cats,c];LS.set('eup_cats',S.cats);go(S.mode)};
 let tapHandler=null,cur=null,exam=null;
 function onTap(x,y){tapHandler&&tapHandler(x,y)}
-function go(m){if(m!==S.mode)streak={n:0,ok:0};S.mode=m;clearFx();tapHandler=null;if(m!=='exam')exam=null;renderChrome();setDim();drawLabels();scaleUI();
+function go(m){if(m!==S.mode)streak={n:0,ok:0};S.mode=m;clearFx();tapHandler=null;if(m!=='exam')exam=null;renderChrome();setDim();drawLabels();scaleUI();updIgn();
  if(!pool().length&&m!=='prog'){h(`<p class="sub">${t('none')}</p>`);return}
  ({study,cards,find,what,exam:examIntro,prog})[m]()}
 const srcLine=()=>`<p class="src">${t('src')}</p>`;
