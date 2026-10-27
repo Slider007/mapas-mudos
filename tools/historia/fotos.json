@@ -230,5 +230,13 @@
   "license": "CC BY 2.0",
   "w": 575,
   "h": 900
+ },
+ "isl/kairuan-aerea": {
+  "file": "kairuan-aerea.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Vue_a%C3%A9rienne_de_la_Grande_Mosqu%C3%A9e_de_Kairouan_-_aerial_view_of_Kairouan's_Great_Mosque.jpg",
+  "author": "tourism landscapes (Flickr)",
+  "license": "CC BY-SA 2.0",
+  "w": 1280,
+  "h": 715
  }
 }

@@ -516,13 +516,30 @@ _CI = """<svg viewBox="0 0 420 270" xmlns="http://www.w3.org/2000/svg" font-fami
 <circle cx="32" cy="104" r="10" fill="#5e35b1"/><text x="32" y="108" text-anchor="middle">9</text>
 <circle cx="314" cy="125" r="10" fill="#5e35b1"/><text x="314" y="129" text-anchor="middle">10</text>
 </g></svg>"""
+_KA = """<svg viewBox="0 0 1280 715" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+<image href="img/kairuan-aerea.jpg" x="0" y="0" width="1280" height="715"/>
+<path d="M44 238 L330 92" stroke="#ffd54f" stroke-width="9" stroke-dasharray="22 12" stroke-linecap="round"/>
+<g stroke="#fff" stroke-width="4">
+<line x1="300" y1="240" x2="300" y2="240"/><line x1="315" y1="98" x2="250" y2="40"/><line x1="350" y1="118" x2="420" y2="40"/>
+<line x1="185" y1="168" x2="130" y2="120"/><line x1="1050" y1="270" x2="1150" y2="170"/><line x1="718" y1="287" x2="790" y2="240"/>
+</g>
+""" + ''.join(f'<g><circle cx="{x}" cy="{y}" r="36" fill="#5e35b1" stroke="#fff" stroke-width="5"/><text x="{x}" y="{y + 14}" text-anchor="middle" font-size="40" font-weight="800" fill="#fff">{n}</text></g>'
+              for n, x, y in [(1, 300, 250), (2, 640, 370), (4, 245, 44), (3, 425, 44), (6, 120, 125), (5, 1150, 170), (7, 800, 235)]) + """
+<g><rect x="840" y="612" width="420" height="80" rx="16" fill="rgba(255,255,255,.9)"/><text x="1050" y="666" text-anchor="middle" font-size="38" font-weight="800" fill="#c62828">↖ hacia La Meca</text></g>
+</svg>"""
 MEDIA = {
  "religion": [{"dia": "org", "title": ["Obligaciones del islam (los cinco pilares)", "Обязанности (пять столпов ислама)"],
    "rows": [[["«No hay más Dios que Alá y Mahoma es su profeta»", "«Нет бога, кроме Аллаха, и Мухаммед — пророк его»"], ["Orar cinco veces al día", "Молиться 5 раз в день"], ["Ayuno en el mes del Ramadán", "Пост в Рамадан"], ["Dar limosna", "Милостыня"], ["Peregrinar a La Meca", "Паломничество в Мекку"]]]},
               {"dia": "org", "title": ["Prohibiciones del islam", "Запреты ислама"],
    "rows": [[["No tomar bebidas alcohólicas", "Не пить алкоголь"], ["No comer carne de cerdo", "Не есть свинину"], ["No practicar juegos de azar", "Не играть в азартные игры"], ["Tener pudor en el vestir", "Скромность в одежде"]]],
    "note": ["Se permite la poligamia (máximo 4 mujeres). Como en el esquema del resumen (punto 9).", "Многожёнство разрешено (до 4 жён). Как в схеме резюме (п. 9)."]}],
- "mezquita": [{"dia": "svg", "title": ["Las partes de la mezquita (planta)", "Части мечети (план)"], "svg": _MZ,
+ "mezquita": [{"dia": "svg", "title": ["Las partes de la mezquita: la Gran Mezquita de Kairuán (Túnez)", "Части мечети: Большая мечеть Кайруана (Тунис)"], "svg": _KA,
+   "items": [["Sala de oraciones (haram): bajo el gran tejado", "Молитвенный зал (харам): под большой кровлей"], ["Patio (sahn)", "Двор (сахн)"],
+             ["Minbar: púlpito, dentro, junto al mihrab", "Минбар: кафедра, внутри, рядом с михрабом"], ["Mihrab: bajo la cúpula del fondo, en el muro de la quibla", "Михраб: под дальним куполом, в стене киблы"],
+             ["Torre (minarete o alminar)", "Минарет"], ["Muro de la quibla (línea amarilla), hacia La Meca", "Стена киблы (жёлтая линия) — к Мекке"],
+             ["Agua para las abluciones (aquí, brocales del aljibe del patio)", "Вода для омовений (здесь — колодцы цистерны во дворе)"]],
+   "note": ["Es la misma mezquita del dibujo del resumen (punto 11), con la misma numeración. Foto: tourism landscapes (Flickr) · CC BY-SA 2.0 · Wikimedia Commons.", "Та же мечеть, что на рисунке в резюме (п. 11), нумерация та же. Фото: tourism landscapes (Flickr) · CC BY-SA 2.0 · Wikimedia Commons."]},
+              {"dia": "svg", "title": ["Las partes de la mezquita (planta)", "Части мечети (план)"], "svg": _MZ,
    "items": [["Sala de oraciones (haram)", "Молитвенный зал (харам)"], ["Patio (sahn) con columnas", "Двор (сахн) с колоннами"],
              ["Minbar o mimbar: púlpito", "Минбар: кафедра"], ["Mihrab: nicho vacío (el Corán)", "Михраб: пустая ниша (Коран)"],
              ["Torre (minarete o alminar): el almuecín llama a la oración", "Минарет: муэдзин зовёт на молитву"], ["Muro de la quibla, hacia La Meca", "Стена киблы — к Мекке"],
