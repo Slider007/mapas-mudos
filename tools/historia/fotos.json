@@ -238,5 +238,13 @@
   "license": "CC BY-SA 2.0",
   "w": 1280,
   "h": 715
+ },
+ "isl/cordoba-aerea": {
+  "file": "mezquita-cordoba-aerea.jpg",
+  "commons": "https://commons.wikimedia.org/wiki/File:Mezquita_de_C%C3%B3rdoba_desde_el_aire_(C%C3%B3rdoba,_Espa%C3%B1a).jpg",
+  "author": "Toni Castillo Quero (Flickr)",
+  "license": "CC BY-SA 2.0",
+  "w": 1280,
+  "h": 850
  }
 }

@@ -490,32 +490,6 @@ _MZ = """<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" font-fami
 <text x="95" y="246" text-anchor="middle" fill="#6d4c41" font-weight="700">patio (sahn)</text>
 <text x="412" y="22" text-anchor="end" fill="#c62828" font-weight="800">La Meca →</text>
 </svg>"""
-_CI = """<svg viewBox="0 0 420 270" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="11">
-<rect width="420" height="270" fill="#eef3e2"/>
-<path d="M70 60 Q150 25 250 40 Q340 50 360 120 Q370 200 290 230 Q190 255 110 225 Q50 195 55 130 Z" fill="#f6eedd" stroke="#6d4c41" stroke-width="5"/>
-<path d="M120 80 L160 150 L230 120 L300 170 M100 170 L160 150 L190 220 M230 120 L250 60" stroke="#d7ccc8" stroke-width="5" fill="none"/>
-<rect x="175" y="120" width="44" height="34" fill="#c5e1a5" stroke="#33691e" stroke-width="2"/><rect x="214" y="112" width="7" height="12" fill="#33691e"/>
-<rect x="150" y="160" width="80" height="14" fill="#ffe082" stroke="#ff8f00"/>
-<rect x="230" y="135" width="30" height="20" fill="#ffccbc" stroke="#d84315"/>
-<rect x="120" y="110" width="32" height="22" fill="#b3e5fc" stroke="#0277bd"/>
-<rect x="250" y="180" width="34" height="22" fill="#d1c4e9" stroke="#4527a0"/>
-<rect x="130" y="185" width="30" height="20" fill="#b2dfdb" stroke="#00695c"/>
-<path d="M300 60 h50 v45 h-50z" fill="#bcaaa4" stroke="#3e2723" stroke-width="3"/>
-<g fill="#e0d6c4" stroke="#8d6e63">""" + ''.join(f'<rect x="{x}" y="{y}" width="16" height="12"/>' for x, y in [(20, 120), (22, 140), (24, 160), (380, 150), (378, 170), (382, 190)]) + """</g>
-<rect x="288" y="112" width="52" height="26" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
-<g fill="#3e2723">""" + ''.join(f'<rect x="{x}" y="{y}" width="11" height="11" rx="2"/>' for x, y in [(145, 31), (353, 150), (175, 241), (50, 140)]) + """</g>
-<g font-weight="800" fill="#fff">
-<circle cx="200" cy="100" r="10" fill="#5e35b1"/><text x="200" y="104" text-anchor="middle">1</text>
-<circle cx="190" cy="167" r="10" fill="#5e35b1"/><text x="190" y="171" text-anchor="middle">2</text>
-<circle cx="245" cy="145" r="10" fill="#5e35b1"/><text x="245" y="149" text-anchor="middle">3</text>
-<circle cx="136" cy="121" r="10" fill="#5e35b1"/><text x="136" y="125" text-anchor="middle">4</text>
-<circle cx="267" cy="191" r="10" fill="#5e35b1"/><text x="267" y="195" text-anchor="middle">5</text>
-<circle cx="145" cy="195" r="10" fill="#5e35b1"/><text x="145" y="199" text-anchor="middle">6</text>
-<circle cx="325" cy="82" r="10" fill="#5e35b1"/><text x="325" y="86" text-anchor="middle">7</text>
-<circle cx="80" cy="44" r="10" fill="#5e35b1"/><text x="80" y="48" text-anchor="middle">8</text>
-<circle cx="32" cy="104" r="10" fill="#5e35b1"/><text x="32" y="108" text-anchor="middle">9</text>
-<circle cx="314" cy="125" r="10" fill="#5e35b1"/><text x="314" y="129" text-anchor="middle">10</text>
-</g></svg>"""
 _KA = """<svg viewBox="0 0 1280 715" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
 <image href="img/kairuan-aerea.jpg" x="0" y="0" width="1280" height="715"/>
 <path d="M44 238 L330 92" stroke="#ffd54f" stroke-width="9" stroke-dasharray="22 12" stroke-linecap="round"/>
@@ -527,13 +501,29 @@ _KA = """<svg viewBox="0 0 1280 715" xmlns="http://www.w3.org/2000/svg" font-fam
               for n, x, y in [(1, 300, 250), (2, 640, 370), (4, 245, 44), (3, 425, 44), (6, 120, 125), (5, 1150, 170), (7, 800, 235)]) + """
 <g><rect x="840" y="612" width="420" height="80" rx="16" fill="rgba(255,255,255,.9)"/><text x="1050" y="666" text-anchor="middle" font-size="38" font-weight="800" fill="#c62828">↖ hacia La Meca</text></g>
 </svg>"""
+_CO = """<svg viewBox="0 0 1280 850" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+<image href="img/mezquita-cordoba-aerea.jpg" x="0" y="0" width="1280" height="850"/>
+<path d="M640 790 L1265 548" stroke="#ffd54f" stroke-width="10" stroke-dasharray="24 13" stroke-linecap="round"/>
+<g stroke="#fff" stroke-width="5">
+<line x1="195" y1="180" x2="95" y2="130"/><line x1="790" y1="690" x2="760" y2="800"/><line x1="700" y1="600" x2="560" y2="700"/><line x1="500" y1="330" x2="560" y2="250"/>
+</g>
+""" + ''.join(f'<g><circle cx="{x}" cy="{y}" r="38" fill="#5e35b1" stroke="#fff" stroke-width="5"/><text x="{x}" y="{y + 15}" text-anchor="middle" font-size="42" font-weight="800" fill="#fff">{n}</text></g>'
+              for n, x, y in [(1, 420, 500), (2, 360, 370), (3, 560, 700), (4, 760, 800), (5, 95, 130), (6, 1060, 690), (7, 560, 250)]) + """
+<g><rect x="930" y="30" width="330" height="82" rx="16" fill="rgba(255,255,255,.9)"/><text x="1095" y="85" text-anchor="middle" font-size="38" font-weight="800" fill="#c62828">hacia La Meca ↘</text></g>
+</svg>"""
 MEDIA = {
  "religion": [{"dia": "org", "title": ["Obligaciones del islam (los cinco pilares)", "Обязанности (пять столпов ислама)"],
    "rows": [[["«No hay más Dios que Alá y Mahoma es su profeta»", "«Нет бога, кроме Аллаха, и Мухаммед — пророк его»"], ["Orar cinco veces al día", "Молиться 5 раз в день"], ["Ayuno en el mes del Ramadán", "Пост в Рамадан"], ["Dar limosna", "Милостыня"], ["Peregrinar a La Meca", "Паломничество в Мекку"]]]},
               {"dia": "org", "title": ["Prohibiciones del islam", "Запреты ислама"],
    "rows": [[["No tomar bebidas alcohólicas", "Не пить алкоголь"], ["No comer carne de cerdo", "Не есть свинину"], ["No practicar juegos de azar", "Не играть в азартные игры"], ["Tener pudor en el vestir", "Скромность в одежде"]]],
    "note": ["Se permite la poligamia (máximo 4 mujeres). Como en el esquema del resumen (punto 9).", "Многожёнство разрешено (до 4 жён). Как в схеме резюме (п. 9)."]}],
- "mezquita": [{"dia": "svg", "title": ["Las partes de la mezquita: la Gran Mezquita de Kairuán (Túnez)", "Части мечети: Большая мечеть Кайруана (Тунис)"], "svg": _KA,
+ "mezquita": [{"dia": "svg", "title": ["En España: la Mezquita de Córdoba", "В Испании: Кордовская мечеть"], "svg": _CO,
+   "items": [["Sala de oraciones (haram): los tejados paralelos", "Молитвенный зал (харам): параллельные кровли"], ["Patio (sahn): el Patio de los Naranjos", "Двор (сахн): Апельсиновый двор"],
+             ["Minbar: dentro, junto al mihrab", "Минбар: внутри, рядом с михрабом"], ["Mihrab: en el muro del fondo, bajo las cúpulas pequeñas", "Михраб: в дальней стене, под маленькими куполами"],
+             ["Alminar: hoy es la torre campanario, que lo envuelve", "Минарет: сегодня внутри колокольни"], ["Muro de la quibla (línea amarilla)", "Стена киблы (жёлтая линия)"],
+             ["Fuentes del patio (para las abluciones)", "Фонтаны двора (для омовений)"]],
+   "note": ["En el centro se ve la catedral que los cristianos construyeron dentro de la mezquita en el siglo XVI. Foto: Toni Castillo Quero (Flickr) · CC BY-SA 2.0 · Wikimedia Commons.", "В центре — собор, который христиане построили внутри мечети в XVI в. Фото: Toni Castillo Quero (Flickr) · CC BY-SA 2.0 · Wikimedia Commons."]},
+              {"dia": "svg", "title": ["Las partes de la mezquita: la Gran Mezquita de Kairuán (Túnez)", "Части мечети: Большая мечеть Кайруана (Тунис)"], "svg": _KA,
    "items": [["Sala de oraciones (haram): bajo el gran tejado", "Молитвенный зал (харам): под большой кровлей"], ["Patio (sahn)", "Двор (сахн)"],
              ["Minbar: púlpito, dentro, junto al mihrab", "Минбар: кафедра, внутри, рядом с михрабом"], ["Mihrab: bajo la cúpula del fondo, en el muro de la quibla", "Михраб: под дальним куполом, в стене киблы"],
              ["Torre (minarete o alminar)", "Минарет"], ["Muro de la quibla (línea amarilla), hacia La Meca", "Стена киблы (жёлтая линия) — к Мекке"],
@@ -552,12 +542,12 @@ MEDIA = {
  "gobierno": [{"dia": "pyr", "title": ["La sociedad islámica (según la riqueza)", "Исламское общество (по богатству)"], "apex": ["Califa", "Халиф"],
    "levels": [["1º Aristocracia árabe: gobernantes y grandes propietarios", "1) Арабская аристократия"], ["2º Notables: comerciantes, artesanos con taller, pequeños propietarios", "2) Знатные горожане"],
               ["3º Mayoría pobre: campesinos sin tierra, artesanos sin taller, vendedores, criados", "3) Бедное большинство"]]}],
- "ciudad": [{"dia": "svg", "title": ["La ciudad islámica (esquema)", "Исламский город (схема)"], "svg": _CI,
+ "ciudad": [{"dia": "svg", "title": ["La ciudad islámica", "Исламский город"], "svg": __import__("ciudad_svg").svg(),
    "items": [["Mezquita aljama o mayor (en la medina)", "Соборная мечеть (в медине)"], ["Zoco: el mercado", "Сук: рынок"], ["Alcaicería: zona comercial donde se guardaban los productos", "Алькайсерия: торговая зона, где хранили товары"],
              ["Madrasa: escuela", "Медресе: школа"], ["Alhóndiga: almacenes de los comerciantes", "Альондига: склады купцов"], ["Hammam: baños públicos", "Хаммам: бани"],
              ["Alcazaba: ciudad alta, fortificada, para el ejército", "Алькасаба: верхний укреплённый город для войска"], ["Murallas con puertas (se cerraban de noche)", "Стены с воротами (закрывали на ночь)"],
              ["Arrabales: barrios populares de los artesanos", "Арраббали: кварталы ремесленников"], ["Alcázar: palacio para las autoridades", "Алькасар: дворец для властей"]],
-   "note": ["Medina = parte principal («ciudad vieja»), con calles irregulares y estrechas. Como en el esquema del resumen (punto 19).", "Медина — главная часть («старый город») с узкими кривыми улицами. Как в схеме резюме (п. 19)."]}],
+   "note": ["Medina = parte principal («ciudad vieja»): casas apretadas y calles irregulares y estrechas. Dibujo hecho para esta página siguiendo el esquema del resumen (punto 19).", "Медина — главная часть («старый город»): тесные дома, узкие кривые улицы. Рисунок сделан для этой страницы по схеме резюме (п. 19)."]}],
 }
 from mm import photo as _ph
 MEDIA["religion"].insert(0, _ph("isl/coran-azul", "Página del <b>Corán azul</b> (siglos IX–X), escrito en <b>árabe</b> con letras de oro.", "Страница «Синего Корана» (IX–X вв.), арабский текст золотом."))
