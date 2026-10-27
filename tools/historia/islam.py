@@ -14,7 +14,7 @@ def _vb(lon0, lat0, lon1, lat1):
 META = {
  "title": "El islam — preparar la prueba", "h1": "☪️ El islam",
  "sub": "Tema 2 · el islam · aprender → repasar → examen", "lsp": "h2_isl_",
- "footer": "Fuente: resumen del profesor (puntos 1–21); los cinco pilares (punto 9) y las partes de la ciudad (punto 19), que en el resumen están en imágenes, siguen el esquema habitual del libro. Mapas: fronteras de Cliopatria (Seshat Global History Databank, CC BY 4.0; github.com/Seshat-Global-History-Databank/cliopatria); costas y ríos: Natural Earth 1:10m; itinerarios aproximados; fotos: Wikimedia Commons (autor y licencia en cada foto).",
+ "footer": "Fuente: resumen del profesor (puntos 1–21); los cinco pilares, la mezquita y la ciudad siguen los esquemas del resumen (puntos 9, 11 y 19). Mapas: fronteras de Cliopatria (Seshat Global History Databank, CC BY 4.0; github.com/Seshat-Global-History-Databank/cliopatria); costas y ríos: Natural Earth 1:10m; itinerarios aproximados; fotos: Wikimedia Commons (autor y licencia en cada foto).",
 }
 TOPICS = {"arabia": "Arabia antes del islam", "mahoma": "Mahoma", "religion": "La religión", "mezquita": "La mezquita",
           "expansion": "Expansión y califas", "gobierno": "Gobierno y sociedad", "ciudad": "La ciudad", "ciencia": "Ciencia", "cultura": "Cultura y arte"}
@@ -53,17 +53,17 @@ SECTIONS = [
    "El <b>Corán</b> es el libro sagrado: tiene <b>114 suras</b> (capítulos) escritas en <b>árabe</b> con las normas del islam, de la vida privada y las obligaciones de la <b>umma</b> (la comunidad islámica).",
    "La <b>Sunna</b> recoge las costumbres del profeta. El Corán y la Sunna forman la <b>sharía</b>, la ley sagrada.",
    "El <b>califa</b> es el jefe religioso y político; los califas son los herederos de Mahoma.",
-   "<b>Los cinco pilares del islam:</b> 1) la <b>profesión de fe</b> («No hay más dios que Alá y Mahoma es su profeta»); 2) la <b>oración</b> cinco veces al día, mirando hacia La Meca; 3) la <b>limosna</b> a los pobres; 4) el <b>ayuno</b> durante el mes de <b>Ramadán</b>; 5) la <b>peregrinación a La Meca</b> al menos una vez en la vida.",
-   "<b>Prohibiciones:</b> comer <b>cerdo</b>, beber <b>alcohol</b> y los juegos de azar. Se permite la <b>poligamia</b> (como máximo <b>4 mujeres</b>).",
+   "<b>Obligaciones (los cinco pilares del islam):</b> 1) la <b>profesión de fe</b>: «No hay más Dios que Alá y Mahoma es su profeta»; 2) <b>orar cinco veces al día</b> (mirando hacia La Meca); 3) el <b>ayuno</b> en el mes del <b>Ramadán</b>; 4) <b>dar limosna</b>; 5) <b>peregrinar a La Meca</b>.",
+   "<b>Prohibiciones:</b> no tomar <b>bebidas alcohólicas</b>, no comer <b>carne de cerdo</b>, no practicar <b>juegos de azar</b> y tener <b>pudor en el vestir</b>. Se permite la <b>poligamia</b> (como máximo <b>4 mujeres</b>).",
    "En el islam <b>no hay sacerdotes</b>, pero hay <b>imanes</b> (dirigen la oración), <b>ulemas</b> (interpretan los textos sagrados) y <b>cadíes</b> (jueces elegidos entre los creyentes más devotos, que aplican la justicia según el Corán).",
    "Hay dos corrientes: los <b>sunitas o suníes</b> (el <b>90 %</b>; siguen el Corán y la Sunna; el califa debía ser elegido entre los mejores creyentes) y los <b>chiitas o chiíes</b> (se separaron cuando los omeyas llegaron al poder; siguen a sus líderes, los <b>ayatolás</b>; el califa debía ser <b>descendiente de Mahoma</b>)."],
-  "ru": "Ислам учит, что Бог один — Аллах, а Мухаммед — пророк, как Авраам, Моисей или Иисус. Священная книга — Коран: 114 сур (глав) на арабском с нормами веры, частной жизни и обязанностями уммы (общины). Сунна — обычаи пророка; Коран и Сунна вместе — шариат (священный закон). Халиф — религиозный и политический глава, наследник Мухаммеда. Пять столпов: исповедание веры («Нет бога, кроме Аллаха, и Мухаммед — пророк его»), молитва пять раз в день лицом к Мекке, милостыня бедным, пост в месяц Рамадан, паломничество в Мекку хотя бы раз в жизни. Запреты: свинина, алкоголь, азартные игры. Многожёнство разрешено (до 4 жён). Священников нет, но есть имамы (ведут молитву), улемы (толкуют тексты) и кади (судьи). Два течения: сунниты (90 %, Коран и Сунна, халифа выбирают) и шииты (отделились при Омейядах, слушают аятолл, халиф — потомок Мухаммеда).",
-  "key": "un solo dios, Alá · Mahoma profeta · Corán (114 suras) · Sunna · sharía · umma · cinco pilares: fe, oración, limosna, ayuno (Ramadán), peregrinación a La Meca · sin cerdo ni alcohol · imán, ulema, cadí · sunitas (90 %) y chiitas (ayatolás)"},
+  "ru": "Ислам учит, что Бог один — Аллах, а Мухаммед — пророк, как Авраам, Моисей или Иисус. Священная книга — Коран: 114 сур (глав) на арабском с нормами веры, частной жизни и обязанностями уммы (общины). Сунна — обычаи пророка; Коран и Сунна вместе — шариат (священный закон). Халиф — религиозный и политический глава, наследник Мухаммеда. Обязанности (пять столпов): исповедание веры («Нет бога, кроме Аллаха, и Мухаммед — пророк его»), молитва пять раз в день, пост в месяц Рамадан, милостыня, паломничество в Мекку. Запреты: алкоголь, свинина, азартные игры; скромность в одежде. Многожёнство разрешено (до 4 жён). Священников нет, но есть имамы (ведут молитву), улемы (толкуют тексты) и кади (судьи). Два течения: сунниты (90 %, Коран и Сунна, халифа выбирают) и шииты (отделились при Омейядах, слушают аятолл, халиф — потомок Мухаммеда).",
+  "key": "un solo dios, Alá · Mahoma profeta · Corán (114 suras) · Sunna · sharía · umma · cinco pilares: fe, orar 5 veces, ayuno (Ramadán), limosna, peregrinar a La Meca · sin alcohol, cerdo ni juegos de azar; pudor en el vestir · imán, ulema, cadí · sunitas (90 %) y chiitas (ayatolás)"},
  {"id": "mezquita", "t": "5. La mezquita y la Kaaba", "tr": "Мечеть и Кааба",
   "pts": [
    "La <b>mezquita</b> es el lugar de culto de los musulmanes, pero también era <b>escuela</b> y lugar donde se difundían las noticias.",
-   "<b>Patio</b> rodeado de columnas, con la <b>fuente de abluciones</b>, donde los fieles se purificaban antes de rezar.",
-   "<b>Sala de oración</b> cubierta. En ella está el <b>muro de la quibla</b>, orientado hacia <b>La Meca</b>; en él hay un nicho vacío, el <b>mihrab</b>, donde suele estar el Corán. Cerca del mihrab suele haber un púlpito, el <b>mimbar</b>.",
+   "<b>Patio (sahn)</b> rodeado de columnas, con la <b>fuente de abluciones</b>, donde los fieles se purificaban antes de rezar.",
+   "<b>Sala de oraciones (haram)</b> cubierta. En ella está el <b>muro de la quibla</b>, orientado hacia <b>La Meca</b>; en él hay un nicho vacío, el <b>mihrab</b>, donde suele estar el Corán. Cerca del mihrab suele haber un púlpito, el <b>mimbar</b>.",
    "<b>Minarete o alminar:</b> torre desde donde el <b>almuecín o almuédano</b> llama a los fieles a la oración con un cántico.",
    "La mezquita está inspirada en la <b>casa de Mahoma en Medina</b>. Su forma cúbica recuerda la <b>Kaaba</b> de La Meca, el lugar de peregrinación más importante.",
    "La <b>Piedra Negra</b> es una reliquia de la Kaaba: un meteorito que el arcángel Gabriel dio a <b>Abraham</b>. Era blanca, pero los pecados de los hijos de Adán la volvieron negra. Abraham y su hijo <b>Ismael</b> la colocaron en la esquina oriental de la Kaaba."],
@@ -92,13 +92,13 @@ SECTIONS = [
   "key": "califa · visires · cadíes · valíes · emires · diwán · árabe lengua oficial · islamización por ventajas · 1º aristocracia árabe, 2º notables, 3º mayoría pobre · mujeres sin estudios"},
  {"id": "ciudad", "t": "8. La ciudad islámica", "tr": "Исламский город",
   "pts": [
-   "La <b>medina</b> era el centro de la ciudad, rodeada por una <b>muralla</b> con puertas. Sus calles eran estrechas y tortuosas, a veces sin salida (adarves).",
-   "En el centro estaba la <b>mezquita mayor</b> y, a su alrededor, el <b>zoco</b> (mercado) con tiendas agrupadas por oficios y la <b>alcaicería</b> (mercado de productos de lujo, como la seda).",
-   "<b>Alhóndiga:</b> almacenes donde los comerciantes guardaban las mercancías (y donde se alojaban). <b>Madrasa:</b> escuela. <b>Baños</b> públicos (hammam).",
-   "La <b>alcazaba</b> era la fortaleza, residencia del gobernador. Fuera de la muralla estaban los <b>arrabales</b> (barrios nuevos), los <b>cementerios</b> y las huertas.",
+   "Características generales: <b>murallas</b>, <b>puertas</b> que se cerraban de noche y <b>calles irregulares y estrechas</b>.",
+   "La ciudad se dividía en la <b>medina</b>, la parte principal o «ciudad vieja», que contenía la <b>mezquita aljama</b> o mezquita mayor, y los <b>arrabales</b>, barrios populares donde estaban los <b>artesanos</b>.",
+   "Otros lugares: el <b>zoco</b> (el mercado); la <b>alcazaba</b> (ciudad alta, fortificada, para el ejército); la <b>alcaicería</b> (zona comercial donde se guardaban los productos); el <b>alcázar</b> (palacio para las autoridades) y el <b>hammam</b> (baños públicos).",
+   "<b>Alhóndiga:</b> almacenes donde los comerciantes guardaban las mercancías. <b>Madrasa:</b> escuela.",
    "Las <b>casas</b> eran pequeñas, de <b>ladrillo</b> y de <b>dos pisos</b>: la planta baja para recibir a las visitas y la alta con las habitaciones privadas. Había <b>pocos muebles</b>."],
-  "ru": "Центр города — медина, окружённая стеной с воротами; улицы узкие и извилистые, порой тупики. В центре — главная (соборная) мечеть, вокруг — рынок-сук с лавками по ремёслам и алькайсерия (рынок предметов роскоши, шёлка). Альондига — склады купцов (и постоялый двор). Медресе — школа. Общественные бани (хаммам). Алькасаба — крепость, резиденция правителя. За стеной — пригороды (арраббали), кладбища, огороды. Дома маленькие, кирпичные, в два этажа: внизу принимали гостей, наверху — личные комнаты; мебели мало.",
-  "key": "medina amurallada · mezquita mayor · zoco · alcaicería · alhóndiga = almacenes · madrasa = escuela · baños · alcazaba · arrabales · casas de ladrillo, dos pisos, pocos muebles"},
+  "ru": "Общие черты: стены, ворота, которые закрывали на ночь, узкие кривые улицы. Город делился на медину — главную часть («старый город») с соборной мечетью (альхама), и пригороды-арраббали — народные кварталы ремесленников. Другие места: сук (рынок), алькасаба (верхний укреплённый город для войска), алькайсерия (торговая зона, где хранили товары), алькасар (дворец для властей), хаммам (бани). Альондига — склады купцов. Медресе — школа. Дома маленькие, кирпичные, в два этажа: внизу принимали гостей, наверху — личные комнаты; мебели мало.",
+  "key": "murallas, puertas cerradas de noche, calles estrechas · medina con la mezquita aljama · arrabales (artesanos) · zoco · alcazaba (ejército) · alcaicería · alcázar (palacio) · hammam · alhóndiga · madrasa · casas de ladrillo, dos pisos"},
  {"id": "ciencia", "t": "9. Los avances científicos", "tr": "Научные достижения",
   "pts": [
    "Los musulmanes trajeron de <b>India y China</b> el <b>papel</b>, la <b>pólvora</b> e instrumentos de navegación como la <b>brújula</b> y el <b>astrolabio</b>.",
@@ -172,7 +172,7 @@ CARDS = [
  ["Sharía", "Ley sagrada islámica: el Corán y la Sunna.", "Шариат"],
  ["Umma", "La comunidad islámica.", "Умма"],
  ["Califa", "Jefe religioso y político, heredero de Mahoma.", "Халиф"],
- ["Cinco pilares", "Profesión de fe, oración, limosna, ayuno en Ramadán y peregrinación a La Meca.", "Пять столпов ислама"],
+ ["Cinco pilares", "Profesión de fe, orar cinco veces al día, ayuno en el Ramadán, dar limosna y peregrinar a La Meca.", "Пять столпов ислама"],
  ["Ramadán", "Mes en que los musulmanes ayunan.", "Рамадан"],
  ["Imán", "Dirige la oración.", "Имам"],
  ["Ulema", "Interpreta los textos sagrados.", "Улем"],
@@ -202,12 +202,15 @@ CARDS = [
  ["Diwán", "Tesorero real.", "Диван (казна)"],
  ["Aristocracia árabe", "Pocos, con poder político y económico: grandes propietarios y gobernantes.", "Арабская аристократия"],
  ["Notables", "Comerciantes, artesanos con taller y pequeños propietarios, sin cargos políticos.", "Знатные горожане"],
- ["Medina (parte de la ciudad)", "Centro amurallado de la ciudad islámica.", "Медина (центр города)"],
- ["Alcaicería", "Mercado de productos de lujo, como la seda.", "Алькайсерия"],
+ ["Medina (parte de la ciudad)", "Parte principal de la ciudad, la «ciudad vieja»; contiene la mezquita aljama.", "Медина (центр города)"],
+ ["Mezquita aljama", "Mezquita mayor de la ciudad, en la medina.", "Соборная мечеть (альхама)"],
+ ["Alcázar", "Palacio para las autoridades.", "Алькасар (дворец)"],
+ ["Hammam", "Baños públicos.", "Хаммам (бани)"],
+ ["Alcaicería", "Zona comercial donde se guardaban los productos.", "Алькайсерия"],
  ["Alhóndiga", "Almacenes donde los comerciantes guardaban las mercancías.", "Альондига (склад)"],
  ["Madrasa", "Escuela.", "Медресе"],
- ["Alcazaba", "Fortaleza de la ciudad, residencia del gobernador.", "Алькасаба"],
- ["Arrabal", "Barrio fuera de la muralla.", "Пригород (арраббаль)"],
+ ["Alcazaba", "Ciudad alta, fortificada, para el ejército.", "Алькасаба"],
+ ["Arrabal", "Barrio popular donde estaban los artesanos.", "Пригород (арраббаль)"],
  ["Astrolabio", "Instrumento de navegación para medir la altura de los astros.", "Астролябия"],
  ["Álgebra", "Parte de las matemáticas inventada por los musulmanes.", "Алгебра"],
  ["Avicena", "Médico y filósofo musulmán.", "Авиценна"],
@@ -243,7 +246,8 @@ QUIZ = [
  ["¿Cuál NO es un pilar del islam?", "Ir a la guerra cada año", ["La oración", "La limosna", "El ayuno en Ramadán"], "Los cinco: fe, oración, limosna, ayuno, peregrinación.", "religion"],
  ["¿Cuántas veces al día rezan los musulmanes?", "Cinco", ["Una", "Tres", "Siete"], "Mirando hacia La Meca.", "religion"],
  ["¿En qué mes ayunan los musulmanes?", "En Ramadán", ["En Sabbat", "En Navidad", "En Hégira"], "Es el cuarto pilar.", "religion"],
- ["¿Qué tienen prohibido los musulmanes?", "Comer cerdo y beber alcohol", ["Comer pan", "Tener una casa", "Comerciar"], "También los juegos de azar.", "religion"],
+ ["¿Qué tienen prohibido los musulmanes?", "Comer cerdo y beber alcohol", ["Comer pan", "Tener una casa", "Comerciar"], "También los juegos de azar; y deben tener pudor en el vestir.", "religion"],
+ ["¿Cuál de estas es una norma del islam según el resumen?", "Tener pudor en el vestir", ["Ayunar en Navidad", "Rezar una vez a la semana", "Comer cerdo los viernes"], "Está en la lista de prohibiciones junto al alcohol, el cerdo y los juegos de azar.", "religion"],
  ["¿Cuántas esposas permite el islam como máximo?", "Cuatro", ["Una", "Dos", "Ninguna"], "Se permite la poligamia hasta 4 mujeres.", "religion"],
  ["¿Quién dirige la oración?", "El imán", ["El cadí", "El ulema", "El valí"], "En el islam no hay sacerdotes.", "religion"],
  ["¿Quién interpreta los textos sagrados?", "El ulema", ["El imán", "El almuecín", "El visir"], "Ulema = intérprete.", "religion"],
@@ -279,7 +283,11 @@ QUIZ = [
  ["¿Podían estudiar las mujeres?", "No: su lugar era la casa", ["Sí, en la madrasa", "Solo medicina", "Solo las ricas"], "Estaban bajo la autoridad del padre o marido.", "gobierno"],
  ["¿Qué era la alhóndiga?", "Almacenes de los comerciantes", ["Una escuela", "Un baño", "Una fortaleza"], "Allí guardaban las mercancías.", "ciudad"],
  ["¿Qué era la madrasa?", "Una escuela", ["Un mercado", "Una torre", "Un almacén"], "Madrasa = escuela.", "ciudad"],
- ["¿Qué había en el centro de la medina?", "La mezquita mayor y el zoco", ["El cementerio", "Las huertas", "Los arrabales"], "Alrededor de la mezquita estaba el mercado.", "ciudad"],
+ ["¿Qué contenía la medina?", "La mezquita aljama o mezquita mayor", ["La alcazaba del ejército", "Los arrabales", "Las huertas"], "La medina era la parte principal, la «ciudad vieja».", "ciudad"],
+ ["¿Dónde estaban los artesanos?", "En los arrabales", ["En la alcazaba", "En el alcázar", "En la madrasa"], "Los arrabales eran barrios populares.", "ciudad"],
+ ["¿Qué era la alcazaba?", "La ciudad alta, fortificada, para el ejército", ["Un mercado", "Los baños públicos", "Una escuela"], "El alcázar era el palacio de las autoridades.", "ciudad"],
+ ["¿Qué era el hammam?", "Los baños públicos", ["El mercado", "La escuela", "El palacio"], "Hammam = baños.", "ciudad"],
+ ["¿Qué pasaba con las puertas de la muralla por la noche?", "Se cerraban", ["Se abrían para el mercado", "Se derribaban", "Se iluminaban con fuegos"], "Así lo dice el esquema del resumen.", "ciudad"],
  ["¿Cómo eran las casas?", "Pequeñas, de ladrillo y de dos pisos", ["Grandes y de piedra", "De madera y de un piso", "Tiendas de campaña"], "Con pocos muebles.", "ciudad"],
  ["¿Qué trajeron los musulmanes de India y China?", "Papel, pólvora, brújula y astrolabio", ["Trigo y vino", "La imprenta", "El hierro"], "Los difundieron por su imperio.", "ciencia"],
  ["¿Qué nuevos cultivos introdujeron?", "Arroz, naranja y azafrán", ["Patata y tomate", "Maíz y cacao", "Trigo y olivo"], "La patata y el maíz vinieron de América más tarde.", "ciencia"],
@@ -334,7 +342,7 @@ OPEN = [
   "a": "Mahoma nació en La Meca en el 570 en una familia acomodada y era comerciante. En el 610, meditando en una cueva, se le apareció el arcángel Gabriel y le dijo que Alá lo había elegido para predicar una nueva religión monoteísta, el islam. Los habitantes de La Meca no le creyeron y en el 622 huyó a Medina (Hégira), lo que marca el inicio del calendario musulmán. Después de convertir a los habitantes de Medina, reunió un ejército, conquistó La Meca y acabó con el politeísmo; desde allí extendió el islam por Arabia. Murió en el 632.",
   "k": ["570, La Meca, comerciante", "610, arcángel Gabriel", "Alá, islam monoteísta", "622 Hégira a Medina", "calendario musulmán", "conquista La Meca; 632"]},
  {"q": "¿Qué predica el islam? Explica sus libros sagrados y los cinco pilares.",
-  "a": "El islam predica que existe un solo dios, Alá, y considera a Mahoma un profeta como Abraham, Moisés o Jesús. Su libro sagrado es el Corán, con 114 suras en árabe que recogen las normas del islam, de la vida privada y las obligaciones de la umma. La Sunna recoge las costumbres del profeta; el Corán y la Sunna forman la sharía. Los cinco pilares son la profesión de fe, la oración cinco veces al día mirando a La Meca, la limosna, el ayuno en el mes de Ramadán y la peregrinación a La Meca. Está prohibido comer cerdo, beber alcohol y los juegos de azar, y se permite la poligamia hasta cuatro mujeres.",
+  "a": "El islam predica que existe un solo dios, Alá, y considera a Mahoma un profeta como Abraham, Moisés o Jesús. Su libro sagrado es el Corán, con 114 suras en árabe que recogen las normas del islam, de la vida privada y las obligaciones de la umma. La Sunna recoge las costumbres del profeta; el Corán y la Sunna forman la sharía. Las obligaciones o cinco pilares son: la profesión de fe («No hay más Dios que Alá y Mahoma es su profeta»), orar cinco veces al día, el ayuno en el mes del Ramadán, dar limosna y peregrinar a La Meca. Está prohibido tomar bebidas alcohólicas, comer carne de cerdo y practicar juegos de azar, y hay que tener pudor en el vestir. Se permite la poligamia (máximo cuatro mujeres).",
   "k": ["un solo dios, Alá; Mahoma profeta", "Corán: 114 suras", "Sunna y sharía", "fe, oración, limosna", "ayuno (Ramadán), peregrinación", "prohibiciones y poligamia"]},
  {"q": "Describe una mezquita y sus partes con sus funciones.",
   "a": "La mezquita es el lugar de culto de los musulmanes, pero también escuela y lugar de noticias. Tiene un patio rodeado de columnas con la fuente de abluciones, donde los fieles se purifican antes de rezar; una sala de oración cubierta con el muro de la quibla orientado hacia La Meca, en el que hay un nicho vacío, el mihrab, donde suele estar el Corán, y cerca un púlpito o mimbar; y el alminar o minarete, la torre desde donde el almuecín llama a la oración. Está inspirada en la casa de Mahoma en Medina y su forma cúbica recuerda la Kaaba de La Meca.",
@@ -349,8 +357,8 @@ OPEN = [
   "a": "El califa era la máxima autoridad política y religiosa (ejército, leyes, juez supremo); los visires eran sus consejeros; los cadíes aplicaban la justicia según el Corán; los valíes gobernaban las provincias; los emires eran familiares del califa que gobernaban provincias con poder militar, y el diwán era el tesorero. La sociedad era heterogénea (religiones y etnias distintas) y se dividía según la riqueza: arriba la aristocracia árabe (grandes propietarios y gobernantes); en medio los notables (comerciantes, artesanos con taller y pequeños propietarios), y abajo la mayoría pobre (campesinos sin tierras, artesanos sin taller, vendedores ambulantes y criados). Las mujeres estaban bajo la autoridad del padre o del marido y no podían estudiar.",
   "k": ["califa, visires, cadíes", "valíes, emires, diwán", "sociedad heterogénea, según la riqueza", "aristocracia árabe", "notables", "mayoría pobre; mujeres"]},
  {"q": "¿Cómo era la ciudad islámica?",
-  "a": "El centro era la medina, rodeada por una muralla con puertas y con calles estrechas y tortuosas. En el centro estaba la mezquita mayor y a su alrededor el zoco, con tiendas por oficios, y la alcaicería. Había alhóndigas (almacenes de los comerciantes), madrasas (escuelas) y baños. La alcazaba era la fortaleza del gobernador. Fuera de la muralla estaban los arrabales, los cementerios y las huertas. Las casas eran pequeñas, de ladrillo y de dos pisos: abajo se recibía a las visitas y arriba estaban las habitaciones privadas; tenían pocos muebles.",
-  "k": ["medina amurallada", "mezquita mayor y zoco", "alhóndiga y madrasa", "alcazaba", "arrabales fuera", "casas de ladrillo, dos pisos"]},
+  "a": "La ciudad tenía murallas, puertas que se cerraban de noche y calles irregulares y estrechas. Se dividía en la medina, la parte principal o «ciudad vieja», que contenía la mezquita aljama o mezquita mayor, y los arrabales, barrios populares donde estaban los artesanos. Otros lugares eran el zoco (mercado), la alcazaba (ciudad alta fortificada para el ejército), la alcaicería (zona comercial donde se guardaban los productos), el alcázar (palacio de las autoridades) y el hammam (baños públicos). También había alhóndigas (almacenes de los comerciantes) y madrasas (escuelas). Las casas eran pequeñas, de ladrillo y de dos pisos: abajo se recibía a las visitas y arriba estaban las habitaciones privadas; tenían pocos muebles.",
+  "k": ["murallas, puertas, calles estrechas", "medina con la mezquita aljama", "arrabales de artesanos", "zoco, alcaicería, alhóndiga", "alcazaba (ejército) y alcázar (palacio)", "hammam, madrasa; casas de ladrillo"]},
  {"q": "Cita los avances científicos islámicos.",
   "a": "Trajeron de India y China el papel, la pólvora, la brújula y el astrolabio. En agricultura introdujeron la noria y el molino de agua, el regadío por acequias y canales y cultivos como el arroz, la naranja o el azafrán. En astronomía hicieron catálogos de astros y observatorios. En matemáticas difundieron el cero, inventaron el álgebra y perfeccionaron la aritmética y la trigonometría. En medicina usaron técnicas avanzadas de cirugía y anestesia (Avicena, Averroes). En química descubrieron los ácidos sulfúrico y nítrico y la destilación del alcohol.",
   "k": ["papel, pólvora, brújula, astrolabio", "noria, molino, acequias; arroz, naranja, azafrán", "astronomía", "cero y álgebra", "cirugía y anestesia", "química: ácidos, destilación"]},
@@ -470,16 +478,16 @@ _MZ = """<svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" font-fami
 <path d="M388 155 l-14 0 l0 14 l14 0z" fill="#bcaaa4" stroke="#5d4037"/>
 <rect x="0" y="0" width="36" height="36" fill="#d7ccc8" stroke="#5d4037" stroke-width="2"/>
 <g font-weight="800" fill="#fff">
-<circle cx="95" cy="80" r="10" fill="#5e35b1"/><text x="95" y="84" text-anchor="middle">1</text>
-<circle cx="95" cy="160" r="10" fill="#5e35b1"/><text x="95" y="164" text-anchor="middle">2</text>
-<circle cx="290" cy="20" r="10" fill="#5e35b1"/><text x="290" y="24" text-anchor="middle">3</text>
-<circle cx="398" cy="244" r="0"/><circle cx="380" cy="100" r="10" fill="#5e35b1"/><text x="380" y="104" text-anchor="middle">4</text>
-<circle cx="372" cy="130" r="10" fill="#5e35b1"/><text x="372" y="134" text-anchor="middle">5</text>
-<circle cx="360" cy="180" r="10" fill="#5e35b1"/><text x="360" y="184" text-anchor="middle">6</text>
-<circle cx="18" cy="18" r="10" fill="#5e35b1"/><text x="18" y="22" text-anchor="middle">7</text>
+<circle cx="95" cy="80" r="10" fill="#5e35b1"/><text x="95" y="84" text-anchor="middle">2</text>
+<circle cx="95" cy="160" r="10" fill="#5e35b1"/><text x="95" y="164" text-anchor="middle">7</text>
+<circle cx="290" cy="20" r="10" fill="#5e35b1"/><text x="290" y="24" text-anchor="middle">1</text>
+<circle cx="398" cy="244" r="0"/><circle cx="380" cy="100" r="10" fill="#5e35b1"/><text x="380" y="104" text-anchor="middle">6</text>
+<circle cx="372" cy="130" r="10" fill="#5e35b1"/><text x="372" y="134" text-anchor="middle">4</text>
+<circle cx="360" cy="180" r="10" fill="#5e35b1"/><text x="360" y="184" text-anchor="middle">3</text>
+<circle cx="18" cy="18" r="10" fill="#5e35b1"/><text x="18" y="22" text-anchor="middle">5</text>
 </g>
-<text x="300" y="246" text-anchor="middle" fill="#6d4c41" font-weight="700">sala de oración</text>
-<text x="95" y="246" text-anchor="middle" fill="#6d4c41" font-weight="700">patio</text>
+<text x="300" y="246" text-anchor="middle" fill="#6d4c41" font-weight="700">sala de oraciones (haram)</text>
+<text x="95" y="246" text-anchor="middle" fill="#6d4c41" font-weight="700">patio (sahn)</text>
 <text x="412" y="22" text-anchor="end" fill="#c62828" font-weight="800">La Meca →</text>
 </svg>"""
 _CI = """<svg viewBox="0 0 420 270" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif" font-size="11">
@@ -494,8 +502,8 @@ _CI = """<svg viewBox="0 0 420 270" xmlns="http://www.w3.org/2000/svg" font-fami
 <rect x="130" y="185" width="30" height="20" fill="#b2dfdb" stroke="#00695c"/>
 <path d="M300 60 h50 v45 h-50z" fill="#bcaaa4" stroke="#3e2723" stroke-width="3"/>
 <g fill="#e0d6c4" stroke="#8d6e63">""" + ''.join(f'<rect x="{x}" y="{y}" width="16" height="12"/>' for x, y in [(20, 120), (22, 140), (24, 160), (380, 150), (378, 170), (382, 190)]) + """</g>
-<g fill="#9e9e9e">""" + ''.join(f'<path d="M{x} {y} v-8 m-3 3 h6"/>'.replace('fill', 'x') for x, y in []) + """</g>
-<g stroke="#757575" stroke-width="1.5">""" + ''.join(f'<path d="M{x} {y} v-9 M{x-3} {y-6} h6"/>' for x, y in [(160, 262), (175, 262), (190, 262), (205, 262)]) + """</g>
+<rect x="288" y="112" width="52" height="26" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
+<g fill="#3e2723">""" + ''.join(f'<rect x="{x}" y="{y}" width="11" height="11" rx="2"/>' for x, y in [(145, 31), (353, 150), (175, 241), (50, 140)]) + """</g>
 <g font-weight="800" fill="#fff">
 <circle cx="200" cy="100" r="10" fill="#5e35b1"/><text x="200" y="104" text-anchor="middle">1</text>
 <circle cx="190" cy="167" r="10" fill="#5e35b1"/><text x="190" y="171" text-anchor="middle">2</text>
@@ -506,18 +514,20 @@ _CI = """<svg viewBox="0 0 420 270" xmlns="http://www.w3.org/2000/svg" font-fami
 <circle cx="325" cy="82" r="10" fill="#5e35b1"/><text x="325" y="86" text-anchor="middle">7</text>
 <circle cx="80" cy="44" r="10" fill="#5e35b1"/><text x="80" y="48" text-anchor="middle">8</text>
 <circle cx="32" cy="104" r="10" fill="#5e35b1"/><text x="32" y="108" text-anchor="middle">9</text>
-<circle cx="230" cy="256" r="10" fill="#5e35b1"/><text x="230" y="260" text-anchor="middle">10</text>
+<circle cx="314" cy="125" r="10" fill="#5e35b1"/><text x="314" y="129" text-anchor="middle">10</text>
 </g></svg>"""
 MEDIA = {
- "religion": [{"dia": "org", "title": ["Los cinco pilares del islam", "Пять столпов ислама"],
-   "rows": [[["1 · Profesión de fe", "1 · Исповедание веры"], ["2 · Oración (5 veces al día)", "2 · Молитва (5 раз в день)"], ["3 · Limosna", "3 · Милостыня"],
-             ["4 · Ayuno en Ramadán", "4 · Пост в Рамадан"], ["5 · Peregrinación a La Meca", "5 · Паломничество в Мекку"]]],
-   "note": ["Prohibido: cerdo, alcohol y juegos de azar. Se permite la poligamia (máximo 4 mujeres).", "Запрещено: свинина, алкоголь, азартные игры. Многожёнство — до 4 жён."]}],
+ "religion": [{"dia": "org", "title": ["Obligaciones del islam (los cinco pilares)", "Обязанности (пять столпов ислама)"],
+   "rows": [[["«No hay más Dios que Alá y Mahoma es su profeta»", "«Нет бога, кроме Аллаха, и Мухаммед — пророк его»"], ["Orar cinco veces al día", "Молиться 5 раз в день"], ["Ayuno en el mes del Ramadán", "Пост в Рамадан"], ["Dar limosna", "Милостыня"], ["Peregrinar a La Meca", "Паломничество в Мекку"]]]},
+              {"dia": "org", "title": ["Prohibiciones del islam", "Запреты ислама"],
+   "rows": [[["No tomar bebidas alcohólicas", "Не пить алкоголь"], ["No comer carne de cerdo", "Не есть свинину"], ["No practicar juegos de azar", "Не играть в азартные игры"], ["Tener pudor en el vestir", "Скромность в одежде"]]],
+   "note": ["Se permite la poligamia (máximo 4 mujeres). Como en el esquema del resumen (punto 9).", "Многожёнство разрешено (до 4 жён). Как в схеме резюме (п. 9)."]}],
  "mezquita": [{"dia": "svg", "title": ["Las partes de la mezquita (planta)", "Части мечети (план)"], "svg": _MZ,
-   "items": [["Patio con columnas", "Двор с колоннами"], ["Fuente de abluciones: purificarse antes de rezar", "Фонтан для омовений"],
-             ["Sala de oración cubierta", "Молитвенный зал"], ["Muro de la quibla, hacia La Meca", "Стена киблы — к Мекке"],
-             ["Mihrab: nicho vacío (el Corán)", "Михраб: пустая ниша (Коран)"], ["Mimbar: púlpito", "Минбар: кафедра"],
-             ["Alminar: el almuecín llama a la oración", "Минарет: муэдзин зовёт на молитву"]]}],
+   "items": [["Sala de oraciones (haram)", "Молитвенный зал (харам)"], ["Patio (sahn) con columnas", "Двор (сахн) с колоннами"],
+             ["Minbar o mimbar: púlpito", "Минбар: кафедра"], ["Mihrab: nicho vacío (el Corán)", "Михраб: пустая ниша (Коран)"],
+             ["Torre (minarete o alminar): el almuecín llama a la oración", "Минарет: муэдзин зовёт на молитву"], ["Muro de la quibla, hacia La Meca", "Стена киблы — к Мекке"],
+             ["Fuente de abluciones: purificarse antes de rezar", "Фонтан для омовений"]],
+   "note": ["Numeración como en el dibujo del resumen (punto 11).", "Нумерация как на рисунке в резюме (п. 11)."]}],
  "expansion": [{"dia": "phases", "title": ["Los califas después de Mahoma", "Халифы после Мухаммеда"], "from": 632, "to": 1258,
    "items": [[["Ort.", "Пр."], 632, 661, "#2e7d32"], [["Omeyas (Damasco)", "Омейяды (Дамаск)"], 661, 750, "#7cb342"], [["Abasíes (Bagdad)", "Аббасиды (Багдад)"], 750, 1258, "#aed581"]],
    "marks": [[632, "632"], [700, "661"], [750, "750"], [1258, "1258"]],
@@ -526,10 +536,11 @@ MEDIA = {
    "levels": [["1º Aristocracia árabe: gobernantes y grandes propietarios", "1) Арабская аристократия"], ["2º Notables: comerciantes, artesanos con taller, pequeños propietarios", "2) Знатные горожане"],
               ["3º Mayoría pobre: campesinos sin tierra, artesanos sin taller, vendedores, criados", "3) Бедное большинство"]]}],
  "ciudad": [{"dia": "svg", "title": ["La ciudad islámica (esquema)", "Исламский город (схема)"], "svg": _CI,
-   "items": [["Mezquita mayor", "Главная мечеть"], ["Zoco: tiendas por oficios", "Сук: лавки по ремёслам"], ["Alcaicería: productos de lujo", "Алькайсерия: роскошь"],
-             ["Madrasa: escuela", "Медресе: школа"], ["Alhóndiga: almacenes", "Альондига: склады"], ["Baños públicos", "Бани"],
-             ["Alcazaba: fortaleza", "Алькасаба: крепость"], ["Muralla de la medina", "Стена медины"], ["Arrabales (fuera de la muralla)", "Пригороды за стеной"], ["Cementerio", "Кладбище"]],
-   "note": ["Esquema general, como el del libro.", "Общая схема, как в учебнике."]}],
+   "items": [["Mezquita aljama o mayor (en la medina)", "Соборная мечеть (в медине)"], ["Zoco: el mercado", "Сук: рынок"], ["Alcaicería: zona comercial donde se guardaban los productos", "Алькайсерия: торговая зона, где хранили товары"],
+             ["Madrasa: escuela", "Медресе: школа"], ["Alhóndiga: almacenes de los comerciantes", "Альондига: склады купцов"], ["Hammam: baños públicos", "Хаммам: бани"],
+             ["Alcazaba: ciudad alta, fortificada, para el ejército", "Алькасаба: верхний укреплённый город для войска"], ["Murallas con puertas (se cerraban de noche)", "Стены с воротами (закрывали на ночь)"],
+             ["Arrabales: barrios populares de los artesanos", "Арраббали: кварталы ремесленников"], ["Alcázar: palacio para las autoridades", "Алькасар: дворец для властей"]],
+   "note": ["Medina = parte principal («ciudad vieja»), con calles irregulares y estrechas. Como en el esquema del resumen (punto 19).", "Медина — главная часть («старый город») с узкими кривыми улицами. Как в схеме резюме (п. 19)."]}],
 }
 from mm import photo as _ph
 MEDIA["religion"].insert(0, _ph("isl/coran-azul", "Página del <b>Corán azul</b> (siglos IX–X), escrito en <b>árabe</b> con letras de oro.", "Страница «Синего Корана» (IX–X вв.), арабский текст золотом."))
